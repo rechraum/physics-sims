@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dripping Faucet Chaos Simulation - Enhanced</title>
+<script src="../shared/nav.js" defer></script>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  #simulation-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  #faucet-container, #bifurcation-container {
+    width: 45%;
+    position: relative;
+  }
+  #faucet {
+    width: 100px;
+    height: 200px;
+    background: silver;
+    margin: 0 auto;
+    position: relative;
+  }
+  .droplet {
+    width: 10px;
+    height: 10px;
+    background: blue;
+    border-radius: 50%;
+    position: absolute;
+    left: 45px;
+    top: 190px;
+  }
+  #slider-container {
+    width: 90%;
+    margin: 20px auto;
+  }
+  #bifurcation-canvas {
+    border: 1px solid #ccc;
+  }
+  #flow-rate-label {
+    position: absolute;
+    top: 5px;
+    left: 30%;
+    transform: translateX(-50%);
+    font-weight: bold;
+  }
+  #period-display {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 18px;
+  }
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#description {
+  display: block;
+  max-width: 1000px;
+  margin: 40px auto;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+#description p {
+  margin-bottom: 15px;
+}
+
+</style>
+</head>
+<body>
+<h1>Dripping Faucet Transition to Chaos Simulation</h1>
+
+<div id="simulation-container">
+   <div id="faucet-container">
+  	<div id="faucet"></div>
+ 	 <div id="slider-container">
+   	 <input type="range" id="flow-rate-slider" min="2.5" max="4.0" step="0.001" value="3.0">
+    	<p>Flow Rate (r): <span id="flow-rate-display">3.000</span></p>
+    	<div id="period-display">Period between drops: -- ms</div>
+	</div>
+   </div>
+
+   <div id="bifurcation-container">
+  	<canvas id="bifurcation-canvas" width="700" height="500"></canvas>
+ 	 <div id="flow-rate-label">Flow Rate Indicator</div>
+   </div>
+</div>
+
+<div id="description">
+  <p>
+    This simulation demonstrates the transition to chaos in a dripping faucet system using the logistic map. The logistic map is a mathematical model that exhibits complex, chaotic behavior arising from simple nonlinear dynamical equations. As you adjust the flow rate (r) using the slider, you can observe how the dripping behavior changes from stable (laminar flow) to chaotic patterns.
+  </p>
+  <p>
+    <strong>Laminar Flow (Stable Region):</strong> At lower flow rates, the dripping is regular, with consistent periods between drops. This corresponds to the stable fixed points in the logistic map.
+  </p>
+  <p>
+    <strong>Period Doubling and Bifurcations:</strong> As the flow rate increases, the system undergoes bifurcations, where the period between drops alternates between different values. This is represented by the splitting of branches in the logistic map.
+  </p>
+  <p>
+    <strong>Chaos:</strong> At higher flow rates, the dripping becomes irregular and unpredictable, illustrating chaotic dynamics. The logistic map shows a dense set of points, indicating sensitive dependence on initial conditions.
+  </p>
+  <p>
+    The blue dot on the bifurcation diagram represents the current state of the system, mapping the period of the most recent droplet. By studying such systems, we gain insight into how simple nonlinear systems can produce the complex, chaotic behavior observed in nature.
+  </p>
+</div>
+
+
+<script>
+  // Simulation parameters
+  const minFlowRate = 2.5;
+  const maxFlowRate = 4.0;
+  const minDelay = 500;   // Minimum delay in ms
+  const maxDelay = 2000;  // Maximum delay in ms
+
+  let flowRate = 3.0;
+  let x = 0.5;            // Initial state for logistic map
+  let lastDropTime = Date.now();
+
+  const faucet = document.getElementById('faucet');
+  const flowRateSlider = document.getElementById('flow-rate-slider');
+  const flowRateDisplay = document.getElementById('flow-rate-display');
+  const periodDisplay = document.getElementById('period-display');
+  const bifurcationCanvas = document.getElementById('bifurcation-canvas');
+  const ctx = bifurcationCanvas.getContext('2d');
+
+  // Off-screen canvas for bifurcation diagram
+  const bifurcationImageCanvas = document.createElement('canvas');
+  bifurcationImageCanvas.width = bifurcationCanvas.width;
+  bifurcationImageCanvas.height = bifurcationCanvas.height;
+  const bifurcationImageCtx = bifurcationImageCanvas.getContext('2d');
+  // Margins for the canvas drawing area
+  const margin = { top: 40, right: 20, bottom: 60, left: 80 };
+  const width = bifurcationCanvas.width - margin.left - margin.right;
+  const height = bifurcationCanvas.height - margin.top - margin.bottom;
+
+  // Update the flow rate display
+  function updateFlowRateDisplay() {
+    flowRateDisplay.textContent = flowRate.toFixed(3);
+  }
+
+  // Generate droplet falling animation
+  function dropWater() {
+    const currentTime = Date.now();
+    const period = currentTime - lastDropTime;
+    lastDropTime = currentTime;
+    periodDisplay.textContent = `Period between drops: ${period} ms`;
+
+    const droplet = document.createElement('div');
+    droplet.classList.add('droplet');
+    faucet.appendChild(droplet);
+
+    let position = 0;
+    const interval = setInterval(() => {
+      position += 5;
+      droplet.style.top = 190 + position + 'px';
+      if (position > 200) {
+        clearInterval(interval);
+        faucet.removeChild(droplet);
+      }
+    }, 20);
+
+    // Schedule the next drop
+    scheduleNextDrop();
+  }
+
+  // Schedule the next drop based on logistic map
+  function scheduleNextDrop() {
+    // Iterate x multiple times to reach steady state
+    for (let i = 0; i < 1000; i++) {
+      x = logisticMap(flowRate, x);
+    }
+    // Update x once more
+    x = logisticMap(flowRate, x);
+
+    // Map x to delay
+    const delay = minDelay + (maxDelay - minDelay) * x;
+
+    // Draw the bifurcation diagram from the image
+    ctx.clearRect(0, 0, bifurcationCanvas.width, bifurcationCanvas.height);
+    ctx.drawImage(bifurcationImageCanvas, 0, 0);
+
+    // Draw flow rate line
+    drawFlowRateLine();
+
+    // Plot the red dot
+    plotRedDot(flowRate, x);
+
+    // Schedule the next drop after the delay
+    setTimeout(dropWater, delay);
+  }
+
+  // Logistic map function
+  function logisticMap(r, x) {
+    return r * x * (1 - x);
+  }
+
+  function drawBifurcationDiagram() {
+    const ctx = bifurcationImageCtx;
+    ctx.clearRect(0, 0, bifurcationCanvas.width, bifurcationCanvas.height);
+
+    // Draw axes
+    drawAxes(ctx);
+
+    // Plot the bifurcation diagram
+    for (let r = minFlowRate; r <= maxFlowRate; r += 0.001) {
+      let x = 0.5;
+      // Iterate to reach steady state
+      for (let i = 0; i < 1000; i++) {
+        x = logisticMap(r, x);
+        if (i >= 900) {
+          plotPointOnCanvas(ctx, r, x);
+        }
+      }
+    }
+  }
+
+  function drawAxes(ctx) {
+    // Draw X and Y axes
+    ctx.beginPath();
+    // Y-axis
+    ctx.moveTo(margin.left, margin.top);
+    ctx.lineTo(margin.left, margin.top + height);
+    // X-axis
+    ctx.moveTo(margin.left, margin.top + height);
+    ctx.lineTo(margin.left + width, margin.top + height);
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Add labels
+    ctx.font = '16px Arial';
+    ctx.fillStyle = '#000';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    // X-axis label
+    ctx.fillText('Flow Rate (Q)', margin.left + width / 2, margin.top + height + 30);
+
+    // Y-axis label (rotated)
+    ctx.save();
+    ctx.translate(margin.left - 60, margin.top + height / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('Time Between Drops (ms)', 0, 0);
+    ctx.restore();
+
+    // Draw tick marks and labels for X-axis
+    for (let r = minFlowRate; r <= maxFlowRate; r += 0.5) {
+      const xPos = map(r, minFlowRate, maxFlowRate, margin.left, margin.left + width);
+      ctx.beginPath();
+      ctx.moveTo(xPos, margin.top + height);
+      ctx.lineTo(xPos, margin.top + height + 5);
+      ctx.stroke();
+
+      ctx.fillText(r.toFixed(1), xPos, margin.top + height + 20);
+    }
+
+    const delayStep = 250; // Adjust this value as needed
+
+    // Draw tick marks and labels for Y-axis
+    for (let delay = minDelay; delay <= maxDelay; delay += delayStep) {
+      const yPos = map(delay, minDelay, maxDelay, margin.top + height, margin.top);
+      ctx.beginPath();
+      ctx.moveTo(margin.left - 5, yPos);
+      ctx.lineTo(margin.left, yPos);
+      ctx.stroke();
+
+      ctx.textAlign = 'right';
+      ctx.fillText(`${delay}`, margin.left - 10, yPos);
+    }
+  }
+
+
+
+  function plotPointOnCanvas(canvasCtx, r, x) {
+    // Convert x to delay (period between drops)
+    const delay = minDelay + (maxDelay - minDelay) * x;
+
+    const canvasX = map(r, minFlowRate, maxFlowRate, margin.left, margin.left + width);
+    const canvasY = map(delay, minDelay, maxDelay, margin.top + height, margin.top);
+    canvasCtx.fillStyle = '#000';
+    canvasCtx.fillRect(canvasX, canvasY, 1, 1);
+  }
+
+
+  // Map a value from one range to another
+  function map(value, in_min, in_max, out_min, out_max) {
+    return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+  }
+
+  function drawFlowRateLine() {
+    const canvasX = map(flowRate, minFlowRate, maxFlowRate, margin.left, margin.left + width);
+    ctx.beginPath();
+    ctx.moveTo(canvasX, margin.top);
+    ctx.lineTo(canvasX, margin.top + height);
+    ctx.strokeStyle = 'red';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+
+  // Plot the red dot representing the current x value
+  function plotRedDot(r, xValue) {
+    // Convert x to delay (period between drops)
+    const delay = minDelay + (maxDelay - minDelay) * xValue;
+ 
+    const canvasX = map(r, minFlowRate, maxFlowRate, margin.left, margin.left + width);
+    const canvasY = map(delay, minDelay, maxDelay, margin.top + height, margin.top);
+    ctx.fillStyle = 'blue';
+    ctx.beginPath();
+    ctx.arc(canvasX, canvasY, 4, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+
+  // Update the simulation when the flow rate changes
+  flowRateSlider.addEventListener('input', () => {
+    flowRate = parseFloat(flowRateSlider.value);
+    updateFlowRateDisplay();
+    x = 0.5; // Reset x to 0.5 for new flow rate
+
+    // Draw the bifurcation diagram from the pre-rendered image
+    ctx.clearRect(0, 0, bifurcationCanvas.width, bifurcationCanvas.height);
+    ctx.drawImage(bifurcationImageCanvas, 0, 0);
+
+    // Draw flow rate line
+    drawFlowRateLine();
+  });
+
+  // Initialize the simulation
+  updateFlowRateDisplay();
+  drawBifurcationDiagram(); // Pre-render the bifurcation diagram
+  ctx.drawImage(bifurcationImageCanvas, 0, 0);
+  drawFlowRateLine();
+  scheduleNextDrop();
+
+</script>
+
+</body>
+</html>

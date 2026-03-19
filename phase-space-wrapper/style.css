@@ -1,0 +1,110 @@
+/* Global Styles */
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #222;
+  color: #eee;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Header */
+header {
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  background-color: #007acc;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Main Layout */
+main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 90%;
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+/* Sidebar for Explanations */
+#info-panel {
+  width: 30%;
+  padding: 20px;
+  background: #333;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Visualization Container */
+#canvas-container {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #111;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Controls */
+.control-container {
+  width: 800px;
+  margin: 10px auto;
+  text-align: center;
+  display: none; /* Hidden by default */
+}
+
+.control-container label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.control-container input, 
+.control-container select {
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.control-container .control-button {
+  padding: 10px 20px;
+  background-color: #007acc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.control-container .control-button:hover {
+  background-color: #005f99;
+}
+
+/* Dropdown Selector */
+#visualization-selector {
+  text-align: center;
+  margin: 10px 0;
+}
+
+#visualization-selector label {
+  font-weight: bold;
+}
+
+#visualization-selector select {
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Canvas Styling */
+canvas {
+  border: 1px solid #555;
+}

@@ -1,0 +1,18 @@
+{
+  "title": "Orbital Mechanics & Phase Space",
+  "slug": "orbital-phase-space",
+  "description": "Visualizes gravitational orbital dynamics alongside the corresponding phase space portrait, connecting real-space trajectories to their phase space geometry. Demonstrates conservation of energy through closed phase space orbits.",
+  "physics_concepts": [
+    "orbital mechanics",
+    "phase space",
+    "Newtonian gravity",
+    "conservation of energy",
+    "Kepler orbits",
+    "central force motion",
+    "effective potential"
+  ],
+  "difficulty": "intermediate",
+  "tags": ["gravity", "orbits", "phase space", "Kepler"],
+  "library": "p5.js",
+  "interactive_controls": []
+}

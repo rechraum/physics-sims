@@ -1,0 +1,26 @@
+{
+  "title": "Tuned Mass Damper",
+  "slug": "tunable-mass-damper",
+  "description": "Simulates a building under sinusoidal wind excitation equipped with a tuned mass damper. Adjust damper parameters to minimize building sway — the engineering principle used in skyscrapers like Taipei 101 and the Citigroup Center.",
+  "physics_concepts": [
+    "coupled oscillators",
+    "resonance",
+    "damping",
+    "structural dynamics",
+    "tuned mass damper",
+    "2-DOF systems",
+    "forced oscillation",
+    "vibration isolation"
+  ],
+  "difficulty": "intermediate",
+  "tags": ["structural dynamics", "damping", "engineering", "resonance", "oscillator"],
+  "library": "p5.js",
+  "interactive_controls": [
+    "wind amplitude",
+    "wind frequency",
+    "building height",
+    "building stiffness",
+    "damper mass",
+    "damper stiffness"
+  ]
+}

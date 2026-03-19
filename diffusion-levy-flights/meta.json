@@ -1,0 +1,18 @@
+{
+  "title": "Lévy Flights & Brownian Motion",
+  "slug": "diffusion-levy-flights",
+  "description": "Compares two models of random particle motion: Brownian motion (Gaussian steps) and Lévy flights (heavy-tailed steps). Includes real-time histograms with theoretical probability distribution overlays.",
+  "physics_concepts": [
+    "random walks",
+    "Brownian motion",
+    "Lévy statistics",
+    "probability distributions",
+    "stochastic processes",
+    "Rayleigh distribution",
+    "power-law distributions"
+  ],
+  "difficulty": "intermediate",
+  "tags": ["stochastic", "statistics", "particles", "diffusion"],
+  "library": "p5.js",
+  "interactive_controls": ["particle count", "simulation speed", "step size", "distribution type", "pathline toggle"]
+}

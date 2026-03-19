@@ -1,0 +1,18 @@
+{
+  "title": "Double Pendulum Chaos",
+  "slug": "double-pendulum-array",
+  "description": "A grid of double pendulums with nearly identical initial conditions evolves over time, revealing sensitive dependence on initial conditions — the hallmark of chaos. Color encodes the divergence rate (Lyapunov exponent) relative to a reference trajectory.",
+  "physics_concepts": [
+    "chaos theory",
+    "sensitive dependence on initial conditions",
+    "Lyapunov exponents",
+    "nonlinear dynamics",
+    "double pendulum",
+    "coupled oscillators",
+    "equations of motion"
+  ],
+  "difficulty": "intermediate",
+  "tags": ["chaos", "pendulum", "nonlinear", "Lyapunov"],
+  "library": "p5.js",
+  "interactive_controls": ["grid resolution", "simulation speed", "color representation toggle", "stick figure toggle"]
+}

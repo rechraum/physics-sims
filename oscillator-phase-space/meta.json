@@ -1,0 +1,18 @@
+{
+  "title": "Harmonic Oscillator Phase Space",
+  "slug": "oscillator-phase-space",
+  "description": "Add multiple harmonic oscillators with independently tunable amplitudes and frequencies, and watch their phase space trajectories trace out ellipses in position-momentum space. Demonstrates how energy determines the size and shape of phase space orbits.",
+  "physics_concepts": [
+    "harmonic oscillator",
+    "simple harmonic motion",
+    "phase space",
+    "amplitude",
+    "frequency",
+    "conservation of energy",
+    "position-momentum space"
+  ],
+  "difficulty": "beginner",
+  "tags": ["oscillator", "phase space", "classical mechanics", "SHM"],
+  "library": "p5.js",
+  "interactive_controls": ["add/clear oscillators", "per-oscillator amplitude slider", "per-oscillator frequency slider"]
+}

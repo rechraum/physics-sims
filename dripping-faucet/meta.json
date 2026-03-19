@@ -1,0 +1,18 @@
+{
+  "title": "Dripping Faucet & the Logistic Map",
+  "slug": "dripping-faucet",
+  "description": "Models the transition from periodic to chaotic dripping using the logistic map. Adjusting the flow rate drives the system through period-doubling bifurcations toward chaos, shown on a real-time bifurcation diagram.",
+  "physics_concepts": [
+    "logistic map",
+    "bifurcation",
+    "period doubling",
+    "deterministic chaos",
+    "discrete dynamical systems",
+    "fixed points",
+    "attractors"
+  ],
+  "difficulty": "beginner",
+  "tags": ["chaos", "bifurcation", "discrete maps", "logistic map"],
+  "library": "Canvas API",
+  "interactive_controls": ["flow rate slider"]
+}

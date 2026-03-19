@@ -1,0 +1,18 @@
+{
+  "title": "Relational Network Dynamics",
+  "slug": "relational-network",
+  "description": "A force-directed graph where edges form over time and nodes emerge when highly connected. Connected components propagate shared colors, making community structure visible in real time. Demonstrates emergent organization in complex networks.",
+  "physics_concepts": [
+    "graph theory",
+    "force-directed layout",
+    "emergent behavior",
+    "complex networks",
+    "connected components",
+    "Coulomb repulsion",
+    "spring forces"
+  ],
+  "difficulty": "intermediate",
+  "tags": ["network", "graph", "emergent", "complex systems", "force-directed"],
+  "library": "p5.js",
+  "interactive_controls": ["time step", "edges per update", "emergent node temperature", "click to add edges"]
+}

@@ -1,0 +1,28 @@
+{
+  "title": "Phase Space Collection",
+  "slug": "phase-space-wrapper",
+  "description": "A collection of six phase space visualizations accessible from a single interface: harmonic oscillator, kicked pendulum, gravity well, three-body problem, energy landscape (double pendulum), and the Lorenz attractor.",
+  "physics_concepts": [
+    "phase space",
+    "chaos theory",
+    "Lorenz attractor",
+    "three-body problem",
+    "kicked pendulum",
+    "harmonic oscillator",
+    "strange attractor",
+    "deterministic chaos",
+    "N-body gravity"
+  ],
+  "difficulty": "intermediate",
+  "tags": ["phase space", "chaos", "Lorenz", "three-body", "collection"],
+  "library": "p5.js",
+  "contains": [
+    { "id": "1dOscillator", "title": "1D Harmonic Oscillator" },
+    { "id": "kickedPendulum", "title": "Kicked Pendulum" },
+    { "id": "gravityWell", "title": "Gravity Well" },
+    { "id": "threeBody", "title": "Three-Body Problem" },
+    { "id": "energyLandscape", "title": "Energy Landscape" },
+    { "id": "lorenzAttractor", "title": "Lorenz Attractor" }
+  ],
+  "interactive_controls": ["simulation selector", "per-simulation controls"]
+}

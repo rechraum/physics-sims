@@ -1,0 +1,23 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background: #222;
+    color: #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #controls {
+    margin: 10px;
+  }
+  
+  label {
+    margin: 0 10px;
+  }
+  
+  canvas {
+    border: 1px solid #555;
+    margin-bottom: 20px;
+  }
+  

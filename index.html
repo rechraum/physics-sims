@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Physics Simulations</title>
+  <link rel="stylesheet" href="shared/style.css" />
+  <style>
+    /* ── Site header ─────────────────────────────────────── */
+    .site-header {
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 24px 40px;
+      text-align: center;
+    }
+
+    .site-header h1 {
+      margin: 0 0 12px;
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    .site-header h1 span {
+      color: var(--accent);
+    }
+
+    .site-header p {
+      margin: 0 auto;
+      max-width: 560px;
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ── Main layout ─────────────────────────────────────── */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
+    }
+
+    /* ── Filter bar ──────────────────────────────────────── */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .filter-bar .filter-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    .filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      padding: 4px 12px;
+      border-radius: 99px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: var(--font-sans);
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .chip:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .chip.active {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .filter-bar .filter-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+
+    .search-input {
+      margin-left: auto;
+      padding: 6px 12px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      width: 220px;
+      transition: border-color 0.2s;
+    }
+
+    .search-input::placeholder {
+      color: var(--text-secondary);
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    /* ── Results count ───────────────────────────────────── */
+    .results-meta {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    /* ── Simulation grid ─────────────────────────────────── */
+    .sim-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    /* ── Sim card ────────────────────────────────────────── */
+    .sim-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .sim-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    /* Colored accent bar at top of card, derived from category */
+    .sim-card-bar {
+      height: 4px;
+      width: 100%;
+    }
+
+    .sim-card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 10px;
+    }
+
+    .sim-card-title {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .sim-card-desc {
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    /* Physics concept tags */
+    .concept-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .concept-tag {
+      padding: 2px 8px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border-radius: 99px;
+      font-size: 0.72rem;
+      white-space: nowrap;
+    }
+
+    /* Card footer */
+    .sim-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      border-top: 1px solid var(--border);
+      gap: 8px;
+    }
+
+    .difficulty-badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 3px 9px;
+      border-radius: 99px;
+    }
+
+    .difficulty-beginner     { background: rgba(63,185,80,0.15);  color: #3fb950; }
+    .difficulty-intermediate { background: rgba(210,153,34,0.15); color: #d2991e; }
+    .difficulty-advanced     { background: rgba(248,81,73,0.15);  color: #f85149; }
+
+    .library-badge {
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 3px 9px;
+    }
+
+    .launch-arrow {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-left: auto;
+      transition: color 0.15s, transform 0.15s;
+    }
+
+    .sim-card:hover .launch-arrow {
+      color: var(--accent);
+      transform: translateX(3px);
+    }
+
+    /* ── Empty state ─────────────────────────────────────── */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 64px 24px;
+      color: var(--text-secondary);
+    }
+
+    .empty-state p {
+      font-size: 1rem;
+      margin: 8px 0 0;
+    }
+
+    /* ── Loading skeleton ────────────────────────────────── */
+    .skeleton-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      height: 220px;
+      animation: shimmer 1.4s infinite;
+    }
+
+    @keyframes shimmer {
+      0%   { opacity: 0.6; }
+      50%  { opacity: 0.3; }
+      100% { opacity: 0.6; }
+    }
+
+    /* ── Site footer ─────────────────────────────────────── */
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: 24px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .site-footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .site-footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* ── Responsive ──────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .site-header h1 { font-size: 1.6rem; }
+      .search-input   { width: 100%; margin-left: 0; }
+      .sim-grid       { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <h1>Physics <span>Simulations</span></h1>
+    <p>Interactive visualizations of physical systems. Each simulation lets you explore a concept by adjusting parameters and observing the emergent behavior in real time.</p>
+  </header>
+
+  <main>
+    <div class="filter-bar">
+      <span class="filter-label">Difficulty</span>
+      <div class="filter-chips" id="difficulty-chips">
+        <button class="chip active" data-filter="difficulty" data-value="all">All</button>
+        <button class="chip" data-filter="difficulty" data-value="beginner">Beginner</button>
+        <button class="chip" data-filter="difficulty" data-value="intermediate">Intermediate</button>
+        <button class="chip" data-filter="difficulty" data-value="advanced">Advanced</button>
+      </div>
+
+      <div class="filter-divider"></div>
+
+      <span class="filter-label">Topic</span>
+      <div class="filter-chips" id="tag-chips">
+        <button class="chip active" data-filter="tag" data-value="all">All</button>
+        <button class="chip" data-filter="tag" data-value="chaos">Chaos</button>
+        <button class="chip" data-filter="tag" data-value="phase space">Phase Space</button>
+        <button class="chip" data-filter="tag" data-value="oscillator">Oscillator</button>
+        <button class="chip" data-filter="tag" data-value="stochastic">Stochastic</button>
+      </div>
+
+      <input
+        class="search-input"
+        type="search"
+        id="search-input"
+        placeholder="Search simulations…"
+        autocomplete="off"
+      />
+    </div>
+
+    <p class="results-meta" id="results-meta"></p>
+
+    <div class="sim-grid" id="sim-grid">
+      <!-- Skeleton placeholders while loading -->
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    Built with p5.js &amp; vanilla JS &mdash;
+    <a href="https://github.com" id="github-link">View on GitHub</a>
+  </footer>
+
+  <script>
+    // ── Sim registry ──────────────────────────────────────────
+    // Slugs must match folder names at the root of this repo.
+    const SIM_SLUGS = [
+      'diffusion-levy-flights',
+      'double-pendulum-array',
+      'dripping-faucet',
+      'orbital-phase-space',
+      'oscillator-phase-space',
+      'phase-space-wrapper',
+      'relational-network',
+      'tunable-mass-damper',
+    ];
+
+    // Accent bar color per sim (can be customized)
+    const SIM_COLORS = {
+      'diffusion-levy-flights':  'linear-gradient(90deg, #58a6ff, #79b8ff)',
+      'double-pendulum-array':   'linear-gradient(90deg, #f85149, #ff7b72)',
+      'dripping-faucet':         'linear-gradient(90deg, #d29922, #ffa657)',
+      'orbital-phase-space':     'linear-gradient(90deg, #3fb950, #56d364)',
+      'oscillator-phase-space':  'linear-gradient(90deg, #bc8cff, #d2a8ff)',
+      'phase-space-wrapper':     'linear-gradient(90deg, #f85149, #bc8cff)',
+      'relational-network':      'linear-gradient(90deg, #58a6ff, #3fb950)',
+      'tunable-mass-damper':     'linear-gradient(90deg, #ffa657, #d29922)',
+    };
+
+    // ── State ─────────────────────────────────────────────────
+    let allSims = [];
+    let activeFilters = { difficulty: 'all', tag: 'all' };
+    let searchQuery = '';
+
+    // ── Load meta.json for each sim ───────────────────────────
+    async function loadSimData() {
+      const results = await Promise.allSettled(
+        SIM_SLUGS.map(slug =>
+          fetch(`./${slug}/meta.json`)
+            .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+        )
+      );
+
+      allSims = results
+        .map((result, i) => {
+          if (result.status === 'fulfilled') return result.value;
+          console.warn(`Failed to load meta.json for ${SIM_SLUGS[i]}:`, result.reason);
+          // Minimal fallback so the sim still appears
+          return { title: SIM_SLUGS[i], slug: SIM_SLUGS[i], description: '', physics_concepts: [], tags: [], difficulty: 'intermediate', library: 'p5.js' };
+        });
+
+      renderGrid();
+    }
+
+    // ── Filter & search ───────────────────────────────────────
+    function getFilteredSims() {
+      return allSims.filter(sim => {
+        const diffOk = activeFilters.difficulty === 'all' || sim.difficulty === activeFilters.difficulty;
+        const tagOk  = activeFilters.tag === 'all' || (sim.tags || []).includes(activeFilters.tag);
+        const q = searchQuery.toLowerCase().trim();
+        const searchOk = !q
+          || sim.title.toLowerCase().includes(q)
+          || (sim.description || '').toLowerCase().includes(q)
+          || (sim.physics_concepts || []).some(c => c.toLowerCase().includes(q))
+          || (sim.tags || []).some(t => t.toLowerCase().includes(q));
+        return diffOk && tagOk && searchOk;
+      });
+    }
+
+    // ── Render ────────────────────────────────────────────────
+    function renderGrid() {
+      const grid = document.getElementById('sim-grid');
+      const meta = document.getElementById('results-meta');
+      const filtered = getFilteredSims();
+
+      meta.textContent = `${filtered.length} of ${allSims.length} simulation${allSims.length !== 1 ? 's' : ''}`;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <strong>No simulations match your filters.</strong>
+            <p>Try clearing a filter or adjusting your search.</p>
+          </div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(sim => buildCard(sim)).join('');
+    }
+
+    function buildCard(sim) {
+      const slug   = sim.slug || '';
+      const color  = SIM_COLORS[slug] || 'linear-gradient(90deg, var(--accent), var(--accent-hover))';
+      const tags   = (sim.physics_concepts || []).slice(0, 4);
+      const diff   = sim.difficulty || 'intermediate';
+      const lib    = sim.library || 'p5.js';
+
+      const tagHtml = tags
+        .map(t => `<span class="concept-tag">${escHtml(t)}</span>`)
+        .join('');
+
+      return `
+        <a class="sim-card" href="./${escHtml(slug)}/index.html">
+          <div class="sim-card-bar" style="background:${color}"></div>
+          <div class="sim-card-body">
+            <h2 class="sim-card-title">${escHtml(sim.title)}</h2>
+            <p class="sim-card-desc">${escHtml(sim.description || '')}</p>
+            <div class="concept-tags">${tagHtml}</div>
+          </div>
+          <div class="sim-card-footer">
+            <span class="difficulty-badge difficulty-${escHtml(diff)}">${escHtml(diff)}</span>
+            <span class="library-badge">${escHtml(lib)}</span>
+            <span class="launch-arrow">→</span>
+          </div>
+        </a>`;
+    }
+
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // ── Filter chip interactions ──────────────────────────────
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const filterType = chip.dataset.filter;
+        const value      = chip.dataset.value;
+
+        // Update active chip in group
+        chip.closest('.filter-chips').querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+
+        activeFilters[filterType] = value;
+        renderGrid();
+      });
+    });
+
+    // ── Search input ──────────────────────────────────────────
+    document.getElementById('search-input').addEventListener('input', e => {
+      searchQuery = e.target.value;
+      renderGrid();
+    });
+
+    // ── Boot ──────────────────────────────────────────────────
+    loadSimData();
+  </script>
+
+</body>
+</html>
