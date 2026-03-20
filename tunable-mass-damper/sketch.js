@@ -28,20 +28,20 @@ function setup() {
 
   // Initialize sliders
   windAmplitudeSlider = createSlider(0, 100, 50);
-  windAmplitudeSlider.position(20, 20);
+  windAmplitudeSlider.position(20, 64);
   windFrequencySlider = createSlider(0.1, 5, 1, 0.1);
-  windFrequencySlider.position(20, 60);
+  windFrequencySlider.position(20, 104);
 
   buildingHeightSlider = createSlider(200, 500, 300);
-  buildingHeightSlider.position(20, 100);
+  buildingHeightSlider.position(20, 144);
   buildingStiffnessSlider = createSlider(0.1, 10, 5, 0.1);
-  buildingStiffnessSlider.position(20, 140);
+  buildingStiffnessSlider.position(20, 184);
 
   dampingMassSlider = createSlider(1, 100, 50);
-  dampingMassSlider.position(20, 180);
-  
+  dampingMassSlider.position(20, 224);
+
   damperStiffnessSlider = createSlider(50, 200, 100);
-  damperStiffnessSlider.position(20, 220);
+  damperStiffnessSlider.position(20, 264);
 }
 
 function updatePhysics(dt) {

@@ -5,6 +5,8 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  padding-top: 44px;
+  box-sizing: border-box;
 }
 
 #canvas-container canvas {

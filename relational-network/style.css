@@ -1,5 +1,5 @@
 body {
   margin: 0;
   background: #111;
-  overflow: hidden;
+  overflow-x: hidden; /* allow vertical scroll to reach controls below canvas */
 }
