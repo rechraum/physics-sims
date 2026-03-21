@@ -228,7 +228,7 @@
     const parts = location.pathname.replace(/\/index\.html$/, '').split('/').filter(Boolean);
     // On GitHub Pages the repo is usually one segment: /repo-name/sim-slug/
     // We just need to go up one level from the sim folder.
-    if (parts.length <= 1) return './'; // already at root
+    if (parts.length === 0) return './'; // already at root
     return '../';
   }
 

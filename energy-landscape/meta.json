@@ -1,0 +1,13 @@
+{
+  "title": "Energy Landscape",
+  "slug": "energy-landscape",
+  "description": "Generate a random potential energy surface and drop particles that roll downhill to local minima, tracing radial distance vs. velocity in phase space.",
+  "physics_concepts": ["Potential Energy", "Phase Space", "Gradient Descent", "Energy Minima", "Dynamical Systems"],
+  "tags": ["phase space"],
+  "difficulty": "intermediate",
+  "library": "p5.js",
+  "interactive_controls": [
+    "Create Landscape: generate a new random terrain",
+    "Click on the terrain (left panel) to drop a particle"
+  ]
+}

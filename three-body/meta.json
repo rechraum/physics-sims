@@ -1,0 +1,13 @@
+{
+  "title": "Three-Body Problem",
+  "slug": "three-body",
+  "description": "Simulate the chaotic gravitational interaction of three bodies and track their mean separation and mean velocity as a phase space portrait across multiple randomized runs.",
+  "physics_concepts": ["N-Body Gravity", "Chaos", "Phase Space", "Sensitivity to Initial Conditions"],
+  "tags": ["phase space", "chaos"],
+  "difficulty": "advanced",
+  "library": "p5.js",
+  "interactive_controls": [
+    "Start Simulation: launch a new random 3-body run",
+    "Each run adds a new colored trace to the phase space"
+  ]
+}

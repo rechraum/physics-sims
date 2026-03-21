@@ -38,13 +38,16 @@ Sims are currently at the **root level** (not under a `/sims/` subfolder). A fut
 | `diffusion-levy-flights` | Lévy Flights & Brownian Motion | p5.js 1.4.0 | intermediate |
 | `double-pendulum-array` | Double Pendulum Chaos | p5.js 1.6.0 | intermediate |
 | `dripping-faucet` | Dripping Faucet & the Logistic Map | Canvas API (no p5) | beginner |
-| `orbital-phase-space` | Orbital Mechanics & Phase Space | p5.js 1.6.0 | intermediate |
+| `energy-landscape` | Energy Landscape Explorer | p5.js 1.6.0 | intermediate |
+| `gravity-well` | Gravity Well & Orbital Phase Space | p5.js 1.6.0 | intermediate |
+| `kicked-pendulum` | Kicked Pendulum | p5.js 1.6.0 | intermediate |
+| `lorenz-attractor` | Lorenz Attractor | p5.js 1.6.0 (WEBGL) | advanced |
 | `oscillator-phase-space` | Harmonic Oscillator Phase Space | p5.js 1.6.0 | beginner |
-| `phase-space-wrapper` | Phase Space Collection | p5.js 1.6.0 | intermediate |
 | `relational-network` | Relational Network Dynamics | p5.js 1.6.0 | intermediate |
+| `three-body` | Three-Body Problem | p5.js 1.6.0 | advanced |
 | `tunable-mass-damper` | Tuned Mass Damper | p5.js 1.4.2 | intermediate |
 
-`phase-space-wrapper` is a multi-sim container holding: 1D Oscillator, Kicked Pendulum, Gravity Well, Three-Body Problem, Energy Landscape, Lorenz Attractor (WebGL via `p5.WEBGL`).
+**Archived (not in gallery):** `_archive/phase-space-wrapper` — original multi-sim wrapper, now fully split into individual sims above. `_archive/orbital-phase-space` — duplicate of `gravity-well`, retired.
 
 ---
 
@@ -83,7 +86,7 @@ IIFE script included in every sim's `index.html` with `defer`. Self-injects:
 - **Fixed nav bar** (44px, `z-index: 9999`, glass blur): `← Gallery` link + sim title + `About ↗` button
 - **About panel** (320px, slides in from right): description, physics concept tags, controls list, difficulty/library badges
 - Reads `./meta.json` relative to the sim page; gracefully degrades if fetch fails
-- `← Gallery` resolves to `../` (one level up), correct for all current sims at root level
+- `← Gallery` uses `galleryHref()`: returns `'../'` when `parts.length >= 1`, `'./'` only at true root. This handles both GitHub Pages (`/physics-sims/sim-slug/`) and Live Server (`/sim-slug/`) correctly — the prior `parts.length <= 1` condition caused Live Server to reload the sim page instead of navigating to the gallery.
 
 ### `index.html` (gallery)
 - Hardcoded `SIM_SLUGS` array — **must be updated when adding a new sim**
@@ -95,16 +98,18 @@ IIFE script included in every sim's `index.html` with `defer`. Self-injects:
 
 ## Layout Compatibility Notes
 
-Some sims use **full-window absolute positioning** (canvas fills 100vw × 100vh, controls are `position: absolute`):
-- `oscillator-phase-space` — controls float top-left with `position: absolute`
-- `tunable-mass-damper` — canvas fills window, sliders are inside sketch
-- `orbital-phase-space` — canvas fills window
-- `double-pendulum-array` — canvas fills window
+All sims have `padding-top: 44px` on `body` so the fixed nav bar does not overlap content. The approach varies by layout type:
 
-For these, `nav.js` uses `position: fixed` overlay — it does **not** push content down. The top 44px of these canvases is visually overlaid by the nav bar. This is a known, acceptable trade-off for now; per-sim layout improvements are in the roadmap.
+**Full-window sims** (canvas fills viewport, controls are `position: absolute` in browser space):
+- `oscillator-phase-space` — `#controls` top offset shifted from 10px → 54px in CSS
+- `tunable-mass-damper` — all 6 slider `.position()` y-values shifted +44px in `sketch.js` (p5 DOM elements use browser-absolute coords, not canvas-local)
+- `gravity-well` — `body` uses `display: flex` + `padding-top: 44px; box-sizing: border-box`
+- `double-pendulum-array` — `padding-top: 44px` on body
 
-Sims with **standard flow layout** (explicit canvas sizes, scrollable page):
-- `diffusion-levy-flights`, `dripping-faucet`, `phase-space-wrapper`
+**Flow-layout sims** (explicit canvas size, scrollable page):
+- `diffusion-levy-flights`, `dripping-faucet`, `relational-network`, `energy-landscape`, `kicked-pendulum`, `lorenz-attractor`, `three-body` — `padding-top: 44px` on body
+
+**p5.js coordinate note:** `createSlider()`, `createButton()`, `createDiv()` use `.position(x, y)` in browser-absolute coordinates — these must be offset by 44px when the body has `padding-top`. Canvas-drawn text via `text()` uses canvas-local coordinates and is unaffected by body padding.
 
 ---
 
@@ -122,27 +127,40 @@ Then open `http://localhost:8000`.
 
 ## Roadmap
 
-### Immediate / Near-term
+### Completed
 
-- **Review and test live site** — check each sim loads correctly on `rechraum.github.io/physics-sims/`, verify nav bar and About panel work across all 8
-- **Fix full-window sim layouts** — for sims where the nav bar overlays the top of the canvas, add a proper top offset (e.g., `padding-top: 44px` on body + adjust `createCanvas` height by `44` in the sketch, or shift the p5 canvas down in the DOM)
-- **Add preview images** — add a `preview.png` (or `.webp`) to each sim folder; update gallery cards to show a thumbnail. `meta.json` already has a `preview_image` field stub ready to use
-- **Gallery filter tags** — expand the topic chip list to cover more of the actual tags in `meta.json` (e.g., "gravity", "engineering", "network")
-- **Clean up stale files** — `phase-space-wrapper/styleOld.css`, `oscillator-phase-space/test.html` can be deleted
+- ✅ Consolidated all sims into unified gallery with shared nav bar and About panel
+- ✅ Fixed nav bar offset across all sims (`padding-top: 44px`, per-sim adjustments)
+- ✅ Fixed gallery `← Gallery` link (Live Server path depth bug in `galleryHref()`)
+- ✅ Fixed `relational-network` invisible labels (added `color: #dcdcdc` to body; `overflow-x: hidden` to restore vertical scroll to controls)
+- ✅ Split `phase-space-wrapper` into 5 standalone sims: `energy-landscape`, `gravity-well`, `kicked-pendulum`, `lorenz-attractor`, `three-body`
+- ✅ Retired duplicate `orbital-phase-space` (same as `gravity-well`); archived alongside `phase-space-wrapper` in `_archive/`
+- ✅ Cleaned stale files (`styleOld.css`, `test.html`, broken double-pendulum option in wrapper)
+
+### Next: Per-sim UI/layout overhaul
+
+Goal: consistent layout, styling, and UX across all 11 sims. Key principles:
+- Use `shared/style.css` design tokens (already defined, not yet used by sim pages)
+- Controls in HTML (not dynamically created via p5 where avoidable)
+- Consistent panel layout: canvas area + controls panel + optional info panel
+- Dark theme unified across all sims
+- Priority sims for overhaul: `tunable-mass-damper` (sliders in sketch.js), `double-pendulum-array` (global-mode p5, full-window), `relational-network` (controls below large canvas)
 
 ### Medium-term
 
-- **Per-sim physics review** — audit each simulation for correctness (numerical integration method, parameter ranges, edge cases). Priority candidates: `orbital-phase-space` (check orbit conservation), `tunable-mass-damper` (verify coupled equations and damping ratio)
-- **Educational content expansion** — add equations and deeper explanations to each `meta.json` or a companion `notes.md` per sim. The About panel in `nav.js` is already wired to display this; it just needs richer content
-- **Upgrade p5.js versions** — `diffusion-levy-flights` and `tunable-mass-damper` still use p5.js 1.4.x; standardize all to 1.9.x (latest stable). Test carefully — some p5 APIs changed between 1.4 and 1.9
-- **Improve `phase-space-wrapper`** — currently a monolithic multi-sim page; consider whether to split into individual sim pages or keep as a collection. The wrapper pattern works but makes deep-linking and nav harder
+- **Add preview images** — `preview.png` per sim folder; gallery cards ready to show thumbnails once images exist
+- **Gallery filter tags** — expand topic chips to cover more tags (e.g., "gravity", "engineering", "network")
+- **Per-sim physics review** — audit correctness (integration method, parameter ranges). Priority: `tunable-mass-damper` (coupled equations, damping ratio), `gravity-well` (orbit energy conservation)
+- **Educational content expansion** — richer `meta.json` content (equations, deeper explanations). About panel in `nav.js` is already wired for this
+- **Upgrade p5.js versions** — `diffusion-levy-flights` and `tunable-mass-damper` still use p5.js 1.4.x; standardize to 1.9.x (test carefully — API changes between 1.4 and 1.9)
+- **Convert `double-pendulum-array` to instance mode** — currently global-mode p5, which limits layout flexibility in the upcoming UI overhaul
 
 ### Longer-term
 
-- **New simulations** — candidates discussed: wave interference, fluid simulation, N-body gravity, spring-mass lattice, bifurcation explorer (generalized)
-- **Three.js upgrade for 3D sims** — `LorenzAttractor.js` currently uses `p5.WEBGL`; migrating to Three.js would give better camera controls, lighting, and performance
-- **Move sims to `/sims/` subfolder** — cleaner repo structure; requires updating `SIM_SLUGS` paths in gallery, `galleryHref()` in `nav.js`, and all relative asset references
-- **Link from personal site** — embed gallery or link card on the owner's main GitHub Pages personal site
+- **New simulations** — candidates: wave interference, fluid simulation, N-body gravity, spring-mass lattice, bifurcation explorer
+- **Three.js upgrade for `lorenz-attractor`** — currently uses `p5.WEBGL`; Three.js would give better camera controls and performance
+- **Move sims to `/sims/` subfolder** — cleaner repo structure; requires updating `SIM_SLUGS`, `galleryHref()`, and all relative asset paths
+- **Link from personal site** — embed gallery or link card on owner's main GitHub Pages site
 
 ---
 

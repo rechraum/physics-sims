@@ -1,0 +1,14 @@
+{
+  "title": "Gravity Well",
+  "slug": "gravity-well",
+  "description": "Click to place celestial bodies orbiting a central mass and watch their real-space trajectories alongside their radial distance vs. velocity phase portrait.",
+  "physics_concepts": ["Gravitational Orbits", "Phase Space", "Kepler's Laws", "Conservation of Energy"],
+  "tags": ["phase space", "gravity"],
+  "difficulty": "intermediate",
+  "library": "p5.js",
+  "interactive_controls": [
+    "Click left panel to add orbiting bodies",
+    "Clear Bodies: remove all objects",
+    "Circular Orbit checkbox: constrain new bodies to circular orbits"
+  ]
+}

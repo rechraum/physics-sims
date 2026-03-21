@@ -1,0 +1,19 @@
+{
+  "title": "Lorenz Attractor",
+  "slug": "lorenz-attractor",
+  "description": "Explore the iconic strange attractor arising from Lorenz's equations for atmospheric convection, rendered in interactive 3D. Adjust parameters to reveal bifurcations and sensitive dependence on initial conditions.",
+  "physics_concepts": ["Strange Attractor", "Chaos", "Bifurcation", "Differential Equations", "Atmospheric Convection"],
+  "tags": ["chaos", "phase space"],
+  "difficulty": "advanced",
+  "library": "p5.js",
+  "interactive_controls": [
+    "σ, ρ, β inputs: set Lorenz equation parameters",
+    "Standard: classic butterfly attractor (σ=10, ρ=28, β=8/3)",
+    "Bifurcation: near-periodic regime (ρ≈99.96)",
+    "Chaos Demo: three particles with nearly identical initial conditions",
+    "Pause / Resume the simulation",
+    "Restart: reset trajectories with current parameters",
+    "Reset View: restore default camera angle",
+    "Click and drag to orbit the 3D view"
+  ]
+}

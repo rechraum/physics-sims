@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lorenz Attractor</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
+  <script src="../shared/nav.js" defer></script>
+</head>
+<body>
+  <div id="canvas-container"></div>
+
+  <div id="controls">
+    <label>σ: <input type="number" id="sigma-input" value="10" step="0.1"></label>
+    <label>ρ: <input type="number" id="rho-input" value="28" step="0.1"></label>
+    <label>β: <input type="number" id="beta-input" value="2.6667" step="0.1"></label>
+    <div class="controls-divider"></div>
+    <button id="lorenz-standard-parameters">Standard</button>
+    <button id="lorenz-bifurcation-visualization">Bifurcation</button>
+    <button id="lorenz-chaos-demonstration">Chaos Demo</button>
+    <div class="controls-divider"></div>
+    <button id="lorenz-pause-button">Pause</button>
+    <button id="lorenz-restart-button">Restart</button>
+    <button id="lorenz-reset-view-button">Reset View</button>
+  </div>
+
+  <script src="sketch.js"></script>
+  <script>
+    window.onload = function () {
+      new p5(lorenzSketch);
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gravity Well</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
+  <script src="../shared/nav.js" defer></script>
+</head>
+<body>
+  <div id="canvas-container"></div>
+
+  <div id="controls">
+    <button id="clearObjects">Clear Bodies</button>
+    <label>
+      <input type="checkbox" id="circularCheckbox"> Circular Orbit
+    </label>
+  </div>
+
+  <script src="sketch.js"></script>
+  <script>
+    window.onload = function () {
+      new p5(orbitalSketch);
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Energy Landscape</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
+  <script src="../shared/nav.js" defer></script>
+</head>
+<body>
+  <div id="canvas-container"></div>
+
+  <div id="controls">
+    <button id="createLandscape">Create Landscape</button>
+    <span>Then click on the terrain to drop particles.</span>
+  </div>
+
+  <script src="sketch.js"></script>
+  <script>
+    window.onload = function () {
+      new p5(energyLandscapeSketch);
+    };
+  </script>
+</body>
+</html>
