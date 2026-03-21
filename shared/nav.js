@@ -46,6 +46,7 @@
       white-space: nowrap;
       transition: color 0.2s;
       flex-shrink: 0;
+      cursor: pointer;
     }
 
     #sim-nav .nav-back:hover { color: #58a6ff; }

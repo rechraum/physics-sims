@@ -1,5 +1,6 @@
 body {
   margin: 0;
   background: #111;
+  color: #dcdcdc; /* p5.js DOM elements (labels, buttons) inherit this so text is visible */
   overflow-x: hidden; /* allow vertical scroll to reach controls below canvas */
 }
