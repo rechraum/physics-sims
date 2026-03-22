@@ -45,7 +45,8 @@ Sims are currently at the **root level** (not under a `/sims/` subfolder). A fut
 | `oscillator-phase-space` | Harmonic Oscillator Phase Space | p5.js 1.6.0 | beginner |
 | `relational-network` | Relational Network Dynamics | p5.js 1.6.0 | intermediate |
 | `three-body` | Three-Body Problem | p5.js 1.6.0 | advanced |
-| `tunable-mass-damper` | Tuned Mass Damper | p5.js 1.4.2 | intermediate |
+| `tunable-mass-damper` | Tuned Mass Damper | p5.js 1.9.4 | intermediate |
+| `wave-interference` | Wave Interference | p5.js 1.9.4 | beginner |
 
 **Archived (not in gallery):** `_archive/phase-space-wrapper` — original multi-sim wrapper, now fully split into individual sims above. `_archive/orbital-phase-space` — duplicate of `gravity-well`, retired.
 
@@ -91,7 +92,7 @@ IIFE script included in every sim's `index.html` with `defer`. Self-injects:
 ### `index.html` (gallery)
 - Hardcoded `SIM_SLUGS` array — **must be updated when adding a new sim**
 - `SIM_COLORS` object maps slug → CSS gradient for card accent bar — **update when adding a sim**
-- Filter chips: Difficulty (All / Beginner / Intermediate / Advanced) and Topic (All / Chaos / Phase Space / Oscillator / Stochastic)
+- Filter chips: Difficulty (All / Beginner / Intermediate / Advanced) and Topic (All / Chaos / Phase Space / Oscillator / Stochastic / Quantum)
 - Live search across title, description, concepts, tags
 
 ---
@@ -143,7 +144,8 @@ All 11 sims now use the unified layout system defined in `shared/style.css`:
 
 **Layout system** (`.sim-wrapper.layout-a` / `.layout-b`):
 - `layout-a` — canvas fills left, 280px panel on right (good for tall/square canvases): lorenz-attractor, energy-landscape, gravity-well, three-body, double-pendulum-array, tunable-mass-damper, oscillator-phase-space
-- `layout-b` — canvas fills top, 240px panel strip at bottom (good for wide canvases): kicked-pendulum, diffusion-levy-flights, relational-network, dripping-faucet
+- `layout-b` — canvas fills top, 240px panel strip at bottom (good for wide canvases): kicked-pendulum, diffusion-levy-flights, relational-network, dripping-faucet, wave-interference
+  - `wave-interference` uses a **custom horizontal control strip** — overrides the default 50/50 controls/edu split with a full-width flex row of labelled sections (`.wave-controls-bar`, `.ctrl-section`). Use this pattern for sims needing more than 4–5 controls in layout-b.
 - Panel has two sections: `.sim-controls-section` (controls) + `.sim-edu-section` (educational content auto-populated from meta.json by nav.js)
 
 **Controls migration**: All p5 DOM controls moved to HTML:
@@ -158,21 +160,27 @@ All 11 sims now use the unified layout system defined in `shared/style.css`:
 
 ### Completed: Preview images, p5.js upgrades, instance mode conversion ✅
 
-- **Preview images** — `preview.webp` captured via Puppeteer (`scripts/capture-previews.js`); gallery cards display thumbnails on load. Re-run the script (with local server running) to refresh images.
-- **p5.js standardized to 1.9.4** — `diffusion-levy-flights` (was 1.4.0) and `tunable-mass-damper` (was 1.4.2) upgraded; all 11 sims now on 1.9.4 via cdnjs.
+- **Preview images** — `preview.webp` captured via Puppeteer (`scripts/capture-previews.js`); gallery cards display thumbnails on load. Re-run the script (with local server running) to refresh images. Now accepts optional slug args: `node scripts/capture-previews.js wave-interference` re-captures a single sim without running all 12.
+- **p5.js standardized to 1.9.4** — all 12 sims on 1.9.4 via cdnjs.
 - **`double-pendulum-array` converted to instance mode** — `DoublePendulumArray.js` wrapped in `const sketch = (p) => { ... }; new p5(sketch)`. Physics functions (`derivatives`, `rk4Step`, `DoublePendulumSim`) use `Math.*` directly; all p5 API calls prefixed with `p.`.
+
+### Completed: Wave interference sim + quantum mechanics series kickoff ✅
+
+- **`wave-interference`** — beginner-difficulty sim with three modes: Continuous (live standing wave), Snapshot (time-scrub slider), and Pulse (Gaussian-windowed pulses from each end that collide and pass through). Superposition curve uses a per-segment interference colormap (teal = constructive+, purple = constructive−, red = destructive). In Pulse mode the colormap only renders where both Gaussian envelopes exceed 4% of peak, so isolated pulses show as plain blue/orange. Includes analytical amplitude envelope and node/antinode markers.
+- **Gallery**: Quantum topic filter chip added; wave-interference card registered with cyan→purple gradient.
 
 ### Next steps
 
 ### Medium-term
 
-- **Gallery filter tags** — expand topic chips to cover more tags (e.g., "gravity", "engineering", "network")
+- **Quantum mechanics series** — `wave-interference` is the first; next candidates: double-slit experiment, particle-in-a-box, quantum tunneling
+- **Gallery filter tags** — additional topic chips if needed (e.g., "gravity", "engineering", "network")
 - **Per-sim physics review** — audit correctness (integration method, parameter ranges). Priority: `tunable-mass-damper` (coupled equations, damping ratio), `gravity-well` (orbit energy conservation)
 - **Educational content expansion** — richer `meta.json` content (equations, deeper explanations). About panel in `nav.js` is already wired for this
 
 ### Longer-term
 
-- **New simulations** — candidates: wave interference, fluid simulation, N-body gravity, spring-mass lattice, bifurcation explorer
+- **New simulations** — candidates: fluid simulation, N-body gravity, spring-mass lattice, bifurcation explorer
 - **Three.js upgrade for `lorenz-attractor`** — currently uses `p5.WEBGL`; Three.js would give better camera controls and performance
 - **Move sims to `/sims/` subfolder** — cleaner repo structure; requires updating `SIM_SLUGS`, `galleryHref()`, and all relative asset paths
 - **Link from personal site** — embed gallery or link card on owner's main GitHub Pages site
@@ -184,4 +192,4 @@ All 11 sims now use the unified layout system defined in `shared/style.css`:
 - **Adding a new sim:** create `<slug>/index.html`, `sketch.js`, `style.css`, `meta.json`; add slug to `SIM_SLUGS` and `SIM_COLORS` in root `index.html`; include `<script src="../shared/nav.js" defer></script>` in the sim's `<head>`
 - **CSS changes:** put design tokens and reusable classes in `shared/style.css`; sim-specific overrides stay in the sim's own `style.css`
 - **No frameworks, no build step** — keep it plain HTML/CSS/JS
-- **p5.js CDN:** use `https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js` (or newer) — no local copies
+- **p5.js CDN:** use `https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js` — all sims standardized on 1.9.4
