@@ -26,9 +26,10 @@ const SETTLE_MS = {
   'three-body':         3000,
   'double-pendulum-array': 3000,
   'diffusion-levy-flights': 3000,
+  'wave-interference':      2000,
 };
 
-const SLUGS = [
+const ALL_SLUGS = [
   'diffusion-levy-flights',
   'double-pendulum-array',
   'dripping-faucet',
@@ -40,7 +41,14 @@ const SLUGS = [
   'relational-network',
   'three-body',
   'tunable-mass-damper',
+  'wave-interference',
 ];
+
+// Optional: pass one or more slug names as CLI args to capture only those sims.
+//   node scripts/capture-previews.js wave-interference
+//   node scripts/capture-previews.js lorenz-attractor three-body
+const cliArgs = process.argv.slice(2);
+const SLUGS = cliArgs.length > 0 ? cliArgs : ALL_SLUGS;
 
 // Viewport for screenshots — 16:9ish, good for card thumbnails
 const VIEWPORT = { width: 1024, height: 640 };

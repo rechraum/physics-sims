@@ -1,0 +1,29 @@
+{
+  "title": "Wave Interference",
+  "slug": "wave-interference",
+  "description": "Explore how two traveling waves combine through superposition. Counter-propagating sine waves interfere to form constructive peaks and destructive cancellations — and in Continuous mode a standing wave naturally emerges. A color map on the resultant wave shows the degree of constructive vs. destructive interference at every point.",
+  "physics_concepts": [
+    "superposition principle",
+    "constructive interference",
+    "destructive interference",
+    "standing waves",
+    "traveling waves",
+    "nodes and antinodes",
+    "wave phase",
+    "wave–particle duality"
+  ],
+  "difficulty": "beginner",
+  "tags": ["quantum mechanics", "waves", "interference", "superposition"],
+  "library": "p5.js",
+  "interactive_controls": [
+    "amplitude A",
+    "amplitude B",
+    "phase offset (Wave B)",
+    "wavelength",
+    "wave speed",
+    "mode: continuous / snapshot / pulse",
+    "show components toggle",
+    "show envelope toggle",
+    "show nodes toggle"
+  ]
+}
