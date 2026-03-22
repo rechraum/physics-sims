@@ -1,37 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Double Pendulum Chaos Visualization</title>
-    <link rel="stylesheet" href="style.css" />
-    <!-- p5.js library from CDN (DOM features are built into p5.js v1.x) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
-    <script src="../shared/nav.js" defer></script>
-  </head>
-  <body>
-    <div id="controls">
-      <button id="startButton">Start / Restart</button>
-      <label>
-        Grid Resolution:
-        <input id="gridSlider" type="range" min="10" max="100" value="50" />
-        <span id="gridVal">50</span>×<span id="gridVal">50</span>
-      </label>
-      <label>
-        Simulation Speed:
-        <input id="speedSlider" type="range" min="0.1" max="5" step="0.1" value="1" />
-        <span id="speedVal">1</span>x
-      </label>
-      <br />
-      <label>
-        <input type="checkbox" id="visColor" checked>
-        Color Representation
-      </label>
-      <label>
-        <input type="checkbox" id="visStick" checked>
-        Stick Figure Representation
-      </label>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Double Pendulum Chaos</title>
+  <link rel="stylesheet" href="../shared/style.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+  <script src="../shared/nav.js" defer></script>
+</head>
+<body>
+  <div class="sim-wrapper layout-a">
+    <div class="sim-canvas-area" id="canvas-container"></div>
+    <div class="sim-panel">
+      <div class="sim-controls-section">
+        <p class="panel-heading">Controls</p>
+        <div class="btn-group">
+          <button class="btn btn-primary" id="startButton">Start / Restart</button>
+        </div>
+        <div class="control-group" style="margin-top:12px;">
+          <label>Grid Resolution <span id="gridVal">50</span>×<span id="gridVal2">50</span></label>
+          <input type="range" id="gridSlider" min="10" max="100" value="50">
+        </div>
+        <div class="control-group">
+          <label>Simulation Speed <span id="speedVal">1</span>×</label>
+          <input type="range" id="speedSlider" min="0.1" max="5" step="0.1" value="1">
+        </div>
+        <div class="control-group" style="margin-top:10px;">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="checkbox" id="visColor" checked> Color Representation
+          </label>
+        </div>
+        <div class="control-group">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="checkbox" id="visStick" checked> Stick Figure
+          </label>
+        </div>
+      </div>
+      <div class="sim-edu-section" id="sim-edu"></div>
     </div>
-    <script src="DoublePendulumArray.js"></script>
-  </body>
+  </div>
+  <script src="DoublePendulumArray.js"></script>
+</body>
 </html>

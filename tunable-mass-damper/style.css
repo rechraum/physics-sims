@@ -1,5 +1,1 @@
-body {
-  margin: 0;
-  background: #dcdcdc; /* matches p5.js background(220) */
-  padding-top: 44px;
-}
+body { margin: 0; padding-top: 44px; overflow: hidden; }

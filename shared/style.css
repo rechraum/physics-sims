@@ -261,3 +261,122 @@ input[type="checkbox"] {
   background: var(--border);
   margin: 4px 0;
 }
+
+/* ── Sim layout system ──────────────────────────────────
+   Two supported layouts:
+   layout-a  →  canvas left | panel right (for tall/square canvases)
+   layout-b  →  canvas top  | panel bottom strip (for wide canvases)
+   ─────────────────────────────────────────────────────── */
+
+.sim-wrapper {
+  height: calc(100vh - 44px);
+  display: grid;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+/* Layout A */
+.sim-wrapper.layout-a {
+  grid-template-columns: 1fr 280px;
+  grid-template-rows: 1fr;
+}
+
+/* Layout B */
+.sim-wrapper.layout-b {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 240px;
+}
+
+/* Canvas container — p5 sketch parents its canvas here */
+.sim-canvas-area {
+  position: relative;
+  overflow: auto;
+  background: var(--bg-canvas);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* Shared panel */
+.sim-panel {
+  background: var(--bg-secondary);
+  display: flex;
+  overflow: hidden;
+}
+
+.layout-a .sim-panel {
+  flex-direction: column;
+  border-left: 1px solid var(--border);
+}
+
+.layout-b .sim-panel {
+  flex-direction: row;
+  border-top: 1px solid var(--border);
+}
+
+/* Controls section */
+.sim-controls-section {
+  padding: 14px 16px;
+  overflow-y: auto;
+}
+
+.layout-a .sim-controls-section {
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.layout-b .sim-controls-section {
+  border-right: 1px solid var(--border);
+  width: 50%;
+  flex-shrink: 0;
+}
+
+/* Educational section */
+.sim-edu-section {
+  padding: 14px 16px;
+  overflow-y: auto;
+  flex: 1;
+  font-size: 0.82rem;
+}
+
+/* Panel section heading */
+.panel-heading {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  margin: 0 0 10px;
+}
+
+/* Educational content populated by nav.js from meta.json */
+.edu-description {
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin: 0 0 10px;
+}
+
+.edu-concepts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.edu-concept-tag {
+  padding: 2px 8px;
+  background: var(--accent-dim);
+  color: var(--accent);
+  border-radius: 99px;
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+/* Sim-specific body base (used by all sims) */
+.sim-body-base {
+  margin: 0;
+  padding-top: 44px;
+  overflow: hidden;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+}

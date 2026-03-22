@@ -24,34 +24,26 @@ let numSegments = 20; // Number of segments to represent the building
 let segmentHeight;
 
 function setup() {
-  createCanvas(800, 600);
-
-  // Initialize sliders
-  windAmplitudeSlider = createSlider(0, 100, 50);
-  windAmplitudeSlider.position(20, 64);
-  windFrequencySlider = createSlider(0.1, 5, 1, 0.1);
-  windFrequencySlider.position(20, 104);
-
-  buildingHeightSlider = createSlider(200, 500, 300);
-  buildingHeightSlider.position(20, 144);
-  buildingStiffnessSlider = createSlider(0.1, 10, 5, 0.1);
-  buildingStiffnessSlider.position(20, 184);
-
-  dampingMassSlider = createSlider(1, 100, 50);
-  dampingMassSlider.position(20, 224);
-
-  damperStiffnessSlider = createSlider(50, 200, 100);
-  damperStiffnessSlider.position(20, 264);
+  const cnv = createCanvas(800, 600);
+  cnv.parent('canvas-container');
 }
 
 function updatePhysics(dt) {
-  // Get parameters from sliders
-  windAmplitude = windAmplitudeSlider.value();
-  windFrequency = windFrequencySlider.value();
-  buildingHeight = buildingHeightSlider.value();
-  buildingStiffness = buildingStiffnessSlider.value();
-  dampingMass = dampingMassSlider.value();
-  damperStiffness = damperStiffnessSlider.value();
+  // Get parameters from HTML sliders
+  windAmplitude = parseFloat(document.getElementById('wind-amplitude-slider').value);
+  windFrequency = parseFloat(document.getElementById('wind-frequency-slider').value);
+  buildingHeight = parseFloat(document.getElementById('building-height-slider').value);
+  buildingStiffness = parseFloat(document.getElementById('building-stiffness-slider').value);
+  dampingMass = parseFloat(document.getElementById('damping-mass-slider').value);
+  damperStiffness = parseFloat(document.getElementById('damper-stiffness-slider').value);
+
+  // Update display values
+  document.getElementById('wind-amplitude-val').textContent = windAmplitude;
+  document.getElementById('wind-frequency-val').textContent = windFrequency.toFixed(1);
+  document.getElementById('building-height-val').textContent = buildingHeight;
+  document.getElementById('building-stiffness-val').textContent = buildingStiffness.toFixed(1);
+  document.getElementById('damping-mass-val').textContent = dampingMass;
+  document.getElementById('damper-stiffness-val').textContent = damperStiffness;
 
   m2 = dampingMass;
   k1 = buildingStiffness * 1000; // Scale for simulation purposes
@@ -86,8 +78,7 @@ function draw() {
   // Draw damper mass
   drawDamperMass();
 
-  // Display slider labels and values
-  displaySliderValues();
+  // (slider values displayed in HTML panel)
 }
 
 function drawBendingBuilding() {
@@ -125,13 +116,3 @@ function drawDamperMass() {
   ellipse(topX, topY - 20, 30, 30);
 }
 
-function displaySliderValues() {
-  fill(0);
-  textSize(14);
-  text('Wind Amplitude: ' + windAmplitude, windAmplitudeSlider.x * 2 + windAmplitudeSlider.width, 35);
-  text('Wind Frequency: ' + windFrequency.toFixed(1), windFrequencySlider.x * 2 + windFrequencySlider.width, 75);
-  text('Building Height: ' + buildingHeight, buildingHeightSlider.x * 2 + buildingHeightSlider.width, 115);
-  text('Building Stiffness: ' + buildingStiffness.toFixed(1), buildingStiffnessSlider.x * 2 + buildingStiffnessSlider.width, 155);
-  text('Damping Mass: ' + dampingMass, dampingMassSlider.x * 2 + dampingMassSlider.width, 195);
-  text('Damper Stiffness: ' + damperStiffness, damperStiffnessSlider.x * 2 + damperStiffnessSlider.width, 235);
-}

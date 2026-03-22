@@ -337,10 +337,26 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
   }
 
+  /* ── Edu panel (inline, populated if #sim-edu exists) ── */
+  function populateEduPanel(meta) {
+    const el = document.getElementById('sim-edu');
+    if (!el || el.children.length > 0) return; // skip if missing or has static content
+    const concepts = (meta.physics_concepts || []);
+    const tagsHtml = concepts.length
+      ? `<div class="edu-concepts">${concepts.map(c => `<span class="edu-concept-tag">${esc(c)}</span>`).join('')}</div>`
+      : '';
+    el.innerHTML = `
+      <p class="panel-heading">About</p>
+      <p class="edu-description">${esc(meta.description || '')}</p>
+      ${tagsHtml}
+    `;
+  }
+
   /* ── Boot ────────────────────────────────────────────────── */
   function init(meta) {
     buildNav(meta);
     buildPanel(meta);
+    populateEduPanel(meta);
     wireToggle();
   }
 

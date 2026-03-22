@@ -52,36 +52,30 @@ let colorHistory = {}; // Object: key = color string "r,g,b", value = array of c
 
 // ----- Setup -----
 function setup() {
-  createCanvas(simWidth + graphWidth, canvasHeight);
+  const cnv = createCanvas(simWidth + graphWidth, canvasHeight);
+  cnv.parent('canvas-container');
   background(255);
-  
+
   // Create off-screen graphics buffer for the graph.
   graphCanvas = createGraphics(graphWidth, canvasHeight);
-  
-  // Create UI elements with adjusted positions.
-  startButton = createButton('Start/Restart');
-  startButton.position(10, canvasHeight + 10);
-  startButton.mousePressed(startSimulation);
-  
-  pauseButton = createButton('Pause');
-  pauseButton.position(130, canvasHeight + 10);
-  pauseButton.mousePressed(togglePause);
-  
-  timeLabel = createDiv('Time Step (ms):');
-  timeLabel.position(10, canvasHeight + 40);
-  timeSlider = createSlider(200, 2000, timeStep, 50);
-  timeSlider.position(150, canvasHeight + 40);
-  
-  edgeCountLabel = createDiv('Edges per Update:');
-  edgeCountLabel.position(10, canvasHeight + 70);
-  edgeCountSlider = createSlider(1, 10, 1, 1);
-  edgeCountSlider.position(150, canvasHeight + 70);
-  
-  emergentTempLabel = createDiv('Emergent Node Temperature:');
-  emergentTempLabel.position(10, canvasHeight + 100);
-  emergentTempSlider = createSlider(0, 5, 1, 0.1);
-  emergentTempSlider.position(150, canvasHeight + 100);
-  
+
+  // Wire HTML controls
+  startButton = document.getElementById('start-button');
+  pauseButton = document.getElementById('pause-button');
+  startButton.addEventListener('click', startSimulation);
+  pauseButton.addEventListener('click', togglePause);
+
+  // Wire slider value displays
+  document.getElementById('time-slider').addEventListener('input', function() {
+    document.getElementById('time-step-val').textContent = this.value;
+  });
+  document.getElementById('edge-count-slider').addEventListener('input', function() {
+    document.getElementById('edge-count-val').textContent = this.value;
+  });
+  document.getElementById('emergent-temp-slider').addEventListener('input', function() {
+    document.getElementById('emergent-temp-val').textContent = parseFloat(this.value).toFixed(1);
+  });
+
   startSimulation();
 }
 
@@ -98,7 +92,7 @@ function startSimulation() {
 
 function togglePause() {
   simulationRunning = !simulationRunning;
-  pauseButton.html(simulationRunning ? 'Pause' : 'Resume');
+  document.getElementById('pause-button').textContent = simulationRunning ? 'Pause' : 'Resume';
 }
 
 // ----- Main Draw Loop -----
@@ -106,9 +100,9 @@ function draw() {
   background(255);
   
   // Update simulation parameters from UI.
-  timeStep = timeSlider.value();
-  let edgesPerUpdate = edgeCountSlider.value();
-  emergentTemperature = emergentTempSlider.value();
+  timeStep = parseInt(document.getElementById('time-slider').value);
+  let edgesPerUpdate = parseInt(document.getElementById('edge-count-slider').value);
+  emergentTemperature = parseFloat(document.getElementById('emergent-temp-slider').value);
   
   // If running, add new edges at the specified interval.
   if (simulationRunning && millis() - lastEdgeTime >= timeStep) {

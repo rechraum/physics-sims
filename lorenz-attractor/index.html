@@ -4,32 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lorenz Attractor</title>
+  <link rel="stylesheet" href="../shared/style.css">
   <link rel="stylesheet" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
   <script src="../shared/nav.js" defer></script>
 </head>
 <body>
-  <div id="canvas-container"></div>
-
-  <div id="controls">
-    <label>σ: <input type="number" id="sigma-input" value="10" step="0.1"></label>
-    <label>ρ: <input type="number" id="rho-input" value="28" step="0.1"></label>
-    <label>β: <input type="number" id="beta-input" value="2.6667" step="0.1"></label>
-    <div class="controls-divider"></div>
-    <button id="lorenz-standard-parameters">Standard</button>
-    <button id="lorenz-bifurcation-visualization">Bifurcation</button>
-    <button id="lorenz-chaos-demonstration">Chaos Demo</button>
-    <div class="controls-divider"></div>
-    <button id="lorenz-pause-button">Pause</button>
-    <button id="lorenz-restart-button">Restart</button>
-    <button id="lorenz-reset-view-button">Reset View</button>
+  <div class="sim-wrapper layout-a">
+    <div class="sim-canvas-area" id="canvas-container"></div>
+    <div class="sim-panel">
+      <div class="sim-controls-section">
+        <p class="panel-heading">Parameters</p>
+        <div class="control-group">
+          <label>σ (sigma)</label>
+          <input type="number" id="sigma-input" value="10" step="0.1">
+        </div>
+        <div class="control-group">
+          <label>ρ (rho)</label>
+          <input type="number" id="rho-input" value="28" step="0.1">
+        </div>
+        <div class="control-group">
+          <label>β (beta)</label>
+          <input type="number" id="beta-input" value="2.6667" step="0.1">
+        </div>
+        <p class="panel-heading" style="margin-top:14px;">Presets</p>
+        <div class="btn-group">
+          <button class="btn btn-secondary" id="lorenz-standard-parameters">Standard</button>
+          <button class="btn btn-secondary" id="lorenz-bifurcation-visualization">Bifurcation</button>
+          <button class="btn btn-secondary" id="lorenz-chaos-demonstration">Chaos Demo</button>
+        </div>
+        <p class="panel-heading" style="margin-top:14px;">Playback</p>
+        <div class="btn-group">
+          <button class="btn btn-secondary" id="lorenz-pause-button">Pause</button>
+          <button class="btn btn-secondary" id="lorenz-restart-button">Restart</button>
+          <button class="btn btn-secondary" id="lorenz-reset-view-button">Reset View</button>
+        </div>
+      </div>
+      <div class="sim-edu-section" id="sim-edu"></div>
+    </div>
   </div>
-
   <script src="sketch.js"></script>
-  <script>
-    window.onload = function () {
-      new p5(lorenzSketch);
-    };
-  </script>
+  <script>window.onload = function () { new p5(lorenzSketch); };</script>
 </body>
 </html>

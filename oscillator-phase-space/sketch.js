@@ -3,7 +3,8 @@ let selectedOscillator = null;
 
 function setup() {
   // Create a canvas that fills the window
-  const canvas = createCanvas(windowWidth, windowHeight);
+  const container = document.getElementById('canvas-container');
+  const canvas = createCanvas(container.offsetWidth, container.offsetHeight);
   canvas.parent('canvas-container');
 
   // Ensure the canvas has the correct positioning
@@ -236,7 +237,8 @@ function clearOscillators() {
 
 // Handle window resize
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+  const container = document.getElementById('canvas-container');
+  resizeCanvas(container.offsetWidth, container.offsetHeight);
 }
 
 // Variables to store deltaTime in milliseconds and seconds

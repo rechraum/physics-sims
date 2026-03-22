@@ -137,14 +137,26 @@ Then open `http://localhost:8000`.
 - ✅ Retired duplicate `orbital-phase-space` (same as `gravity-well`); archived alongside `phase-space-wrapper` in `_archive/`
 - ✅ Cleaned stale files (`styleOld.css`, `test.html`, broken double-pendulum option in wrapper)
 
-### Next: Per-sim UI/layout overhaul
+### Completed: Per-sim UI/layout overhaul ✅
 
-Goal: consistent layout, styling, and UX across all 11 sims. Key principles:
-- Use `shared/style.css` design tokens (already defined, not yet used by sim pages)
-- Controls in HTML (not dynamically created via p5 where avoidable)
-- Consistent panel layout: canvas area + controls panel + optional info panel
-- Dark theme unified across all sims
-- Priority sims for overhaul: `tunable-mass-damper` (sliders in sketch.js), `double-pendulum-array` (global-mode p5, full-window), `relational-network` (controls below large canvas)
+All 11 sims now use the unified layout system defined in `shared/style.css`:
+
+**Layout system** (`.sim-wrapper.layout-a` / `.layout-b`):
+- `layout-a` — canvas fills left, 280px panel on right (good for tall/square canvases): lorenz-attractor, energy-landscape, gravity-well, three-body, double-pendulum-array, tunable-mass-damper, oscillator-phase-space
+- `layout-b` — canvas fills top, 240px panel strip at bottom (good for wide canvases): kicked-pendulum, diffusion-levy-flights, relational-network, dripping-faucet
+- Panel has two sections: `.sim-controls-section` (controls) + `.sim-edu-section` (educational content auto-populated from meta.json by nav.js)
+
+**Controls migration**: All p5 DOM controls moved to HTML:
+- `tunable-mass-damper`: 6 `createSlider()` calls → HTML `<input type="range">` elements; `displaySliderValues()` removed (labels in HTML); canvas parented to `#canvas-container`
+- `relational-network`: `createButton()`, `createDiv()`, `createSlider()` → HTML controls with `addEventListener`; canvas parented to `#canvas-container`
+- `double-pendulum-array`: canvas parented to `#canvas-container` (was appending to body)
+- `oscillator-phase-space`: canvas resized to fill container div (was `windowWidth × windowHeight`); dynamic oscillator sliders still created via native DOM in Oscillator class
+
+**nav.js**: Added `populateEduPanel()` — auto-populates `#sim-edu` from meta.json description + physics concept tags. Skips if `#sim-edu` has static content (dripping-faucet has handwritten edu panel).
+
+**dripping-faucet**: Full dark-theme overhaul of inline canvas drawing colors (axes, labels, points now use design token colors); faucet div and droplets updated to dark theme.
+
+### Next steps
 
 ### Medium-term
 

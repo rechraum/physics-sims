@@ -21,7 +21,8 @@ let startButton, gridSlider, speedSlider, gridValSpan, speedValSpan;
 let visColorCheckbox, visStickCheckbox;
 
 function setup() {
-  createCanvas(canvasWidth, canvasHeight);
+  const cnv = createCanvas(canvasWidth, canvasHeight);
+  cnv.parent('canvas-container');
   colorMode(HSB, 360, 100, 100);
   noStroke();
   
@@ -38,7 +39,7 @@ function setup() {
   startButton = select('#startButton');
   gridSlider = select('#gridSlider');
   speedSlider = select('#speedSlider');
-  gridValSpan = selectAll('#gridVal')[0];
+  gridValSpan = select('#gridVal');
   speedValSpan = select('#speedVal');
   visColorCheckbox = select('#visColor');
   visStickCheckbox = select('#visStick');
@@ -48,6 +49,8 @@ function setup() {
   gridSlider.input(() => {
     gridRes = int(gridSlider.value());
     gridValSpan.html(gridRes);
+    const gv2 = document.getElementById('gridVal2');
+    if (gv2) gv2.textContent = gridRes;
     initializeSimulations();
   });
   
