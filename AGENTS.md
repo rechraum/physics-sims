@@ -156,16 +156,19 @@ All 11 sims now use the unified layout system defined in `shared/style.css`:
 
 **dripping-faucet**: Full dark-theme overhaul of inline canvas drawing colors (axes, labels, points now use design token colors); faucet div and droplets updated to dark theme.
 
+### Completed: Preview images, p5.js upgrades, instance mode conversion ✅
+
+- **Preview images** — `preview.webp` captured via Puppeteer (`scripts/capture-previews.js`); gallery cards display thumbnails on load. Re-run the script (with local server running) to refresh images.
+- **p5.js standardized to 1.9.4** — `diffusion-levy-flights` (was 1.4.0) and `tunable-mass-damper` (was 1.4.2) upgraded; all 11 sims now on 1.9.4 via cdnjs.
+- **`double-pendulum-array` converted to instance mode** — `DoublePendulumArray.js` wrapped in `const sketch = (p) => { ... }; new p5(sketch)`. Physics functions (`derivatives`, `rk4Step`, `DoublePendulumSim`) use `Math.*` directly; all p5 API calls prefixed with `p.`.
+
 ### Next steps
 
 ### Medium-term
 
-- **Add preview images** — `preview.png` per sim folder; gallery cards ready to show thumbnails once images exist
 - **Gallery filter tags** — expand topic chips to cover more tags (e.g., "gravity", "engineering", "network")
 - **Per-sim physics review** — audit correctness (integration method, parameter ranges). Priority: `tunable-mass-damper` (coupled equations, damping ratio), `gravity-well` (orbit energy conservation)
 - **Educational content expansion** — richer `meta.json` content (equations, deeper explanations). About panel in `nav.js` is already wired for this
-- **Upgrade p5.js versions** — `diffusion-levy-flights` and `tunable-mass-damper` still use p5.js 1.4.x; standardize to 1.9.x (test carefully — API changes between 1.4 and 1.9)
-- **Convert `double-pendulum-array` to instance mode** — currently global-mode p5, which limits layout flexibility in the upcoming UI overhaul
 
 ### Longer-term
 
