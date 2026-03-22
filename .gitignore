@@ -1,6 +1,10 @@
 # IDE
 .vscode/
 
+# Node / Puppeteer (local tooling only)
+node_modules/
+package-lock.json
+
 # Old prototypes / build artifacts
 phase-space-wrapper/Archive/
 *.zip
