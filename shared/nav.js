@@ -262,14 +262,23 @@
     panel.id = 'sim-about-panel';
     panel.setAttribute('aria-label', 'About this simulation');
 
-    const concepts = (meta.physics_concepts || []);
-    const controls = (meta.interactive_controls || []);
+    const concepts  = (meta.physics_concepts || []);
+    const equations = (meta.equations || []);
+    const controls  = (meta.interactive_controls || []);
     const diff = meta.difficulty || 'intermediate';
     const lib  = meta.library || 'p5.js';
 
     const conceptsHtml = concepts.length
       ? `<div class="about-concepts">${concepts.map(c => `<span class="about-concept-tag">${esc(c)}</span>`).join('')}</div>`
       : '<p class="about-desc">—</p>';
+
+    // equations are NOT escaped — they may contain HTML sub/superscripts
+    const equationsHtml = equations.length
+      ? `<div class="about-section">
+          <p class="about-section-label">Key Equations</p>
+          ${equations.map(eq => `<div class="equation">${eq}</div>`).join('')}
+        </div>`
+      : '';
 
     const controlsHtml = controls.length
       ? `<ul class="about-controls-list">${controls.map(c => `<li>${esc(c)}</li>`).join('')}</ul>`
@@ -286,6 +295,8 @@
         <p class="about-section-label">Physics Concepts</p>
         ${conceptsHtml}
       </div>
+
+      ${equationsHtml}
 
       ${controlsHtml ? `
       <div class="about-section">

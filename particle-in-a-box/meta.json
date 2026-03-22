@@ -1,0 +1,15 @@
+{
+  "title": "Particle in a Box",
+  "slug": "particle-in-a-box",
+  "description": "A quantum particle trapped between two infinitely high walls can only exist in discrete energy states called eigenstates. Explore the wavefunctions and probability densities for each energy level, then switch to Superposition mode to watch two eigenstates interfere — the probability density oscillates back and forth at a rate set by their energy difference.",
+  "physics_concepts": ["quantum confinement", "energy quantization", "wave function", "probability density", "quantum superposition", "time evolution", "infinite square well"],
+  "equations": [
+    "ψ<sub>n</sub>(x) = √(2/L) sin(nπx/L)",
+    "E<sub>n</sub> = n²ħ²π² / (2mL²) = n² E<sub>1</sub>",
+    "|ψ(x,t)|² = ½ψ<sub>1</sub>² + ½ψ<sub>2</sub>² + ψ<sub>1</sub>ψ<sub>2</sub> cos(ΔE·t/ħ)"
+  ],
+  "difficulty": "intermediate",
+  "tags": ["quantum", "wave function", "energy levels", "superposition"],
+  "library": "p5.js",
+  "interactive_controls": ["Quantum number n (eigenstate mode)", "n₁ and n₂ (superposition mode)", "Animation speed", "Show ψ(x) toggle", "Show |ψ|² toggle", "Show energy levels toggle"]
+}

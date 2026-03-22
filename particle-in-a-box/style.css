@@ -1,0 +1,59 @@
+/* ── Particle in a Box — sim-specific styles ─────────────────────────────── */
+
+/* Mode button active state — same pattern as wave-interference */
+.mode-btn.active {
+  background: var(--accent-dim) !important;
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+}
+
+/* n₁ / n₂ heading tints — consistent with Wave A / Wave B in wave-interference */
+.heading-n1 {
+  color: rgba(88, 166, 255, 0.85) !important;
+}
+.heading-n2 {
+  color: rgba(255, 150, 50, 0.9) !important;
+}
+
+/* Compact check-row (same as wave-interference) */
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.check-row label {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+}
+
+/* Energy readout pill */
+.energy-info {
+  font-family: 'Courier New', monospace;
+  font-size: 0.82rem;
+  color: var(--accent);
+  background: var(--accent-dim);
+  border: 1px solid rgba(88, 166, 255, 0.35);
+  border-radius: 4px;
+  padding: 6px 10px;
+  letter-spacing: 0.01em;
+  word-break: break-all;
+}
+
+/* Pause button full width */
+#pause-btn {
+  width: 100%;
+  margin-top: 4px;
+}
+
+/* Superposition controls hidden by default */
+#superposition-controls {
+  display: none;
+}
+
+/* .edu-callout, .edu-callout-title, .edu-strip-* are in shared/style.css */

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Particle in a Box</title>
+  <link rel="stylesheet" href="../shared/style.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+  <script src="../shared/nav.js" defer></script>
+</head>
+<body class="sim-body-base">
+
+  <div class="sim-wrapper layout-c">
+
+    <!-- Canvas -->
+    <div class="sim-canvas-area" id="canvas-container"></div>
+
+    <!-- Control panel -->
+    <div class="sim-panel">
+      <div class="sim-controls-section">
+
+        <!-- ── Mode ───────────────────────────────────────────────── -->
+        <p class="panel-heading">Mode</p>
+        <div class="btn-group">
+          <button class="btn btn-secondary mode-btn active" id="mode-btn-eigenstate"
+                  onclick="setMode('eigenstate')">Eigenstate</button>
+          <button class="btn btn-secondary mode-btn" id="mode-btn-superposition"
+                  onclick="setMode('superposition')">Superposition</button>
+        </div>
+
+        <!-- ── Eigenstate controls ────────────────────────────────── -->
+        <div id="eigenstate-controls">
+          <p class="panel-heading" style="margin-top:14px">Quantum State</p>
+          <div class="control-group">
+            <label>n = <span id="n-state-val">1</span></label>
+            <input type="range" id="n-state" min="1" max="6" step="1" value="1">
+          </div>
+        </div>
+
+        <!-- ── Superposition controls ─────────────────────────────── -->
+        <div id="superposition-controls">
+          <p class="panel-heading heading-n1" style="margin-top:14px">State 1 — n&#x2081;</p>
+          <div class="control-group">
+            <label>n&#x2081; = <span id="n1-val">1</span></label>
+            <input type="range" id="n1" min="1" max="6" step="1" value="1">
+          </div>
+          <p class="panel-heading heading-n2">State 2 — n&#x2082;</p>
+          <div class="control-group">
+            <label>n&#x2082; = <span id="n2-val">2</span></label>
+            <input type="range" id="n2" min="1" max="6" step="1" value="2">
+          </div>
+          <p class="panel-heading" style="margin-top:6px">Animation</p>
+          <div class="control-group">
+            <label>Speed <span id="speed-val">1.0&times;</span></label>
+            <input type="range" id="speed" min="0.1" max="4.0" step="0.1" value="1.0">
+          </div>
+          <button class="btn btn-secondary" id="pause-btn" onclick="togglePause()">&#x23F8; Pause</button>
+        </div>
+
+        <!-- ── Display toggles ────────────────────────────────────── -->
+        <p class="panel-heading" style="margin-top:14px">Display</p>
+        <div class="check-row">
+          <label><input type="checkbox" id="show-psi" checked> Show &#x03C8;(x)</label>
+        </div>
+        <div class="check-row">
+          <label><input type="checkbox" id="show-psi2" checked> Show |&#x03C8;|&#x00B2;</label>
+        </div>
+        <div class="check-row">
+          <label><input type="checkbox" id="show-levels" checked> Show energy levels</label>
+        </div>
+
+        <!-- ── Energy info ─────────────────────────────────────────── -->
+        <p class="panel-heading" style="margin-top:14px">Energy</p>
+        <div class="energy-info" id="energy-display">E = 1 E&#x2081; &nbsp;(n = 1)</div>
+
+      </div>
+    </div>
+
+    <!-- Full-width edu strip — outside the panel, spans both grid columns.
+         Placeholder child causes nav.js to skip auto-population;
+         content is set by updateEduPanel() in sketch.js -->
+    <div class="sim-edu-strip" id="sim-edu"><span></span></div>
+
+  </div>
+
+  <script src="sketch.js"></script>
+</body>
+</html>

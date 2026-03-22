@@ -12,6 +12,12 @@
     "wave phase",
     "wave–particle duality"
   ],
+  "equations": [
+    "y<sub>A</sub>(x,t) = A sin(kx − ωt)",
+    "y<sub>B</sub>(x,t) = B sin(kx + ωt + φ)",
+    "y(x,t) = y<sub>A</sub> + y<sub>B</sub>  &nbsp;(superposition)",
+    "E(x) = √(C² + S²)  &nbsp;(amplitude envelope)"
+  ],
   "difficulty": "beginner",
   "tags": ["quantum mechanics", "waves", "interference", "superposition"],
   "library": "p5.js",

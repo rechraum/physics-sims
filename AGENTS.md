@@ -47,6 +47,7 @@ Sims are currently at the **root level** (not under a `/sims/` subfolder). A fut
 | `three-body` | Three-Body Problem | p5.js 1.6.0 | advanced |
 | `tunable-mass-damper` | Tuned Mass Damper | p5.js 1.9.4 | intermediate |
 | `wave-interference` | Wave Interference | p5.js 1.9.4 | beginner |
+| `particle-in-a-box` | Particle in a Box | p5.js 1.9.4 | intermediate |
 
 **Archived (not in gallery):** `_archive/phase-space-wrapper` — original multi-sim wrapper, now fully split into individual sims above. `_archive/orbital-phase-space` — duplicate of `gravity-well`, retired.
 
@@ -62,12 +63,15 @@ Every sim folder has a `meta.json` with this shape:
   "slug": "folder-name",
   "description": "1–3 sentence explanation for a general audience.",
   "physics_concepts": ["concept 1", "concept 2"],
+  "equations": ["y = A sin(kx − ωt)", "E<sub>n</sub> = n²E<sub>1</sub>"],
   "difficulty": "beginner | intermediate | advanced",
   "tags": ["chaos", "phase space", ...],
   "library": "p5.js | Canvas API | Three.js",
   "interactive_controls": ["slider name", "button name", ...]
 }
 ```
+
+`equations` is optional. Values may contain HTML (sub/superscripts) — rendered as `.equation` blocks in the About panel by nav.js, not escaped.
 
 The gallery `index.html` fetches all `meta.json` files at runtime (requires HTTP — won't work via `file://`).
 
@@ -81,11 +85,12 @@ CSS custom properties (design tokens) for the dark theme. Key variables:
 - `--accent: #58a6ff`, `--accent-hover: #79b8ff`, `--accent-dim: #1f4068`
 - `--text-primary: #e6edf3`, `--text-secondary: #8b949e`, `--border: #30363d`
 - Layout classes: `.sim-page`, `.canvas-area`, `.controls-panel`, `.info-panel`, `.btn`, `.btn-primary`, `.btn-secondary`, `.equation`
+- Educational primitives: `.equation` (monospace block, accent left-border, bg-panel background), `.edu-callout` / `.edu-callout-title` (teal left-border card for real-world examples), `.edu-strip-content` / `.edu-strip-main` / `.edu-strip-aside` (two-column layout inside `.sim-edu-strip`)
 
 ### `shared/nav.js`
 IIFE script included in every sim's `index.html` with `defer`. Self-injects:
 - **Fixed nav bar** (44px, `z-index: 9999`, glass blur): `← Gallery` link + sim title + `About ↗` button
-- **About panel** (320px, slides in from right): description, physics concept tags, controls list, difficulty/library badges
+- **About panel** (320px, slides in from right): description, physics concept tags, **key equations** (from `meta.json` `equations` array — rendered as `.equation` blocks, HTML allowed), controls list, difficulty/library badges
 - Reads `./meta.json` relative to the sim page; gracefully degrades if fetch fails
 - `← Gallery` uses `galleryHref()`: returns `'../'` when `parts.length >= 1`, `'./'` only at true root. This handles both GitHub Pages (`/physics-sims/sim-slug/`) and Live Server (`/sim-slug/`) correctly — the prior `parts.length <= 1` condition caused Live Server to reload the sim page instead of navigating to the gallery.
 
@@ -146,7 +151,11 @@ All 11 sims now use the unified layout system defined in `shared/style.css`:
 - `layout-a` — canvas fills left, 280px panel on right (good for tall/square canvases): lorenz-attractor, energy-landscape, gravity-well, three-body, double-pendulum-array, tunable-mass-damper, oscillator-phase-space
 - `layout-b` — canvas fills top, 240px panel strip at bottom (good for wide canvases): kicked-pendulum, diffusion-levy-flights, relational-network, dripping-faucet, wave-interference
   - `wave-interference` uses a **custom horizontal control strip** — overrides the default 50/50 controls/edu split with a full-width flex row of labelled sections (`.wave-controls-bar`, `.ctrl-section`). Use this pattern for sims needing more than 4–5 controls in layout-b.
+- `layout-c` — canvas top-left, 280px controls panel top-right, **full-width educational strip at bottom** (240px, scrollable): particle-in-a-box. Best for sims with rich educational content (equations, callouts). Use for quantum series sims going forward.
+  - HTML structure: `.sim-canvas-area` + `.sim-panel` (controls only, no `.sim-edu-section`) + `.sim-edu-strip#sim-edu` as a sibling of `.sim-panel` inside `.sim-wrapper`
+  - edu strip uses `.edu-strip-content` → `.edu-strip-main` + optional `.edu-strip-aside` for two-column layout
 - Panel has two sections: `.sim-controls-section` (controls) + `.sim-edu-section` (educational content auto-populated from meta.json by nav.js)
+  - In layout-c, `.sim-edu-section` is replaced by `.sim-edu-strip` outside the panel
 
 **Controls migration**: All p5 DOM controls moved to HTML:
 - `tunable-mass-damper`: 6 `createSlider()` calls → HTML `<input type="range">` elements; `displaySliderValues()` removed (labels in HTML); canvas parented to `#canvas-container`
@@ -169,14 +178,23 @@ All 11 sims now use the unified layout system defined in `shared/style.css`:
 - **`wave-interference`** — beginner-difficulty sim with three modes: Continuous (live standing wave), Snapshot (time-scrub slider), and Pulse (Gaussian-windowed pulses from each end that collide and pass through). Superposition curve uses a per-segment interference colormap (teal = constructive+, purple = constructive−, red = destructive). In Pulse mode the colormap only renders where both Gaussian envelopes exceed 4% of peak, so isolated pulses show as plain blue/orange. Includes analytical amplitude envelope and node/antinode markers.
 - **Gallery**: Quantum topic filter chip added; wave-interference card registered with cyan→purple gradient.
 
+### Completed: Particle in a Box sim + educational infrastructure ✅
+
+- **`particle-in-a-box`** — intermediate-difficulty sim. Two modes: Eigenstate (show ψ_n and/or |ψ_n|² for n=1–6 with canvas energy level diagram) and Superposition (animate |ψ(x,t)|² = ½ψ_n1² + ½ψ_n2² + ψ_n1·ψ_n2·cos(ΔE·ω·t), showing quantum beating). Color language deliberately extends wave-interference: ψ>0 in accent blue, ψ<0 in purple, |ψ|² in teal, n₁/n₂ background curves in blue/orange. Energy level diagram drawn in canvas right margin; ΔE bracket + label in superposition mode. Pause button and animation speed control.
+- **Mode-sensitive edu panel** — `#sim-edu` content swaps between Eigenstate and Superposition HTML on every mode change via `updateEduPanel(m)` in sketch.js. Pattern: pre-populate `#sim-edu` with a placeholder child so nav.js skips auto-population; JS owns the content from `setup()` onward. Superposition panel uses two-column strip layout with physical examples (ammonia maser, NMR/MRI) in a `.edu-callout` aside.
+- **`layout-c`** added to `shared/style.css` — three-area grid: canvas top-left, 280px controls panel top-right, full-width 240px edu strip spanning the bottom. Use for quantum sims and any future sim with rich inline educational content. See Layout Compatibility Notes above for HTML structure.
+- **Educational content infrastructure** — `equations` array added to `meta.json` schema; nav.js About panel now renders a "Key Equations" section with `.equation` blocks (HTML allowed in values, not escaped). `.edu-callout` / `.edu-callout-title` promoted from sim-specific to `shared/style.css`. `.equation` background changed to `--bg-panel` for contrast on any background. `.edu-strip-content` / `.edu-strip-main` / `.edu-strip-aside` added to shared for two-column edu strip layouts.
+- **`wave-interference` meta.json** — `equations` array added (4 equations); demonstrates the new About panel feature with no code changes to the sim itself.
+- **Note**: `preview.webp` not yet captured for `particle-in-a-box` — run `node scripts/capture-previews.js particle-in-a-box` with a local server running.
+
 ### Next steps
 
 ### Medium-term
 
-- **Quantum mechanics series** — `wave-interference` is the first; next candidates: double-slit experiment, particle-in-a-box, quantum tunneling
+- **Quantum mechanics series** — `wave-interference` (beginner) and `particle-in-a-box` (intermediate) done; next: quantum tunneling (wave packet / Crank-Nicolson), double-slit experiment
 - **Gallery filter tags** — additional topic chips if needed (e.g., "gravity", "engineering", "network")
 - **Per-sim physics review** — audit correctness (integration method, parameter ranges). Priority: `tunable-mass-damper` (coupled equations, damping ratio), `gravity-well` (orbit energy conservation)
-- **Educational content expansion** — richer `meta.json` content (equations, deeper explanations). About panel in `nav.js` is already wired for this
+- **Educational content expansion** — infrastructure complete (equations in About panel, layout-c, edu-callout, mode-sensitive edu panel). Remaining: add `equations` to remaining sim meta.json files; consider richer descriptions for classical sims
 
 ### Longer-term
 

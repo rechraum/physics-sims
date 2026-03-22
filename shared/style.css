@@ -243,7 +243,7 @@ input[type="checkbox"] {
 
 /* --- Equation block --- */
 .equation {
-  background: var(--bg-secondary);
+  background: var(--bg-panel);
   border: 1px solid var(--border);
   border-left: 3px solid var(--accent);
   border-radius: var(--radius-sm);
@@ -286,6 +286,19 @@ input[type="checkbox"] {
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 240px;
 }
+
+/* Layout C — canvas top-left | controls right | full-width edu strip bottom */
+.sim-wrapper.layout-c {
+  grid-template-areas:
+    "canvas controls"
+    "edu    edu";
+  grid-template-columns: 1fr 280px;
+  grid-template-rows: 1fr 240px;
+}
+
+.layout-c .sim-canvas-area { grid-area: canvas; }
+.layout-c .sim-panel       { grid-area: controls; flex-direction: column; border-left: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.layout-c .sim-controls-section { flex: 1; }
 
 /* Canvas container — p5 sketch parents its canvas here */
 .sim-canvas-area {
@@ -369,6 +382,63 @@ input[type="checkbox"] {
   border-radius: 99px;
   font-size: 0.72rem;
   white-space: nowrap;
+}
+
+/* ── Full-width educational strip (layout-c) ─────────────────────────────── */
+.sim-edu-strip {
+  grid-area: edu;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  padding: 12px 20px;
+  overflow-y: auto;
+  font-size: 0.82rem;
+}
+
+/* Two-column flex layout inside the strip */
+.edu-strip-content {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  height: 100%;
+}
+
+.edu-strip-main {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+.edu-strip-aside {
+  flex: 0 0 340px;
+  max-width: 42%;
+}
+
+/* ── Educational callout box (physical examples, key insights) ─────────────
+   Shared across all sims — use for real-world context or "did you know" notes */
+.edu-callout {
+  padding: 9px 11px;
+  background: rgba(45, 226, 192, 0.06);
+  border-left: 2px solid rgba(45, 226, 192, 0.35);
+  border-radius: 0 4px 4px 0;
+}
+
+.edu-callout-title {
+  font-size: 0.70rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(45, 226, 192, 0.75);
+  margin: 0 0 6px;
+}
+
+.edu-callout p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.80rem;
+}
+
+.edu-callout p + p {
+  margin-top: 7px;
 }
 
 /* Sim-specific body base (used by all sims) */
