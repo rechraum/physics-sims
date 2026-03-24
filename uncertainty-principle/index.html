@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uncertainty Principle</title>
+  <link rel="stylesheet" href="../shared/style.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+  <script src="../shared/nav.js" defer></script>
+</head>
+<body class="sim-body-base">
+
+  <div class="sim-wrapper layout-c">
+
+    <!-- Canvas -->
+    <div class="sim-canvas-area" id="canvas-container"></div>
+
+    <!-- Control panel -->
+    <div class="sim-panel">
+      <div class="sim-controls-section">
+
+        <!-- ── Wave packet ──────────────────────────────────────── -->
+        <p class="panel-heading">Wave Packet</p>
+        <div class="control-group">
+          <label>&sigma;<sub>x</sub> = <span id="sigma-x-val">1.00</span></label>
+          <input type="range" id="sigma-x" min="0.3" max="2.5" step="0.05" value="1.0">
+        </div>
+
+        <!-- ── Central momentum ────────────────────────────────── -->
+        <p class="panel-heading">Central Momentum</p>
+        <div class="control-group">
+          <label>k<sub>0</sub> = <span id="k0-val">0.0</span></label>
+          <input type="range" id="k0" min="-3" max="3" step="0.1" value="0">
+        </div>
+
+        <!-- ── Shape ───────────────────────────────────────────── -->
+        <p class="panel-heading">Shape</p>
+        <div class="btn-group">
+          <button class="btn btn-secondary shape-btn active" id="shape-btn-gaussian"
+                  onclick="setShape('gaussian')">Gaussian</button>
+          <button class="btn btn-secondary shape-btn" id="shape-btn-twopeak"
+                  onclick="setShape('twopeak')">Two-peak</button>
+          <button class="btn btn-secondary shape-btn" id="shape-btn-chirped"
+                  onclick="setShape('chirped')">Chirped</button>
+        </div>
+
+        <!-- ── Readouts ────────────────────────────────────────── -->
+        <p class="panel-heading" style="margin-top:14px">Readouts</p>
+        <div class="energy-info">&Delta;x = <span id="delta-x-val">1.000</span></div>
+        <div class="energy-info" style="margin-top:5px">&Delta;p = <span id="delta-p-val">0.500</span></div>
+        <div class="energy-info product-pill" id="delta-xp-pill" style="margin-top:5px">
+          &Delta;x&thinsp;&middot;&thinsp;&Delta;p = <span id="delta-xp-val">1.000 &#x210F;/2</span>
+        </div>
+
+        <!-- ── Edu mode ────────────────────────────────────────── -->
+        <p class="panel-heading" style="margin-top:16px">Explore</p>
+        <div class="btn-group">
+          <button class="btn btn-secondary edu-btn active" id="edu-btn-uncertainty"
+                  onclick="setEduMode('uncertainty')">Principle</button>
+          <button class="btn btn-secondary edu-btn" id="edu-btn-fourier"
+                  onclick="setEduMode('fourier')">Fourier Dual</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Full-width edu strip — pre-populated so nav.js skips it -->
+    <div class="sim-edu-strip" id="sim-edu"><span></span></div>
+
+  </div>
+
+  <script src="sketch.js"></script>
+</body>
+</html>

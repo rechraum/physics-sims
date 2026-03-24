@@ -151,10 +151,10 @@ Then open `http://localhost:8000`.
 - ✅ `particle-in-a-box` — layout-c introduced, mode-sensitive edu panel pattern established
 - ✅ `blackbody-radiation` — two-region canvas, three spectrum modes, sqrt temperature mapping
 - ✅ `photoelectric-effect` — animated apparatus, dual stacked plots (both models always visible)
+- ✅ `uncertainty-principle` — dual-panel canvas (position + momentum), three wave packet shapes (Gaussian/Two-peak/Chirped), all distributions analytical; Δx·Δp product pill shifts blue→orange; two edu modes (Principle / Fourier Dual)
 
 ### Next up
 
-- **`uncertainty-principle`** — BRIEF.md written; ready to implement. See `uncertainty-principle/BRIEF.md`.
 - **`quantum-tunneling`** — wave packet / Crank-Nicolson finite-difference method; after uncertainty-principle
 - **`double-slit`** — interference pattern buildup photon by photon; after tunneling
 

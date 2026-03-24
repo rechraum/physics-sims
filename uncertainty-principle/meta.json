@@ -1,0 +1,16 @@
+{
+  "title": "Uncertainty Principle",
+  "slug": "uncertainty-principle",
+  "description": "Watch Heisenberg's uncertainty principle in action: drag the σ_x slider and see the position-space wave packet squeeze while its Fourier transform in momentum space simultaneously broadens — and vice versa. The Gaussian is the unique minimum-uncertainty state where Δx·Δp = ħ/2.",
+  "physics_concepts": ["Heisenberg uncertainty principle", "wave packets", "Fourier transform", "quantum mechanics"],
+  "equations": ["&Delta;x &middot; &Delta;p &ge; &hbar;/2", "&Delta;t &middot; &Delta;&nu; &ge; 1/4&pi;"],
+  "difficulty": "intermediate",
+  "tags": ["quantum mechanics", "wave packets", "fourier"],
+  "library": "p5.js",
+  "interactive_controls": [
+    "σ_x slider (wave packet width)",
+    "k₀ slider (central momentum)",
+    "Shape buttons: Gaussian / Two-peak / Chirped",
+    "Edu mode: Principle / Fourier Dual"
+  ]
+}
