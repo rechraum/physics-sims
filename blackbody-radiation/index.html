@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blackbody Radiation</title>
+  <link rel="stylesheet" href="../shared/style.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+  <script src="../shared/nav.js" defer></script>
+</head>
+<body class="sim-body-base">
+
+  <div class="sim-wrapper layout-c">
+
+    <!-- Canvas — p5 sketch fills this -->
+    <div class="sim-canvas-area" id="canvas-container"></div>
+
+    <!-- Right control panel -->
+    <div class="sim-panel">
+      <div class="sim-controls-section">
+
+        <!-- ── Temperature ───────────────────────────────────────── -->
+        <p class="panel-heading">Temperature</p>
+        <div class="control-group">
+          <label>T = <span id="temp-val">5778</span> K</label>
+          <input type="range" id="temp-slider" min="0" max="1000" step="1" value="640">
+        </div>
+
+        <!-- Presets -->
+        <p class="panel-heading" style="margin-top:12px">Presets</p>
+        <div class="btn-group">
+          <button class="btn btn-secondary preset-btn" onclick="setPreset(300)">Room</button>
+          <button class="btn btn-secondary preset-btn" onclick="setPreset(2700)">Bulb</button>
+          <button class="btn btn-secondary preset-btn active" onclick="setPreset(5778)">Sun</button>
+          <button class="btn btn-secondary preset-btn" onclick="setPreset(15000)">Blue★</button>
+        </div>
+
+        <!-- ── Display mode ──────────────────────────────────────── -->
+        <p class="panel-heading" style="margin-top:14px">Spectrum</p>
+        <div class="btn-group">
+          <button class="btn btn-secondary mode-btn" id="mode-btn-classical"
+                  onclick="setSpectrumMode('classical')">Classical</button>
+          <button class="btn btn-secondary mode-btn active" id="mode-btn-both"
+                  onclick="setSpectrumMode('both')">Both</button>
+          <button class="btn btn-secondary mode-btn" id="mode-btn-quantum"
+                  onclick="setSpectrumMode('quantum')">Quantum</button>
+        </div>
+
+        <!-- ── Display toggles ───────────────────────────────────── -->
+        <p class="panel-heading" style="margin-top:14px">Display</p>
+        <div class="check-row">
+          <label><input type="checkbox" id="show-visible" checked> Visible band</label>
+        </div>
+        <div class="check-row">
+          <label><input type="checkbox" id="show-wien" checked> Wien peak marker</label>
+        </div>
+        <div class="check-row">
+          <label><input type="checkbox" id="show-modes" checked> Cavity modes</label>
+        </div>
+
+        <!-- ── Readouts ──────────────────────────────────────────── -->
+        <p class="panel-heading" style="margin-top:14px">Readouts</p>
+        <div class="energy-info" id="wien-readout">λ<sub>max</sub> = — nm</div>
+        <div class="energy-info" id="power-readout" style="margin-top:5px">P ∝ T⁴ = —</div>
+
+      </div>
+    </div>
+
+    <!-- Full-width edu strip — placeholder prevents nav.js auto-population -->
+    <div class="sim-edu-strip" id="sim-edu"><span></span></div>
+
+  </div>
+
+  <script src="sketch.js"></script>
+</body>
+</html>

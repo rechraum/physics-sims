@@ -1,0 +1,16 @@
+{
+  "title": "Blackbody Radiation",
+  "slug": "blackbody-radiation",
+  "description": "A hot cavity radiates electromagnetic energy at all frequencies. Classical physics predicts infinite total power — the ultraviolet catastrophe. Switch between Classical and Quantum modes to watch Planck's quantization hypothesis tame the divergence: high-frequency modes freeze out when their energy quantum hν exceeds the thermal energy kT.",
+  "physics_concepts": ["blackbody radiation", "Planck's law", "Rayleigh-Jeans law", "ultraviolet catastrophe", "energy quantization", "Wien's displacement law", "Stefan-Boltzmann law", "equipartition theorem"],
+  "equations": [
+    "B<sub>λ</sub>(T) = 2hc²/λ⁵ · 1/(e<sup>hc/λkT</sup>−1)  [Planck]",
+    "B<sub>λ</sub>(T) = 2ckT/λ⁴  [Rayleigh–Jeans]",
+    "λ<sub>max</sub> = 2.898×10⁻³ / T  [Wien]",
+    "P = σT⁴  [Stefan–Boltzmann]"
+  ],
+  "difficulty": "intermediate",
+  "tags": ["quantum mechanics", "thermodynamics", "radiation", "Planck", "spectrum"],
+  "library": "p5.js",
+  "interactive_controls": ["Temperature slider (300 K – 15 000 K)", "Preset temperatures (Room / Bulb / Sun / Blue star)", "Display mode (Classical | Both | Quantum)", "Wavelength / frequency axis toggle", "Show Wien peak marker", "Show visible spectrum band"]
+}

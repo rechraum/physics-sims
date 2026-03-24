@@ -1,0 +1,21 @@
+{
+  "title": "Photoelectric Effect",
+  "slug": "photoelectric-effect",
+  "description": "Shine light on a metal surface and watch what happens. The classical wave model predicts that any frequency should eventually eject electrons — but experiment disagrees. Switch between Classical and Quantum modes to see Einstein's 1905 insight: light arrives as discrete photons, each carrying energy E = hν. Below the threshold frequency, no electrons, ever.",
+  "physics_concepts": ["photoelectric effect", "photon energy E = hν", "work function", "threshold frequency", "Einstein photoelectric equation", "wave-particle duality", "Planck constant"],
+  "equations": [
+    "E<sub>photon</sub> = hν = hc/λ = 1239.8 eV·nm / λ",
+    "KE<sub>max</sub> = hν − φ  [Einstein, 1905]",
+    "λ<sub>thresh</sub> = hc/φ = 1239.8 nm·eV / φ",
+    "Classical: KE ∝ intensity (independent of frequency)"
+  ],
+  "difficulty": "intermediate",
+  "tags": ["quantum mechanics", "photon", "light", "Einstein"],
+  "library": "p5.js",
+  "interactive_controls": [
+    "Wavelength slider (150–750 nm) with color swatch",
+    "Intensity slider (0–100%)",
+    "Metal selector: Cs / Na / Zn / Au (different work functions)",
+    "Mode: Classical wave model | Quantum photon model"
+  ]
+}

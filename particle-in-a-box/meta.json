@@ -9,7 +9,7 @@
     "|ψ(x,t)|² = ½ψ<sub>1</sub>² + ½ψ<sub>2</sub>² + ψ<sub>1</sub>ψ<sub>2</sub> cos(ΔE·t/ħ)"
   ],
   "difficulty": "intermediate",
-  "tags": ["quantum", "wave function", "energy levels", "superposition"],
+  "tags": ["quantum mechanics", "wave function", "energy levels", "superposition"],
   "library": "p5.js",
   "interactive_controls": ["Quantum number n (eigenstate mode)", "n₁ and n₂ (superposition mode)", "Animation speed", "Show ψ(x) toggle", "Show |ψ|² toggle", "Show energy levels toggle"]
 }

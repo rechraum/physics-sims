@@ -1,0 +1,44 @@
+/* ── Blackbody Radiation — sim-specific styles ───────────────────────────── */
+
+/* Mode button active state */
+.mode-btn.active {
+  background: var(--accent-dim) !important;
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+}
+
+/* Preset button active state */
+.preset-btn.active {
+  background: rgba(255, 150, 50, 0.15) !important;
+  border-color: rgba(255, 150, 50, 0.8) !important;
+  color: rgba(255, 150, 50, 0.95) !important;
+}
+
+/* Compact check-row (same pattern as particle-in-a-box) */
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.check-row label {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+}
+
+/* Readout pill — reuse .energy-info pattern */
+.energy-info {
+  font-family: 'Courier New', monospace;
+  font-size: 0.82rem;
+  color: var(--accent);
+  background: var(--accent-dim);
+  border: 1px solid rgba(88, 166, 255, 0.35);
+  border-radius: 4px;
+  padding: 6px 10px;
+  letter-spacing: 0.01em;
+}

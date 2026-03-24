@@ -1,0 +1,56 @@
+/* ── Photoelectric Effect — sim-specific styles ──────────────────────────── */
+
+/* Mode button active state */
+.mode-btn.active {
+  background: var(--accent-dim) !important;
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+}
+
+/* Metal selector button active state */
+.metal-btn.active {
+  background: rgba(45, 215, 135, 0.12) !important;
+  border-color: rgba(45, 215, 135, 0.7) !important;
+  color: rgba(45, 215, 135, 0.95) !important;
+}
+
+/* Wavelength color swatch */
+.lam-swatch {
+  display: inline-block;
+  width: 14px;
+  height: 9px;
+  border-radius: 2px;
+  vertical-align: middle;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #888;
+  transition: background 0.1s;
+}
+
+/* Compact check-row */
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.check-row label {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+}
+
+/* Readout pills */
+.energy-info {
+  font-family: 'Courier New', monospace;
+  font-size: 0.82rem;
+  color: var(--accent);
+  background: var(--accent-dim);
+  border: 1px solid rgba(88, 166, 255, 0.35);
+  border-radius: 4px;
+  padding: 6px 10px;
+  letter-spacing: 0.01em;
+}

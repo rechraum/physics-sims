@@ -187,11 +187,29 @@ All 11 sims now use the unified layout system defined in `shared/style.css`:
 - **`wave-interference` meta.json** — `equations` array added (4 equations); demonstrates the new About panel feature with no code changes to the sim itself.
 - **Note**: `preview.webp` not yet captured for `particle-in-a-box` — run `node scripts/capture-previews.js particle-in-a-box` with a local server running.
 
+### Completed: Blackbody Radiation sim ✅
+
+- **`blackbody-radiation`** — intermediate-difficulty sim. Canvas split into two regions: left (42%) is a cavity/oven visualization with temperature-reactive glow color (via piecewise RGB approximation of the Planckian locus), static standing-wave mode shapes (n=1–4) inside the cavity, a pinhole with dashed emitted-ray fan, and a temperature color swatch strip. Right (58%) is the spectrum plot — Planck and/or Rayleigh-Jeans curves vs. wavelength (100–3000 nm), colored visible-spectrum band, Wien peak marker (purple dashed), divergence arrow + "→∞" annotation on the RJ curve.
+- **Three spectrum modes**: Classical (Rayleigh-Jeans only, solid orange), Both (Planck solid blue + RJ dashed orange — side-by-side comparison is the educational core), Quantum (Planck only). Each mode has its own edu panel content.
+- **Controls**: Temperature slider with sqrt mapping (300–15 000 K, so low-T detail isn't cramped); four preset buttons (Room 300K, Bulb 2700K, Sun 5778K, Blue★ 15000K); visibility toggles for the visible band, Wien marker, and cavity modes; readout pills for λ_max and P ∝ T⁴ normalized to solar.
+- **Color language**: Planck in accent blue (88,166,255), RJ in orange (255,150,50), filled area in teal (45,215,135), Wien marker in purple (170,65,255) — all consistent with prior quantum sims. Cavity glow uses `bbColor(T)` (Neil Bartlett / Tanner Helland piecewise algorithm for approximate blackbody color).
+- **Edu panels**: Three mode-sensitive panels. Classical explains equipartition + mode density divergence. Both compares the ratio and Planck's fitting-first approach. Quantum covers Wien's law, Stefan-Boltzmann, and real-world examples (Sun, CMB).
+- **Gallery**: Added to `SIM_SLUGS` and `SIM_COLORS` in index.html (orange→red gradient). `preview.webp` not yet captured — run `node scripts/capture-previews.js blackbody-radiation` with local server running.
+
+### Completed: Photoelectric Effect sim ✅
+
+- **`photoelectric-effect`** — intermediate-difficulty sim. Left panel: animated apparatus (light source → metal plate → collector → ammeter circuit). Quantum mode shows discrete colored photon particles; below-threshold photons produce an absorption flash (no electron). Classical mode shows animated sine wave + energy accumulation fill bar + glow on the plate; electrons emit periodically as the bar fills to φ.
+- **Both plots always show both model predictions**: active model is bright, inactive is dimmed. Top plot: KE_max vs wavelength — quantum hyperbolic curve (KE = hc/λ − φ, zero below threshold) vs classical horizontal line (KE ∝ intensity, λ-independent). Bottom plot: current vs wavelength — quantum step function (zero above λ_thresh, flat below) vs classical flat line (no threshold). A colored dashed marker tracks the current wavelength on both plots with dots on both curves.
+- **Metal selector**: Cs (φ=2.0 eV, λ_thresh=620 nm — red light barely fails), Na (2.3 eV, 540 nm), Zn (4.3 eV, 289 nm — UV only), Au (5.1 eV, 244 nm — deep UV). Cesium default is the most dramatic because its threshold is inside the visible spectrum.
+- **Mode-sensitive edu panels**: Classical explains the three failures of the wave model (threshold, instantaneous emission, KE∝ν not intensity). Quantum covers Einstein's photoelectric equation with real-world callouts (CCD/CMOS sensors, Millikan's confirmation).
+- **Gallery**: Added to `SIM_SLUGS` and `SIM_COLORS` in index.html (purple→blue gradient). `preview.webp` not yet captured — run `node scripts/capture-previews.js photoelectric-effect` with local server.
+- **Tag fix**: `blackbody-radiation` and `particle-in-a-box` meta.json tags corrected from `"quantum"` to `"quantum mechanics"` to match the gallery filter chip's exact-match value (`data-value="quantum mechanics"`). All four quantum sims now appear when the Quantum chip is active.
+
 ### Next steps
 
 ### Medium-term
 
-- **Quantum mechanics series** — `wave-interference` (beginner) and `particle-in-a-box` (intermediate) done; next: quantum tunneling (wave packet / Crank-Nicolson), double-slit experiment
+- **Quantum mechanics series** — `wave-interference` (beginner), `particle-in-a-box` (intermediate), `blackbody-radiation` (intermediate), `photoelectric-effect` (intermediate) done; next: quantum tunneling (wave packet / Crank-Nicolson), double-slit experiment
 - **Gallery filter tags** — additional topic chips if needed (e.g., "gravity", "engineering", "network")
 - **Per-sim physics review** — audit correctness (integration method, parameter ranges). Priority: `tunable-mass-damper` (coupled equations, damping ratio), `gravity-well` (orbit energy conservation)
 - **Educational content expansion** — infrastructure complete (equations in About panel, layout-c, edu-callout, mode-sensitive edu panel). Remaining: add `equations` to remaining sim meta.json files; consider richer descriptions for classical sims
