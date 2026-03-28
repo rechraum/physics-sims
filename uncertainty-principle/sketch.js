@@ -1,22 +1,25 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Uncertainty Principle — sketch.js
 //
-// Two physics panels side by side:
-//   Left  : Position space  |ψ(x)|²  +  ψ(x) real part
-//   Right : Momentum space  |φ(p)|²
+// Three modes (set via setMode()):
+//   measure     : bouncing wave packet + interactive measurement + collapse
+//   uncertainty : static dual-panel explore (default edu content)
+//   fourier     : static dual-panel explore (fourier edu content)
 //
-// Three wave packet shapes (all computed analytically, ħ = 1):
-//   gaussian  : Δx = σ, Δp = 1/(2σ)     → Δx·Δp = 1/2  (minimum)
-//   twopeak   : Δx = σ√2, Δp = 1/(2σ)   → Δx·Δp = √2/2 > 1/2
-//   chirped   : Δx = σ, Δp = √5/(2σ)    → Δx·Δp = √5/2 > 1/2
+// Physics (ħ = 1, natural units):
+//   Gaussian  : Δx = σ,   Δp = 1/(2σ)      → product = 1/2 (minimum)
+//   Two-peak  : Δx = σ√2, Δp = 1/(2σ)      → product = √2/2 > 1/2
+//   Chirped   : Δx = σ,   Δp = √5/(2σ)     → product = √5/2 > 1/2
+//
+//   Bouncing packet: xc(t) = A·cos(ω·t),  pc(t) = −Aω·sin(ω·t)
+//   Post-collapse spreading: σ(t) = σ₀·√(1 + (t/(2σ₀²))²)
 //
 // Color language (quantum series):
-//   ψ(x) real part  : accent blue  (88, 166, 255)
-//   |ψ|² / |φ|² fill: teal         (45, 215, 135, 35)
-//   |ψ|² / |φ|² edge: teal         (45, 215, 135, 200)
-//   Δ brackets/lines : purple       (170, 65, 255)
-//   Above-minimum    : orange       (255, 150, 50)
-//   Background       : (17, 24, 32)
+//   ψ real part  : accent blue  (88, 166, 255)
+//   |ψ|² fill    : teal         (45, 215, 135, 35)
+//   |ψ|² stroke  : teal         (45, 215, 135, 200)
+//   Δ brackets   : purple       (170, 65, 255)
+//   Background   : (17, 24, 32)
 // ─────────────────────────────────────────────────────────────────────────────
 'use strict';
 
@@ -24,6 +27,45 @@
 // Edu panel content
 // ─────────────────────────────────────────────────────────────────────────────
 const EDU = {
+
+  measure: `
+    <div class="edu-strip-content">
+      <div class="edu-strip-main">
+        <p class="panel-heading">Measurement &amp; Uncertainty</p>
+        <p class="edu-description">
+          The particle (teal) bounces as a Gaussian wave packet — it has a well-defined
+          but nonzero spread in both position and momentum simultaneously.
+          Choose what to measure and how precisely, then click <strong>Measure!</strong>
+          The outcome is random, sampled from |&psi;|&sup2;. Watch both panels
+          update: the measured variable collapses to your chosen resolution,
+          and the conjugate variable immediately broadens to compensate.
+        </p>
+        <div class="equation">
+          &Delta;x<sub>meas</sub> &thinsp;&middot;&thinsp; &Delta;p<sub>after</sub>
+          &nbsp;=&nbsp; &hbar;/2
+        </div>
+        <div class="edu-concepts">
+          <span class="edu-concept-tag">wave function collapse</span>
+          <span class="edu-concept-tag">quantum measurement</span>
+          <span class="edu-concept-tag">uncertainty principle</span>
+          <span class="edu-concept-tag">Gaussian spreading</span>
+        </div>
+      </div>
+      <div class="edu-strip-aside">
+        <div class="edu-callout">
+          <p class="edu-callout-title">Heisenberg&rsquo;s microscope</p>
+          <p>
+            To see an electron you must bounce a photon off it. A short-wavelength
+            photon resolves position precisely (&Delta;x small) but delivers a large,
+            uncertain momentum kick (&Delta;p large). A long-wavelength photon is
+            gentle (small &Delta;p) but blurry (large &Delta;x). Move the
+            <em>Precision</em> slider and watch the consequence play out in
+            real time on both panels &mdash; before you even fire.
+          </p>
+        </div>
+      </div>
+    </div>
+  `,
 
   uncertainty: `
     <div class="edu-strip-content">
@@ -56,13 +98,12 @@ const EDU = {
             <strong>Electron microscope:</strong> To image atoms (~0.1&nbsp;nm) the electron
             must be localized to &Delta;x &lt; 0.1&nbsp;nm. The uncertainty principle then
             demands &Delta;p &ge; &hbar;/(2&Delta;x) &mdash; the electron acquires a large
-            transverse kick, which limits practical resolution and drives the design of
-            aberration-corrected optics.
+            transverse kick, driving the design of aberration-corrected optics.
           </p>
           <p>
             <strong>Particle accelerator beams:</strong> A tightly focused beam (small
-            transverse &Delta;x at the collision point) unavoidably has large angular
-            spread (&Delta;p<sub>&perp;</sub>), traded off by beam optics.
+            transverse &Delta;x) unavoidably has large angular spread (&Delta;p<sub>&perp;</sub>),
+            traded off by beam optics.
           </p>
         </div>
       </div>
@@ -82,10 +123,9 @@ const EDU = {
           &Delta;t &thinsp;&middot;&thinsp; &Delta;&nu; &nbsp;&ge;&nbsp; 1/(4&pi;)
         </div>
         <p class="edu-description">
-          The <strong>Chirped</strong> shape above demonstrates a key subtlety: two states can
-          have identical position distributions |&psi;(x)|&sup2; yet different Fourier transforms.
-          The phase of the wave function &mdash; invisible in |&psi;|&sup2; &mdash; determines
-          the momentum spread. Only by probing both spaces do you see the difference.
+          The <strong>Chirped</strong> shape demonstrates a key subtlety: two states can have
+          identical |&psi;(x)|&sup2; yet different momentum spreads. The phase of the wave
+          function &mdash; invisible in |&psi;|&sup2; &mdash; determines &Delta;p.
         </p>
         <div class="edu-concepts">
           <span class="edu-concept-tag">time&ndash;bandwidth product</span>
@@ -98,18 +138,16 @@ const EDU = {
         <div class="edu-callout">
           <p class="edu-callout-title">Chirped-pulse amplification (Nobel 2018)</p>
           <p>
-            <strong>Strickland &amp; Mourou</strong> built the world&rsquo;s most intense
-            laser pulses by exploiting the time&ndash;frequency dual. A short pulse
-            (small &Delta;t) necessarily has a broad spectrum (&Delta;&nu; large). By
-            <em>chirping</em> the pulse &mdash; stretching it in time so low frequencies
-            lead and high frequencies trail &mdash; the peak power drops enough to amplify
-            it safely, then a grating recompresses it to femtosecond duration.
+            <strong>Strickland &amp; Mourou</strong> built the world&rsquo;s most intense laser
+            pulses by exploiting the time&ndash;frequency dual. A short pulse (small &Delta;t)
+            necessarily has a broad spectrum. By <em>chirping</em> the pulse &mdash; stretching
+            it so low frequencies lead and high frequencies trail &mdash; the peak power drops
+            enough to amplify safely, then a grating recompresses it to femtosecond duration.
           </p>
           <p>
-            <strong>MRI pulse shaping:</strong> Radio-frequency pulses in MRI must
-            excite a precise slice of tissue (&Delta;x small in frequency space) without
-            saturating neighboring tissue. The time&ndash;bandwidth product bounds how
-            sharply the excitation profile can be sculpted.
+            <strong>MRI pulse shaping:</strong> RF pulses must excite a precise tissue slice
+            without saturating neighbors. The time&ndash;bandwidth product bounds how sharply
+            the excitation profile can be sculpted.
           </p>
         </div>
       </div>
@@ -125,40 +163,59 @@ function updateEduPanel(m) {
 // ─────────────────────────────────────────────────────────────────────────────
 // State
 // ─────────────────────────────────────────────────────────────────────────────
-let eduMode = 'uncertainty';
-let shape   = 'gaussian';   // 'gaussian' | 'twopeak' | 'chirped'
-let sigma   = 1.0;
-let k0      = 0.0;
+let mode  = 'measure';   // 'measure' | 'uncertainty' | 'fourier'
+let shape = 'gaussian';  // explore mode shape
+let sigma = 1.0;
+let k0    = 0.0;
+
+// Measure mode
+let measureType  = 'position';  // 'position' | 'momentum'
+let measurePrec  = 0.6;
+let measurePhase = 'bouncing';  // 'bouncing' | 'collapsed'
+let bounceT      = 0;
+let collapseT    = 0;
+
+// Saved at moment of firing
+let preXc     = 0;
+let prePc     = 0;
+let xMeasured = 0;
+let pMeasured = 0;
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Canvas geometry (recomputed on resize)
+// Constants
 // ─────────────────────────────────────────────────────────────────────────────
-const XMIN = -5, XMAX = 5;  // position domain (natural units)
-const PMIN = -6, PMAX = 6;  // momentum domain
+const XMIN       = -5;
+const XMAX       =  5;
+const PMIN       = -6;
+const PMAX       =  6;
+const PLOT_STEP  =  2;    // px sampling interval
 
-let divX;             // vertical divider x (canvas pixels)
-let posP, momP;       // panel objects {x0, x1, y0, y1, cy}
-let pxScale;          // pixels per unit amplitude (for distributions)
-let psiAmpScale;      // pixels per unit amplitude (for ψ real part)
+const BOUNCE_AMP   = 2.8;
+const BOUNCE_OMEGA = 0.5;
+const PART_SIGMA   = 0.7;  // particle wave packet width (fixed)
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Canvas geometry
+// ─────────────────────────────────────────────────────────────────────────────
+let divX;
+let posP, momP;
+let pxScale, psiAmpScale;
 
 function computeGeometry() {
   divX = floor(width * 0.5);
 
-  const padX = 18;
-  const padT = 40;   // top: panel title + small margin
-  const padB = 30;   // bottom: x-axis tick labels
-  const zyFrac = 0.60;  // zero-line is 60% down from y0 toward y1
-
-  const y0 = padT;
-  const y1 = height - padB;
-  const cy = y0 + (y1 - y0) * zyFrac;
+  const padX  = 18;
+  const padT  = 40;
+  const padB  = 30;
+  const y0    = padT;
+  const y1    = height - padB;
+  const cy    = y0 + (y1 - y0) * 0.60;
 
   posP = { x0: padX,        x1: divX - padX, y0, y1, cy };
   momP = { x0: divX + padX, x1: width - padX, y0, y1, cy };
 
-  // Scale: at σ=1 a normalized peak (value=1) fills 75% of the space above cy
-  pxScale    = (cy - y0) * 0.75;
-  psiAmpScale = pxScale * 0.50;  // ψ real part at half the density scale
+  pxScale     = (cy - y0) * 0.75;
+  psiAmpScale = pxScale * 0.50;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -169,7 +226,7 @@ function setup() {
   createCanvas(cont.clientWidth, cont.clientHeight).parent('canvas-container');
   computeGeometry();
   textFont('Courier New');
-  updateEduPanel('uncertainty');
+  updateEduPanel('measure');
 }
 
 function windowResized() {
@@ -179,43 +236,33 @@ function windowResized() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Physics — analytical distributions (all normalized so peak = 1)
+// Physics — explore mode (analytical, normalized to peak = 1)
 // ─────────────────────────────────────────────────────────────────────────────
 function computeUncertainties() {
   let dx, dp;
-  const alpha = 1 / (sigma * sigma);  // chirp parameter
-
   if (shape === 'gaussian') {
     dx = sigma;
     dp = 1 / (2 * sigma);
   } else if (shape === 'twopeak') {
-    // d = σ; Δx ≈ √(σ²+d²) = σ√2; Δp = 1/(2σ)
     dx = sigma * Math.SQRT2;
     dp = 1 / (2 * sigma);
   } else {
-    // chirped: same Δx as Gaussian, broader Δp
     dx = sigma;
-    dp = Math.sqrt(1 / (4 * sigma * sigma) + alpha * alpha * sigma * sigma);
-    // = sqrt(5) / (2σ) when α = 1/σ²
+    dp = Math.sqrt(5) / (2 * sigma);
   }
   return { dx, dp, product: dx * dp };
 }
 
-// Position density — normalized to peak = 1
 function posDistNorm(x) {
-  if (shape === 'gaussian' || shape === 'chirped') {
+  if (shape !== 'twopeak') {
     return Math.exp(-x * x / (2 * sigma * sigma));
   }
-  // twopeak: |ψ(x)|² ∝ [G(x-d) + G(x+d)]²  where d=σ
   const d = sigma;
   const A = Math.exp(-(x - d) * (x - d) / (4 * sigma * sigma));
   const B = Math.exp(-(x + d) * (x + d) / (4 * sigma * sigma));
-  const unnorm = (A + B) * (A + B);
-  // peak at x=0: [2·exp(-d²/(4σ²))]² = 4·exp(-1/2) (with d=σ)
-  return unnorm / (4 * Math.exp(-0.5));
+  return (A + B) * (A + B) / (4 * Math.exp(-0.5));
 }
 
-// ψ(x) real part — normalized so envelope peak = 1
 function psiRealNorm(x) {
   if (shape === 'gaussian') {
     return Math.exp(-x * x / (4 * sigma * sigma)) * Math.cos(k0 * x);
@@ -224,15 +271,12 @@ function psiRealNorm(x) {
     const d = sigma;
     const A = Math.exp(-(x - d) * (x - d) / (4 * sigma * sigma));
     const B = Math.exp(-(x + d) * (x + d) / (4 * sigma * sigma));
-    // Envelope peak at x=0: 2·exp(-d²/(4σ²)) = 2·exp(-0.25) (with d=σ)
     return ((A + B) / (2 * Math.exp(-0.25))) * Math.cos(k0 * x);
   }
-  // chirped: position-dependent phase
   const alpha = 1 / (sigma * sigma);
   return Math.exp(-x * x / (4 * sigma * sigma)) * Math.cos(k0 * x + alpha * x * x / 2);
 }
 
-// Momentum density — normalized to peak = 1
 function momDistNorm(p) {
   const dk = p - k0;
   if (shape === 'gaussian') {
@@ -240,15 +284,33 @@ function momDistNorm(p) {
     return Math.exp(-dk * dk / (2 * dp * dp));
   }
   if (shape === 'twopeak') {
-    // |φ(p)|² ∝ cos²((p-k₀)·d) · exp(-(p-k₀)²·σ²)  with d=σ
     const d = sigma;
     const c = Math.cos(dk * d);
     return c * c * Math.exp(-dk * dk * sigma * sigma);
   }
-  // chirped: broader Gaussian
   const alpha = 1 / (sigma * sigma);
   const dp2 = 1 / (4 * sigma * sigma) + alpha * alpha * sigma * sigma;
   return Math.exp(-dk * dk / (2 * dp2));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Physics — measure mode
+// ─────────────────────────────────────────────────────────────────────────────
+function getBounceCenters(t) {
+  const xc = BOUNCE_AMP * Math.cos(BOUNCE_OMEGA * t);
+  const pc = -BOUNCE_AMP * BOUNCE_OMEGA * Math.sin(BOUNCE_OMEGA * t);
+  return { xc, pc };
+}
+
+function sampleGaussian(mu, sig) {
+  const u1 = Math.random() || 1e-10;
+  const u2 = Math.random();
+  return mu + sig * Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+}
+
+// Free Gaussian spreading: σ(t) = σ₀√(1 + (t/(2σ₀²))²)
+function spreadSigma(sigma0, tPhys) {
+  return sigma0 * Math.sqrt(1 + Math.pow(tPhys / (2 * sigma0 * sigma0), 2));
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -257,7 +319,6 @@ function momDistNorm(p) {
 function readControls() {
   sigma = +document.getElementById('sigma-x').value;
   k0    = +document.getElementById('k0').value;
-
   document.getElementById('sigma-x-val').textContent = sigma.toFixed(2);
   document.getElementById('k0-val').textContent      = k0.toFixed(1);
 
@@ -265,8 +326,7 @@ function readControls() {
   document.getElementById('delta-x-val').textContent = dx.toFixed(3);
   document.getElementById('delta-p-val').textContent = dp.toFixed(3);
 
-  // Ratio to minimum (ħ/2 = 0.5 in natural units)
-  const ratio = product * 2;   // = Δx·Δp / (ħ/2)
+  const ratio = product * 2;
   const span  = document.getElementById('delta-xp-val');
   span.textContent = ratio.toFixed(3) + ' \u0127/2';
 
@@ -280,11 +340,14 @@ function readControls() {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Drawing helpers
-// ─────────────────────────────────────────────────────────────────────────────
-const PLOT_STEP = 2;  // px sampling interval for curves
+function readMeasureControls() {
+  measurePrec = +document.getElementById('measure-prec').value;
+  document.getElementById('measure-prec-val').textContent = measurePrec.toFixed(2);
+}
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Drawing helpers — shared
+// ─────────────────────────────────────────────────────────────────────────────
 function drawDivider() {
   stroke(30, 38, 50);
   strokeWeight(1);
@@ -300,26 +363,16 @@ function drawPanelTitle(p, title) {
   textAlign(LEFT);
 }
 
-// Axis ticks and zero-line for one panel
-// domMin..domMax = physical coordinate range
-// centerDom = physical value at canvas horizontal center of panel
-function drawAxisTicks(p, domMin, domMax, centerLabel) {
+function drawAxisTicks(p, domMin, domMax, axisLabel) {
   const panW = p.x1 - p.x0;
 
-  // Zero-line (ψ = 0 axis inside panel)
   stroke(42, 50, 62);
   strokeWeight(1);
   line(p.x0, p.cy, p.x1, p.cy);
-
-  // Bottom axis baseline
-  stroke(42, 50, 62);
   line(p.x0, p.y1, p.x1, p.y1);
 
-  // Tick marks and labels
   const range = domMax - domMin;
   const tickSpacing = range <= 10 ? 2 : 3;
-  noStroke();
-  fill(70, 85, 105);
   textSize(9);
   textAlign(CENTER);
 
@@ -329,19 +382,19 @@ function drawAxisTicks(p, domMin, domMax, centerLabel) {
     strokeWeight(1);
     line(px, p.y1 - 4, px, p.y1);
     noStroke();
-    fill(70, 85, 105);
+    fill(65, 80, 100);
     text(v, px, p.y1 + 11);
   }
 
-  // Axis label
-  fill(85, 100, 120);
+  noStroke();
+  fill(80, 95, 115);
   textSize(9);
   textAlign(RIGHT);
-  text(centerLabel, p.x1, p.y1 + 11);
+  text(axisLabel, p.x1, p.y1 + 11);
   textAlign(LEFT);
 }
 
-// Draw filled teal distribution (normalized peak → pxScale pixels)
+// Standard teal filled distribution
 function drawDistFill(p, distFn, domMin, domMax) {
   const panW = p.x1 - p.x0;
   noStroke();
@@ -356,6 +409,7 @@ function drawDistFill(p, distFn, domMin, domMax) {
   endShape(CLOSE);
 }
 
+// Standard teal stroke
 function drawDistStroke(p, distFn, domMin, domMax) {
   const panW = p.x1 - p.x0;
   stroke(45, 215, 135, 200);
@@ -369,7 +423,39 @@ function drawDistStroke(p, distFn, domMin, domMax) {
   endShape();
 }
 
-// Draw ψ(x) real part (accent blue)
+// Dim dashed teal ghost (pre-measurement state)
+function drawDistGhostTeal(p, distFn, domMin, domMax) {
+  const panW = p.x1 - p.x0;
+  drawingContext.setLineDash([2, 5]);
+  stroke(45, 215, 135, 55);
+  strokeWeight(1.5);
+  noFill();
+  beginShape();
+  for (let px = 0; px <= panW; px += PLOT_STEP) {
+    const v = distFn(map(px, 0, panW, domMin, domMax));
+    vertex(p.x0 + px, p.cy - v * pxScale);
+  }
+  endShape();
+  drawingContext.setLineDash([]);
+}
+
+// Dashed purple ghost (predicted post-measurement)
+function drawDistGhostPurple(p, distFn, domMin, domMax) {
+  const panW = p.x1 - p.x0;
+  drawingContext.setLineDash([3, 4]);
+  stroke(170, 65, 255, 130);
+  strokeWeight(1.5);
+  noFill();
+  beginShape();
+  for (let px = 0; px <= panW; px += PLOT_STEP) {
+    const v = distFn(map(px, 0, panW, domMin, domMax));
+    vertex(p.x0 + px, p.cy - v * pxScale);
+  }
+  endShape();
+  drawingContext.setLineDash([]);
+}
+
+// ψ(x) real part for explore mode
 function drawPsiReal(p) {
   const panW = p.x1 - p.x0;
   stroke(88, 166, 255);
@@ -378,27 +464,36 @@ function drawPsiReal(p) {
   beginShape();
   for (let px = 0; px <= panW; px += PLOT_STEP) {
     const x = map(px, 0, panW, XMIN, XMAX);
-    const v = psiRealNorm(x);
-    vertex(p.x0 + px, p.cy - v * psiAmpScale);
+    vertex(p.x0 + px, p.cy - psiRealNorm(x) * psiAmpScale);
   }
   endShape();
 }
 
-// Draw double-arrow bracket + label at a given y, spanning x1 to x2 (canvas px)
+// ψ(x) real part with custom function (measure mode)
+function drawPsiRealFn(p, fn, domMin, domMax) {
+  const panW = p.x1 - p.x0;
+  stroke(88, 166, 255);
+  strokeWeight(1.5);
+  noFill();
+  beginShape();
+  for (let px = 0; px <= panW; px += PLOT_STEP) {
+    const x = map(px, 0, panW, domMin, domMax);
+    vertex(p.x0 + px, p.cy - fn(x) * psiAmpScale);
+  }
+  endShape();
+}
+
+// Double-arrow bracket at y spanning x1→x2 canvas px
 function drawBracket(x1, x2, y, label) {
-  if (abs(x2 - x1) < 4) return;  // too small to draw
+  if (x2 - x1 < 6) return;
   stroke(170, 65, 255);
   strokeWeight(1.5);
-  // Horizontal shaft
   line(x1, y, x2, y);
-  // Left arrowhead
   const aw = 5;
   line(x1, y, x1 + aw, y - aw * 0.7);
   line(x1, y, x1 + aw, y + aw * 0.7);
-  // Right arrowhead
   line(x2, y, x2 - aw, y - aw * 0.7);
   line(x2, y, x2 - aw, y + aw * 0.7);
-  // Label above center
   noStroke();
   fill(170, 65, 255);
   textSize(10);
@@ -407,54 +502,289 @@ function drawBracket(x1, x2, y, label) {
   textAlign(LEFT);
 }
 
-// Draw dashed vertical lines at x = center ± delta (domain units) within panel
+// Dashed vertical lines at domain center ± delta
 function drawDeltaLines(p, domMin, domMax, center, delta) {
-  const vx1 = map(center - delta, domMin, domMax, p.x0, p.x1);
-  const vx2 = map(center + delta, domMin, domMax, p.x0, p.x1);
+  const v1 = map(center - delta, domMin, domMax, p.x0, p.x1);
+  const v2 = map(center + delta, domMin, domMax, p.x0, p.x1);
   drawingContext.setLineDash([3, 5]);
-  stroke(170, 65, 255, 150);
+  stroke(170, 65, 255, 140);
   strokeWeight(1);
-  if (vx1 >= p.x0 && vx1 <= p.x1) line(vx1, p.y0 + 5, vx1, p.y1 - 5);
-  if (vx2 >= p.x0 && vx2 <= p.x1) line(vx2, p.y0 + 5, vx2, p.y1 - 5);
+  if (v1 >= p.x0 && v1 <= p.x1) line(v1, p.y0 + 22, v1, p.y1 - 5);
+  if (v2 >= p.x0 && v2 <= p.x1) line(v2, p.y0 + 22, v2, p.y1 - 5);
   drawingContext.setLineDash([]);
 }
 
+// Small status line below the divider
+function drawStatusLine(msg) {
+  noStroke();
+  fill(75, 90, 110);
+  textSize(9);
+  textAlign(CENTER);
+  text(msg, width / 2, posP.y1 - 8);
+  textAlign(LEFT);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
-// Main panels
+// Explore mode panels
 // ─────────────────────────────────────────────────────────────────────────────
 function drawPositionPanel() {
   const { dx } = computeUncertainties();
-
   drawPanelTitle(posP, 'Position space   |\u03C8(x)|\u00B2');
   drawAxisTicks(posP, XMIN, XMAX, 'x');
-
   drawDistFill(posP, posDistNorm, XMIN, XMAX);
-  drawPsiReal(posP);   // ψ real part behind the density stroke
+  drawPsiReal(posP);
   drawDistStroke(posP, posDistNorm, XMIN, XMAX);
 
-  // Δx bracket: above the distribution, spanning ±Δx around x=0
   const dxPx = dx * (posP.x1 - posP.x0) / (XMAX - XMIN);
-  const cxPx = (posP.x0 + posP.x1) / 2;  // x=0 is at canvas center of panel
+  const cxPx = (posP.x0 + posP.x1) / 2;
   drawBracket(cxPx - dxPx, cxPx + dxPx, posP.y0 + 14, '\u0394x');
-
   drawDeltaLines(posP, XMIN, XMAX, 0, dx);
 }
 
 function drawMomentumPanel() {
   const { dp } = computeUncertainties();
-
   drawPanelTitle(momP, 'Momentum space   |\u03C6(p)|\u00B2');
   drawAxisTicks(momP, PMIN, PMAX, 'p');
-
   drawDistFill(momP, momDistNorm, PMIN, PMAX);
   drawDistStroke(momP, momDistNorm, PMIN, PMAX);
 
-  // Δp bracket: centered at k₀, spanning ±Δp
-  const dpPx   = dp * (momP.x1 - momP.x0) / (PMAX - PMIN);
-  const k0Px   = map(k0, PMIN, PMAX, momP.x0, momP.x1);
+  const dpPx = dp * (momP.x1 - momP.x0) / (PMAX - PMIN);
+  const k0Px = map(k0, PMIN, PMAX, momP.x0, momP.x1);
   drawBracket(k0Px - dpPx, k0Px + dpPx, momP.y0 + 14, '\u0394p');
-
   drawDeltaLines(momP, PMIN, PMAX, k0, dp);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Measure mode — bouncing state
+// ─────────────────────────────────────────────────────────────────────────────
+function drawMeasureBouncingState() {
+  const { xc, pc } = getBounceCenters(bounceT);
+  const dp_part   = 1 / (2 * PART_SIGMA);
+
+  // ── Position panel ────────────────────────────────────────────────────────
+  const posFn    = x => Math.exp(-(x - xc) * (x - xc) / (2 * PART_SIGMA * PART_SIGMA));
+  const psiRealB = x => Math.exp(-(x - xc) * (x - xc) / (4 * PART_SIGMA * PART_SIGMA))
+                        * Math.cos(pc * (x - xc));
+
+  drawPanelTitle(posP, 'Position space   |\u03C8(x)|\u00B2');
+  drawAxisTicks(posP, XMIN, XMAX, 'x');
+  drawDistFill(posP, posFn, XMIN, XMAX);
+  drawPsiRealFn(posP, psiRealB, XMIN, XMAX);
+  drawDistStroke(posP, posFn, XMIN, XMAX);
+
+  // Δx bracket for particle
+  const dxPxP = PART_SIGMA * (posP.x1 - posP.x0) / (XMAX - XMIN);
+  const cxCanvas = map(xc, XMIN, XMAX, posP.x0, posP.x1);
+  drawBracket(cxCanvas - dxPxP, cxCanvas + dxPxP, posP.y0 + 14, '\u0394x');
+
+  // ── Momentum panel ────────────────────────────────────────────────────────
+  const momFn = p => Math.exp(-(p - pc) * (p - pc) / (2 * dp_part * dp_part));
+
+  drawPanelTitle(momP, 'Momentum space   |\u03C6(p)|\u00B2');
+  drawAxisTicks(momP, PMIN, PMAX, 'p');
+  drawDistFill(momP, momFn, PMIN, PMAX);
+  drawDistStroke(momP, momFn, PMIN, PMAX);
+
+  // Δp bracket for particle
+  const dpPxP  = dp_part * (momP.x1 - momP.x0) / (PMAX - PMIN);
+  const pcCanvas = map(pc, PMIN, PMAX, momP.x0, momP.x1);
+  drawBracket(pcCanvas - dpPxP, pcCanvas + dpPxP, momP.y0 + 14, '\u0394p');
+
+  // ── Measurement aperture overlay ──────────────────────────────────────────
+  drawMeasureAperture(xc, pc);
+}
+
+function drawMeasureAperture(xc, pc) {
+  if (measureType === 'position') {
+    // Shaded aperture on position panel, centered at particle
+    const halfW = measurePrec * (posP.x1 - posP.x0) / (XMAX - XMIN);
+    const cx    = map(xc, XMIN, XMAX, posP.x0, posP.x1);
+    const ax0   = max(posP.x0, cx - halfW);
+    const ax1   = min(posP.x1, cx + halfW);
+
+    noStroke();
+    fill(170, 65, 255, 22);
+    rect(ax0, posP.y0 + 20, ax1 - ax0, posP.y1 - posP.y0 - 20);
+
+    drawingContext.setLineDash([4, 4]);
+    stroke(170, 65, 255, 190);
+    strokeWeight(1.5);
+    line(ax0, posP.y0 + 20, ax0, posP.y1);
+    line(ax1, posP.y0 + 20, ax1, posP.y1);
+    drawingContext.setLineDash([]);
+
+    noStroke(); fill(170, 65, 255, 210);
+    textSize(9); textAlign(CENTER);
+    text('\u03C3\u2098\u2091\u2090\u02E2 = ' + measurePrec.toFixed(2), cx, posP.y0 + 32);
+    textAlign(LEFT);
+
+    // Ghost predicted post-measurement momentum distribution
+    const dp_after = 1 / (2 * measurePrec);
+    const ghostFn  = p => Math.exp(-(p - pc) * (p - pc) / (2 * dp_after * dp_after));
+    drawDistGhostPurple(momP, ghostFn, PMIN, PMAX);
+
+    noStroke(); fill(170, 65, 255, 170);
+    textSize(9); textAlign(CENTER);
+    text('\u0394p \u2248 ' + dp_after.toFixed(2) + ' after', (momP.x0 + momP.x1) / 2, momP.y0 + 32);
+    textAlign(LEFT);
+
+  } else {
+    // Shaded aperture on momentum panel
+    const halfW = measurePrec * (momP.x1 - momP.x0) / (PMAX - PMIN);
+    const cx    = map(pc, PMIN, PMAX, momP.x0, momP.x1);
+    const ax0   = max(momP.x0, cx - halfW);
+    const ax1   = min(momP.x1, cx + halfW);
+
+    noStroke();
+    fill(170, 65, 255, 22);
+    rect(ax0, momP.y0 + 20, ax1 - ax0, momP.y1 - momP.y0 - 20);
+
+    drawingContext.setLineDash([4, 4]);
+    stroke(170, 65, 255, 190);
+    strokeWeight(1.5);
+    line(ax0, momP.y0 + 20, ax0, momP.y1);
+    line(ax1, momP.y0 + 20, ax1, momP.y1);
+    drawingContext.setLineDash([]);
+
+    noStroke(); fill(170, 65, 255, 210);
+    textSize(9); textAlign(CENTER);
+    text('\u03C3\u2098\u2091\u2090\u02E2 = ' + measurePrec.toFixed(2), cx, momP.y0 + 32);
+    textAlign(LEFT);
+
+    // Ghost predicted post-measurement position distribution
+    const dx_after = 1 / (2 * measurePrec);
+    const ghostFn  = x => Math.exp(-(x - xc) * (x - xc) / (2 * dx_after * dx_after));
+    drawDistGhostPurple(posP, ghostFn, XMIN, XMAX);
+
+    noStroke(); fill(170, 65, 255, 170);
+    textSize(9); textAlign(CENTER);
+    text('\u0394x \u2248 ' + dx_after.toFixed(2) + ' after', (posP.x0 + posP.x1) / 2, posP.y0 + 32);
+    textAlign(LEFT);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Measure mode — collapsed / spreading state
+// ─────────────────────────────────────────────────────────────────────────────
+function drawMeasureCollapsedState() {
+  const T_SCALE = 0.35;  // wall-time → physics-time ratio
+  const tPhys   = collapseT * T_SCALE;
+
+  // Ghost distributions (pre-measurement)
+  const prePosFn = x => Math.exp(-(x - preXc) * (x - preXc) / (2 * PART_SIGMA * PART_SIGMA));
+  const preMomFn = p => {
+    const dp = 1 / (2 * PART_SIGMA);
+    return Math.exp(-(p - prePc) * (p - prePc) / (2 * dp * dp));
+  };
+
+  if (measureType === 'position') {
+    // Post-measurement: spreading Gaussian in position, fixed in momentum
+    const sigma_t  = spreadSigma(measurePrec, tPhys);
+    const xCenter  = xMeasured + prePc * tPhys;
+    const dp_after = 1 / (2 * measurePrec);
+
+    const postPosFn = x => Math.exp(-(x - xCenter) * (x - xCenter) / (2 * sigma_t * sigma_t));
+    const postMomFn = p => Math.exp(-(p - prePc) * (p - prePc) / (2 * dp_after * dp_after));
+
+    // ψ real part for the spreading packet
+    const psiRealPost = x => Math.exp(-(x - xCenter) * (x - xCenter) / (4 * sigma_t * sigma_t))
+                              * Math.cos(prePc * (x - xMeasured));
+
+    // Position panel
+    drawPanelTitle(posP, 'Position space   |\u03C8(x)|\u00B2');
+    drawAxisTicks(posP, XMIN, XMAX, 'x');
+    drawDistGhostTeal(posP, prePosFn, XMIN, XMAX);
+    drawDistFill(posP, postPosFn, XMIN, XMAX);
+    drawPsiRealFn(posP, psiRealPost, XMIN, XMAX);
+    drawDistStroke(posP, postPosFn, XMIN, XMAX);
+
+    // Momentum panel
+    drawPanelTitle(momP, 'Momentum space   |\u03C6(p)|\u00B2');
+    drawAxisTicks(momP, PMIN, PMAX, 'p');
+    drawDistGhostTeal(momP, preMomFn, PMIN, PMAX);
+    drawDistFill(momP, postMomFn, PMIN, PMAX);
+    drawDistStroke(momP, postMomFn, PMIN, PMAX);
+
+    // Brackets
+    const xCvs = map(xCenter, XMIN, XMAX, posP.x0, posP.x1);
+    const dxBr = sigma_t * (posP.x1 - posP.x0) / (XMAX - XMIN);
+    if (xCvs - dxBr >= posP.x0 - 2 && xCvs + dxBr <= posP.x1 + 2) {
+      drawBracket(
+        max(posP.x0 + 2, xCvs - dxBr),
+        min(posP.x1 - 2, xCvs + dxBr),
+        posP.y0 + 14,
+        '\u0394x = ' + sigma_t.toFixed(2)
+      );
+    }
+    const pCvs = map(prePc, PMIN, PMAX, momP.x0, momP.x1);
+    const dpBr = dp_after * (momP.x1 - momP.x0) / (PMAX - PMIN);
+    drawBracket(
+      max(momP.x0 + 2, pCvs - dpBr),
+      min(momP.x1 - 2, pCvs + dpBr),
+      momP.y0 + 14,
+      '\u0394p = ' + dp_after.toFixed(2)
+    );
+
+    // Δx·Δp readout (at t=0 it's ħ/2; Δx grows while Δp is fixed)
+    const ratio = sigma_t * dp_after * 2;
+    noStroke();
+    fill(ratio < 1.08 ? color(88, 166, 255) : color(255, 150, 50));
+    textSize(9); textAlign(CENTER);
+    text('\u0394x\u00B7\u0394p = ' + ratio.toFixed(2) + ' \u0127/2', width / 2, posP.y1 - 8);
+    textAlign(LEFT);
+
+    const elapsed = collapseT < 0.5 ? 'Collapsed at x = ' + xMeasured.toFixed(2)
+                                     : '\u0394x growing (spreading)  \u2014  \u0394p fixed';
+    drawStatusLine(elapsed);
+
+  } else {
+    // Post-measurement: narrow Gaussian in momentum, wide in position
+    const dx_after = 1 / (2 * measurePrec);
+
+    const postPosFn = x => Math.exp(-(x - preXc) * (x - preXc) / (2 * dx_after * dx_after));
+    const postMomFn = p => Math.exp(-(p - pMeasured) * (p - pMeasured) / (2 * measurePrec * measurePrec));
+
+    // Position panel
+    drawPanelTitle(posP, 'Position space   |\u03C8(x)|\u00B2');
+    drawAxisTicks(posP, XMIN, XMAX, 'x');
+    drawDistGhostTeal(posP, prePosFn, XMIN, XMAX);
+    drawDistFill(posP, postPosFn, XMIN, XMAX);
+    drawDistStroke(posP, postPosFn, XMIN, XMAX);
+
+    // Momentum panel
+    drawPanelTitle(momP, 'Momentum space   |\u03C6(p)|\u00B2');
+    drawAxisTicks(momP, PMIN, PMAX, 'p');
+    drawDistGhostTeal(momP, preMomFn, PMIN, PMAX);
+    drawDistFill(momP, postMomFn, PMIN, PMAX);
+    drawDistStroke(momP, postMomFn, PMIN, PMAX);
+
+    // Brackets
+    const xCvs = map(preXc, XMIN, XMAX, posP.x0, posP.x1);
+    const dxBr = dx_after * (posP.x1 - posP.x0) / (XMAX - XMIN);
+    drawBracket(
+      max(posP.x0 + 2, xCvs - dxBr),
+      min(posP.x1 - 2, xCvs + dxBr),
+      posP.y0 + 14,
+      '\u0394x = ' + dx_after.toFixed(2)
+    );
+    const pCvs = map(pMeasured, PMIN, PMAX, momP.x0, momP.x1);
+    const dpBr = measurePrec * (momP.x1 - momP.x0) / (PMAX - PMIN);
+    drawBracket(
+      max(momP.x0 + 2, pCvs - dpBr),
+      min(momP.x1 - 2, pCvs + dpBr),
+      momP.y0 + 14,
+      '\u0394p = ' + measurePrec.toFixed(2)
+    );
+
+    const ratio = dx_after * measurePrec * 2;
+    noStroke();
+    fill(ratio < 1.08 ? color(88, 166, 255) : color(255, 150, 50));
+    textSize(9); textAlign(CENTER);
+    text('\u0394x\u00B7\u0394p = ' + ratio.toFixed(2) + ' \u0127/2', width / 2, posP.y1 - 8);
+    textAlign(LEFT);
+
+    drawStatusLine('Collapsed at p = ' + pMeasured.toFixed(2) + '  \u2014  position now delocalized');
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -462,15 +792,49 @@ function drawMomentumPanel() {
 // ─────────────────────────────────────────────────────────────────────────────
 function draw() {
   background(17, 24, 32);
-  readControls();
   drawDivider();
-  drawPositionPanel();
-  drawMomentumPanel();
+
+  if (mode === 'measure') {
+    readMeasureControls();
+    if (measurePhase === 'bouncing') {
+      bounceT += deltaTime / 1000;
+      drawMeasureBouncingState();
+    } else {
+      collapseT += deltaTime / 1000;
+      drawMeasureCollapsedState();
+    }
+  } else {
+    readControls();
+    drawPositionPanel();
+    drawMomentumPanel();
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Mode switching (called from HTML)
+// Event handlers (called from HTML)
 // ─────────────────────────────────────────────────────────────────────────────
+function setMode(m) {
+  mode = m;
+
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('mode-btn-' + m);
+  if (btn) btn.classList.add('active');
+
+  const exploreControls = document.getElementById('explore-controls');
+  const measureControls = document.getElementById('measure-controls');
+
+  if (m === 'measure') {
+    if (exploreControls) exploreControls.style.display = 'none';
+    if (measureControls) measureControls.style.display = 'block';
+    resetMeasure();
+  } else {
+    if (exploreControls) exploreControls.style.display = 'block';
+    if (measureControls) measureControls.style.display = 'none';
+    updateEduPanel(m);
+  }
+  updateEduPanel(m);
+}
+
 function setShape(s) {
   shape = s;
   document.querySelectorAll('.shape-btn').forEach(b => b.classList.remove('active'));
@@ -478,10 +842,42 @@ function setShape(s) {
   if (btn) btn.classList.add('active');
 }
 
-function setEduMode(m) {
-  eduMode = m;
-  document.querySelectorAll('.edu-btn').forEach(b => b.classList.remove('active'));
-  const btn = document.getElementById('edu-btn-' + m);
+function setMeasureType(t) {
+  measureType = t;
+  document.querySelectorAll('.mtype-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('mtype-btn-' + t);
   if (btn) btn.classList.add('active');
-  updateEduPanel(m);
+}
+
+function fireMeasure() {
+  if (measurePhase !== 'bouncing') return;
+  const { xc, pc } = getBounceCenters(bounceT);
+  preXc = xc;
+  prePc = pc;
+
+  if (measureType === 'position') {
+    xMeasured = sampleGaussian(xc, PART_SIGMA);
+    xMeasured = Math.max(XMIN + 0.3, Math.min(XMAX - 0.3, xMeasured));
+  } else {
+    const dp_part = 1 / (2 * PART_SIGMA);
+    pMeasured = sampleGaussian(pc, dp_part);
+    pMeasured = Math.max(PMIN + 0.3, Math.min(PMAX - 0.3, pMeasured));
+  }
+
+  measurePhase = 'collapsed';
+  collapseT    = 0;
+
+  document.getElementById('fire-btn').style.display  = 'none';
+  document.getElementById('reset-btn').style.display = 'block';
+}
+
+function resetMeasure() {
+  measurePhase = 'bouncing';
+  bounceT      = 0;
+  collapseT    = 0;
+
+  const fireBtn  = document.getElementById('fire-btn');
+  const resetBtn = document.getElementById('reset-btn');
+  if (fireBtn)  fireBtn.style.display  = 'block';
+  if (resetBtn) resetBtn.style.display = 'none';
 }
