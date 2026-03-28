@@ -1,34 +1,48 @@
 /* ── Uncertainty Principle — sim-specific styles ────────────────────────── */
 
+/* ── Increase panel text sizes ──────────────────────────────────────────── */
+.sim-wrapper.layout-c .sim-panel .panel-heading {
+  font-size: 0.82rem;
+}
+.sim-wrapper.layout-c .sim-panel label,
+.sim-wrapper.layout-c .sim-panel .control-group label {
+  font-size: 0.88rem;
+  color: var(--text-primary);
+}
+.sim-wrapper.layout-c .sim-panel .btn {
+  font-size: 0.82rem;
+}
+.sim-wrapper.layout-c .energy-info {
+  font-size: 0.88rem;
+}
+
 /* ── Button groups ─────────────────────────────────────────────────────── */
 .btn-group {
   display: flex;
   gap: 4px;
   flex-wrap: wrap;
 }
-
 .btn-group .btn {
   flex: 1;
   min-width: 0;
-  font-size: 0.78rem;
-  padding: 4px 6px;
+  padding: 5px 6px;
 }
 
-/* ── Mode buttons (Measure / Principle / Fourier Dual) ─────────────────── */
+/* ── Mode buttons active — blue ─────────────────────────────────────────── */
 .mode-btn.active {
   background: var(--accent-dim) !important;
   border-color: var(--accent) !important;
   color: var(--accent) !important;
 }
 
-/* ── Shape buttons (Gaussian / Two-peak / Chirped) — teal active ───────── */
+/* ── Shape buttons active — teal ────────────────────────────────────────── */
 .shape-btn.active {
   background: rgba(45, 215, 135, 0.12) !important;
   border-color: rgba(45, 215, 135, 0.7) !important;
   color: rgb(45, 215, 135) !important;
 }
 
-/* ── Measure type buttons (Position / Momentum) — teal active ──────────── */
+/* ── Measure type buttons active — teal ─────────────────────────────────── */
 .mtype-btn.active {
   background: rgba(45, 215, 135, 0.12) !important;
   border-color: rgba(45, 215, 135, 0.7) !important;
@@ -38,29 +52,54 @@
 /* ── Fire button ────────────────────────────────────────────────────────── */
 .btn-fire {
   width: 100%;
-  margin-top: 8px;
+  margin-top: 10px;
+  padding: 7px 6px;
   background: rgba(45, 215, 135, 0.12);
   border: 1px solid rgba(45, 215, 135, 0.65);
   color: rgb(45, 215, 135);
+  font-size: 0.88rem;
   font-weight: 600;
   letter-spacing: 0.02em;
 }
-
 .btn-fire:hover {
   background: rgba(45, 215, 135, 0.22);
   border-color: rgba(45, 215, 135, 0.9);
 }
 
-/* ── Precision label ────────────────────────────────────────────────────── */
-.prec-label-end {
-  font-size: 0.72rem;
+/* ── Restart button ─────────────────────────────────────────────────────── */
+.btn-restart {
+  width: 100%;
+  margin-top: 6px;
+  padding: 7px 6px;
+  background: rgba(88, 166, 255, 0.10);
+  border: 1px solid rgba(88, 166, 255, 0.5);
+  color: rgb(88, 166, 255);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.btn-restart:hover {
+  background: rgba(88, 166, 255, 0.20);
+  border-color: rgba(88, 166, 255, 0.8);
+}
+
+/* ── Reset button full width ────────────────────────────────────────────── */
+#reset-btn {
+  width: 100%;
+}
+
+/* ── Precision hint text ─────────────────────────────────────────────────── */
+.prec-hint {
+  font-size: 0.76rem;
   color: var(--text-secondary);
+  margin: 3px 0 0 0;
+  line-height: 1.4;
 }
 
 /* ── Energy readout pills ────────────────────────────────────────────────── */
 .energy-info {
   font-family: 'Courier New', monospace;
-  font-size: 0.82rem;
+  font-size: 0.88rem;
   color: var(--accent);
   background: var(--accent-dim);
   border: 1px solid rgba(88, 166, 255, 0.35);
@@ -68,16 +107,6 @@
   padding: 5px 10px;
   letter-spacing: 0.01em;
 }
-
 .product-pill {
   transition: color 0.2s, border-color 0.2s;
-}
-
-/* ── Small panel note ───────────────────────────────────────────────────── */
-.panel-note {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  margin: 0;
-  opacity: 0.8;
 }

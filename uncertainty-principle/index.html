@@ -13,10 +13,8 @@
 
   <div class="sim-wrapper layout-c">
 
-    <!-- Canvas -->
     <div class="sim-canvas-area" id="canvas-container"></div>
 
-    <!-- Control panel -->
     <div class="sim-panel">
       <div class="sim-controls-section">
 
@@ -28,13 +26,13 @@
           <button class="btn btn-secondary mode-btn" id="mode-btn-uncertainty"
                   onclick="setMode('uncertainty')">Principle</button>
           <button class="btn btn-secondary mode-btn" id="mode-btn-fourier"
-                  onclick="setMode('fourier')">Fourier Dual</button>
+                  onclick="setMode('fourier')">Fourier&nbsp;Dual</button>
         </div>
 
         <!-- ── Measure mode controls ─────────────────────────────── -->
         <div id="measure-controls">
 
-          <p class="panel-heading" style="margin-top:14px">Measure Type</p>
+          <p class="panel-heading" style="margin-top:16px">Measure Type</p>
           <div class="btn-group">
             <button class="btn btn-secondary mtype-btn active" id="mtype-btn-position"
                     onclick="setMeasureType('position')">Position</button>
@@ -42,35 +40,37 @@
                     onclick="setMeasureType('momentum')">Momentum</button>
           </div>
 
-          <p class="panel-heading" style="margin-top:12px">Precision &sigma;</p>
+          <p class="panel-heading" style="margin-top:14px">Precision</p>
           <div class="control-group">
             <label>
-              <span class="prec-label-end">coarse</span>
-              <span id="measure-prec-val">0.60</span>
-              <span class="prec-label-end">sharp</span>
+              <span id="prec-var-label">&Delta;x</span>
+              = <span id="measure-prec-val">0.60</span>
             </label>
             <input type="range" id="measure-prec" min="0.2" max="1.5" step="0.05" value="0.6">
+            <p class="prec-hint" id="prec-hint">
+              coarse x &larr;&ensp;&rarr; sharp x &ensp;&middot;&ensp;
+              &Delta;p&thinsp;=&thinsp;1/(2&Delta;x)
+            </p>
           </div>
 
           <button class="btn btn-fire" id="fire-btn" onclick="fireMeasure()">
-            &#x25B6; Measure!
+            &#x25B6;&thinsp;Measure!
+          </button>
+          <button class="btn btn-restart" id="restart-btn" onclick="restartEvolution()"
+                  style="display:none">
+            &#x25B6;&thinsp;Restart Time Evolution
           </button>
           <button class="btn btn-secondary" id="reset-btn" onclick="resetMeasure()"
-                  style="display:none; width:100%; margin-top:4px">
-            &#x21A9; Reset
+                  style="display:none; margin-top:4px">
+            &#x21A9;&thinsp;Reset
           </button>
-
-          <p class="panel-note" style="margin-top:10px">
-            Purple band = measurement window.<br>
-            Dashed curve = predicted consequence.
-          </p>
 
         </div>
 
-        <!-- ── Explore mode controls (hidden in Measure mode) ─────── -->
+        <!-- ── Explore mode controls ─────────────────────────────── -->
         <div id="explore-controls" style="display:none">
 
-          <p class="panel-heading" style="margin-top:14px">Wave Packet</p>
+          <p class="panel-heading" style="margin-top:16px">Wave Packet</p>
           <div class="control-group">
             <label>&sigma;<sub>x</sub> = <span id="sigma-x-val">1.00</span></label>
             <input type="range" id="sigma-x" min="0.3" max="2.5" step="0.05" value="1.0">
@@ -92,7 +92,7 @@
                     onclick="setShape('chirped')">Chirped</button>
           </div>
 
-          <p class="panel-heading" style="margin-top:14px">Readouts</p>
+          <p class="panel-heading" style="margin-top:16px">Readouts</p>
           <div class="energy-info">&Delta;x = <span id="delta-x-val">1.000</span></div>
           <div class="energy-info" style="margin-top:5px">&Delta;p = <span id="delta-p-val">0.500</span></div>
           <div class="energy-info product-pill" id="delta-xp-pill" style="margin-top:5px">
@@ -104,7 +104,6 @@
       </div>
     </div>
 
-    <!-- Full-width edu strip — pre-populated so nav.js skips it -->
     <div class="sim-edu-strip" id="sim-edu"><span></span></div>
 
   </div>
