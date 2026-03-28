@@ -188,6 +188,31 @@ let lastEmitT = -1;
 // ─────────────────────────────────────────────────────────────────────────────
 // Physics helpers
 // ─────────────────────────────────────────────────────────────────────────────
+
+// Map current λ ∈ [0.2, 1.0] → rainbow RGB  [violet → blue → cyan → green → yellow → orange → red]
+// Hue sweeps from 270° (violet, short λ) to 0° (red, long λ) via HSV→RGB.
+function lambdaRGB() {
+  const t   = (lambda - 0.2) / 0.8;   // 0 = violet end, 1 = red end
+  const hue = 270.0 * (1.0 - t);       // 270° → 0°
+  const h = hue / 60.0;
+  const s = 0.85, v = 0.95;
+  const i = Math.floor(h) % 6;
+  const f = h - Math.floor(h);
+  const p  = v * (1 - s);
+  const q  = v * (1 - s * f);
+  const tv = v * (1 - s * (1 - f));
+  let r, g, b;
+  switch (i) {
+    case 0: r = v;  g = tv; b = p;  break;
+    case 1: r = q;  g = v;  b = p;  break;
+    case 2: r = p;  g = v;  b = tv; break;
+    case 3: r = p;  g = q;  b = v;  break;
+    case 4: r = tv; g = p;  b = v;  break;
+    default: r = v; g = p;  b = q;  break;
+  }
+  return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+}
+
 function sinc(x) {
   return (Math.abs(x) < 1e-8) ? 1.0 : Math.sin(x) / x;
 }
@@ -289,6 +314,7 @@ function buildWaveBuffer() {
   }
 
   const STEP = 5;
+  const [wr, wg, wb] = lambdaRGB();   // compute once for this build
   for (let px = barrierPx; px < appX1; px += STEP) {
     for (let py = padT; py < height - padB; py += STEP) {
       const xP = ((px - barrierPx) / regionW) * L_FIXED;
@@ -310,7 +336,7 @@ function buildWaveBuffer() {
 
       const t = Math.min(I / maxI, 1.0);
       if (t < 0.025) continue;
-      waveBuffer.fill(45, 215, 135, t * 205);
+      waveBuffer.fill(wr, wg, wb, t * 205);
       waveBuffer.rect(px, py, STEP, STEP);
     }
   }
@@ -417,10 +443,11 @@ function drawApparatus() {
     const maxR    = barrierPx - sourcePx + 10;
     const tOff    = (frameCount * 1.5) % arcStep;
 
+    const [ar, ag, ab] = lambdaRGB();
     noFill(); strokeWeight(1);
     for (let r = tOff; r < maxR; r += arcStep) {
       const alpha = map(r, 0, maxR, 190, 12);
-      stroke(45, 215, 135, alpha);
+      stroke(ar, ag, ab, alpha);
       arc(sourcePx, cy, r * 2, r * 2, -HALF_PI * 0.72, HALF_PI * 0.72);
     }
 
@@ -428,12 +455,13 @@ function drawApparatus() {
   }
 
   // Source dot with glow
+  const [sr, sg, sb] = lambdaRGB();
   noStroke();
   for (let s = 5; s >= 1; s--) {
-    fill(88, 166, 255, 32 * s);
+    fill(sr, sg, sb, 32 * s);
     ellipse(sourcePx, cy, s * 5.5, s * 5.5);
   }
-  fill(88, 166, 255);
+  fill(sr, sg, sb);
   ellipse(sourcePx, cy, 7, 7);
 
   // Barrier
@@ -517,11 +545,12 @@ function drawScreen() {
   // Accumulated dots (left 35% of panel, scattered)
   const dotBandX0 = scrnX0 + 28;
   const dotBandW  = scrnW * 0.35;
+  const [dr, dg, db] = lambdaRGB();
   noStroke();
   for (let i = 0; i < dotCount; i++) {
     const py = cy + dotYArr[i] * yScale;
     const px = dotBandX0 + dotXFrac[i] * dotBandW;
-    fill(45, 215, 135, 120);
+    fill(dr, dg, db, 120);
     ellipse(px, py, 3, 3);
   }
 }
@@ -530,6 +559,7 @@ function drawHistogram() {
   const { scrnX1, scrnW, cy, yScale } = G;
   if (histMax === 0) return;
   const maxBarW = scrnW * 0.55;
+  const [hr, hg, hb] = lambdaRGB();
   noStroke();
   for (let i = 0; i < HIST_N; i++) {
     if (hist[i] === 0) continue;
@@ -539,7 +569,7 @@ function drawHistogram() {
     const py1 = cy + y1 * yScale;
     const barH = Math.abs(py1 - py0);
     const barW = (hist[i] / histMax) * maxBarW;
-    fill(45, 215, 135, 55);
+    fill(hr, hg, hb, 60);
     rect(scrnX1 - barW, Math.min(py0, py1), barW, barH);
   }
 }
@@ -607,6 +637,7 @@ function emitParticles() {
 function updateAndDrawFlight() {
   const { barrierPx, appX1, cy, yScale } = G;
   const now = millis() * 0.001;
+  const [pr, pg, pb] = lambdaRGB();   // same λ color for all in-flight this frame
 
   for (let i = inFlight.length - 1; i >= 0; i--) {
     const p = inFlight[i];
@@ -626,10 +657,10 @@ function updateAndDrawFlight() {
 
     noStroke();
     for (let s = 4; s >= 1; s--) {
-      fill(88, 166, 255, 48 * s);
+      fill(pr, pg, pb, 48 * s);
       ellipse(px, py, s * 3, s * 3);
     }
-    fill(88, 166, 255);
+    fill(pr, pg, pb);
     ellipse(px, py, 5, 5);
   }
 }
