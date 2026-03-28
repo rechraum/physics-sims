@@ -97,4 +97,23 @@ Three-act interactive measurement mode added as the default landing mode:
 - `measurePhase` state machine (`bouncing | collapsed_frozen | collapsed_evolving`) — `collapseT` only advances in `collapsed_evolving`
 - Dynamic edu HTML via functions (`getMeasureFrozenHTML()`, `getMeasureEvolvingHTML()`) called at state transitions, not pre-authored in the `EDU` object
 - `drawLegend(includeGhost)` — toggles the ghost legend entry based on phase
+
+## Session: Double-Slit Experiment
+
+### Core sim
+
+- **`double-slit`** — layout-c; left panel (~55%) apparatus, right panel (~45%) detection screen.
+- **Apparatus panel**: animated expanding arcs from source (clipped to source region via `drawingContext.save/clip/restore`); 2D Huygens wave map in the interference region (p5.Graphics buffer, 5px grid, rebuilt on λ/d/a/whichWay change); slit barrier with top/mid/bottom fill blocks + slit-edge highlights; which-way mode shows purple detector glyph + glow line.
+- **Screen panel**: accumulated dot scatter (≤3000, using `Float32Array dotYArr` + `dotXFrac` ring buffer; dots fixed in left 35% of panel); histogram (`Int32Array`, 100 bins, bars from right edge leftward); analytic theory curve (blue for interference, orange for which-way), both normalized to same `maxBarW`.
+- **Physics**: Fraunhofer `I(y) = sinc²(β)·cos²(δ/2)` with `β=πay/λL, δ=2πdy/λL`. Which-way: incoherent `sinc²(β₊)+sinc²(β₋)`. 2000-bin CDF rebuilt on param change; binary-search sampling via `sampleY()`.
+- **Particle mode**: `inFlight` array `[{t0, ySlit, yScreen, dur}]`; exit slit chosen proportional to single-slit amplitude at sampled y (visual only); 0.28s flight from slit to `appX1`; cap 12 emits per frame; `lastEmitT = -1` sentinel prevents burst on mode switch.
+- **Three edu modes**: `waveparticle` (Tonomura), `complementarity` (V²+K²≤1, quantum eraser, delayed-choice), `math` (missing orders, HUP = diffraction envelope).
+- **Which-way** resets dot/histogram/inFlight and forces CDF + wave buffer rebuild.
+
+### Color mapping pass
+
+- **`lambdaRGB()`**: maps `lambda ∈ [0.2, 1.0]` → HSV hue `270°→0°` (violet→blue→cyan→green→yellow→orange→red) via in-place HSV→RGB conversion. S=0.85, V=0.95.
+- Applied to: source glow, expanding arcs, wave buffer pixels, in-flight particle trails, accumulated dots, histogram bars. Color computed once per call site (hoisted above loops).
+- Theory curve color left as fixed blue/orange (physics indicator, not particle wavelength).
+- Wave buffer rebuilt on every λ change (already tracked by `waveDirty` in `readControls()`), so the interference map recolors instantly.
 - `drawBottomInfo(ratio, msg)` — unified product + status renderer at canvas bottom

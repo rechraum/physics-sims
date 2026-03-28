@@ -153,10 +153,10 @@ Then open `http://localhost:8000`.
 - ✅ `blackbody-radiation` — two-region canvas, three spectrum modes, sqrt temperature mapping
 - ✅ `photoelectric-effect` — animated apparatus, dual stacked plots (both models always visible)
 - ✅ `uncertainty-principle` — dual-panel (position + momentum), three shapes (Gaussian/Two-peak/Chirped), Measure mode with bouncing wave packet + interactive collapse + free spreading, dynamic edu strip cycles through 3 states (de Broglie chirp explanation → Born-rule collapse → σ(t) spreading), legend on canvas, contextual precision slider label
-- ✅ `double-slit` — layout-c; apparatus panel (wave map via p5.Graphics + animated arcs, barrier, source glow) + screen panel (dot scatter + histogram + theory curve); Fraunhofer I(y)=sinc²·cos² formula with 2000-bin CDF sampling; which-way mode (incoherent sum, orange curve, purple detector indicator); Wave/Particle display modes with particle flight animation; three edu modes (Wave-Particle, Complementarity, Math); preview: `node scripts/capture-previews.js double-slit`
+- ✅ `double-slit` — layout-c; apparatus panel (wave map via p5.Graphics + animated arcs, barrier, source glow) + screen panel (dot scatter + histogram + theory curve); Fraunhofer I(y)=sinc²·cos² formula with 2000-bin CDF sampling; which-way mode (incoherent sum, orange curve, purple detector indicator); Wave/Particle display modes with particle flight animation; three edu modes (Wave-Particle, Complementarity, Math); `lambdaRGB()` maps λ slider → rainbow (violet→red) for source, arcs, wave map, particles, dots, histogram; preview: `node scripts/capture-previews.js double-slit`
 
 ### Next up
-- **`quantum-tunneling`** — wave packet / Crank-Nicolson finite-difference method
+- **`quantum-tunneling`** — BRIEF.md written; ready to implement. See `quantum-tunneling/BRIEF.md`.
 
 ### Medium-term
 
