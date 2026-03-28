@@ -52,6 +52,7 @@ Sims are currently at the **root level** (not under a `/sims/` subfolder). A fut
 | `blackbody-radiation` | Blackbody Radiation | p5.js 1.9.4 | intermediate |
 | `photoelectric-effect` | Photoelectric Effect | p5.js 1.9.4 | intermediate |
 | `uncertainty-principle` | Uncertainty Principle | p5.js 1.9.4 | intermediate |
+| `double-slit` | Double-Slit Experiment | p5.js 1.9.4 | intermediate |
 
 **Archived (not in gallery):** `_archive/phase-space-wrapper` — original multi-sim wrapper, now fully split into individual sims above. `_archive/orbital-phase-space` — duplicate of `gravity-well`, retired.
 
@@ -152,11 +153,10 @@ Then open `http://localhost:8000`.
 - ✅ `blackbody-radiation` — two-region canvas, three spectrum modes, sqrt temperature mapping
 - ✅ `photoelectric-effect` — animated apparatus, dual stacked plots (both models always visible)
 - ✅ `uncertainty-principle` — dual-panel (position + momentum), three shapes (Gaussian/Two-peak/Chirped), Measure mode with bouncing wave packet + interactive collapse + free spreading, dynamic edu strip cycles through 3 states (de Broglie chirp explanation → Born-rule collapse → σ(t) spreading), legend on canvas, contextual precision slider label
+- ✅ `double-slit` — layout-c; apparatus panel (wave map via p5.Graphics + animated arcs, barrier, source glow) + screen panel (dot scatter + histogram + theory curve); Fraunhofer I(y)=sinc²·cos² formula with 2000-bin CDF sampling; which-way mode (incoherent sum, orange curve, purple detector indicator); Wave/Particle display modes with particle flight animation; three edu modes (Wave-Particle, Complementarity, Math); preview: `node scripts/capture-previews.js double-slit`
 
 ### Next up
-
-- **`double-slit`** — BRIEF.md written; ready to implement. See `double-slit/BRIEF.md`.
-- **`quantum-tunneling`** — wave packet / Crank-Nicolson finite-difference method; after double-slit
+- **`quantum-tunneling`** — wave packet / Crank-Nicolson finite-difference method
 
 ### Medium-term
 

@@ -1,0 +1,73 @@
+/* ── Double-Slit Experiment — sim-specific styles ─────────────────────────── */
+
+/* ── Panel text sizing ────────────────────────────────────────────────────── */
+.sim-wrapper.layout-c .sim-panel .panel-heading {
+  font-size: 0.82rem;
+}
+.sim-wrapper.layout-c .sim-panel label,
+.sim-wrapper.layout-c .sim-panel .control-group label {
+  font-size: 0.88rem;
+  color: var(--text-primary);
+}
+.sim-wrapper.layout-c .sim-panel .btn {
+  font-size: 0.82rem;
+}
+
+/* ── Hint text inside labels ──────────────────────────────────────────────── */
+.ctrl-hint {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* ── Button groups ────────────────────────────────────────────────────────── */
+.btn-group {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.btn-group .btn {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 6px;
+}
+
+/* ── Display mode buttons active — blue ──────────────────────────────────── */
+.dispmode-btn.active {
+  background: var(--accent-dim) !important;
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+}
+
+/* ── Edu mode buttons active — blue ──────────────────────────────────────── */
+.edu-btn.active {
+  background: var(--accent-dim) !important;
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+}
+
+/* ── Which-way OFF active — teal ─────────────────────────────────────────── */
+.ww-btn.active:not(.ww-on-btn) {
+  background: rgba(45, 215, 135, 0.12) !important;
+  border-color: rgba(45, 215, 135, 0.7) !important;
+  color: rgb(45, 215, 135) !important;
+}
+
+/* ── Which-way ON active — purple/orange ─────────────────────────────────── */
+.ww-on-btn.active {
+  background: rgba(170, 65, 255, 0.14) !important;
+  border-color: rgba(170, 65, 255, 0.75) !important;
+  color: rgb(200, 100, 255) !important;
+}
+
+/* ── Precision hint text ──────────────────────────────────────────────────── */
+.prec-hint {
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+  margin: 4px 0 0 0;
+  line-height: 1.4;
+}
+
+/* ── Clear button ─────────────────────────────────────────────────────────── */
+#clear-btn {
+  font-size: 0.82rem;
+}

@@ -1,0 +1,22 @@
+{
+  "title": "Double-Slit Experiment",
+  "slug": "double-slit",
+  "description": "Fire single particles through two slits and watch an interference pattern emerge dot by dot — the canonical demonstration of wave-particle duality. Activate the which-slit detector to instantly collapse the fringes into two featureless blobs.",
+  "physics_concepts": ["wave-particle duality", "Fraunhofer diffraction", "which-way measurement", "complementarity principle"],
+  "equations": [
+    "I(y) = I&#x2080;&thinsp;&middot;&thinsp;sinc&sup2;(&beta;)&thinsp;&middot;&thinsp;cos&sup2;(&delta;/2)",
+    "&beta; = &pi;ay/&lambda;L,&ensp;&delta; = 2&pi;dy/&lambda;L"
+  ],
+  "difficulty": "intermediate",
+  "tags": ["quantum mechanics", "waves", "interference"],
+  "library": "p5.js 1.9.4",
+  "interactive_controls": [
+    "Wavelength \u03bb slider",
+    "Slit separation d slider",
+    "Slit width a slider",
+    "Wave / Particle display mode",
+    "Particle speed slider",
+    "Which-way detector toggle",
+    "Clear button"
+  ]
+}
