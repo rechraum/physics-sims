@@ -1,0 +1,23 @@
+{
+  "title": "Quantum Tunneling",
+  "slug": "quantum-tunneling",
+  "description": "A particle tunnels through a potential barrier even when its energy is below the barrier height — a purely quantum effect with no classical analogue. Watch the evanescent wave decay inside the barrier, observe above-barrier resonances, and compare quantum transmission to the classical step function.",
+  "physics_concepts": ["quantum tunneling", "evanescent wave", "transmission coefficient", "above-barrier resonance"],
+  "equations": [
+    "T = 1 / [ 1 + (k&sup2; + u&sup2;)&sup2; sinh&sup2;(uL) / (4k&sup2;u&sup2;) ]",
+    "T = 1 when qL = n&pi;,  q = &radic;(E&minus;V<sub>0</sub>)",
+    "T &asymp; e<sup>&minus;2uL</sup> &middot; prefactor,  u = &radic;(V<sub>0</sub>&minus;E)"
+  ],
+  "difficulty": "intermediate",
+  "tags": ["quantum mechanics", "wave function", "potential barrier"],
+  "library": "p5.js",
+  "interactive_controls": [
+    "E/V₀ slider",
+    "Barrier width L slider",
+    "Barrier height V₀ slider",
+    "Wave display toggle (ψ / |ψ|² / Both)",
+    "Animate / Pause button",
+    "Compare mode (Quantum / Classical / Both)",
+    "Edu mode (Evanescent / Resonance / Applications)"
+  ]
+}

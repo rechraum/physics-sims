@@ -328,3 +328,29 @@ to avoid division-by-zero.
   state resonances, connecting to particle-in-a-box. Same formulas apply with V₀ < 0.
 - **Step potential** (L → ∞): an infinitely thick barrier; T → 0 for E < V₀ and the
   above-barrier oscillations vanish. Shows the smooth quantum transition vs classical step.
+
+---
+
+## Future UX improvements (backlog)
+
+- **Decay-length annotation**: when E < V₀, draw a small horizontal bracket inside the
+  barrier spanning one decay length 1/u = 1/√(V₀−E) from the left face, labeled "1/u".
+  Makes the exponential sensitivity to u immediately visible.
+- **de Broglie wavelength annotation**: draw a small horizontal bracket on the left side
+  of the wave panel spanning one wavelength λ = 2π/k, labeled "λ = 2π/k". Connects
+  wave oscillations to the energy readout.
+- **Amplitude labels**: annotate the wave panel with small teal labels "T" (transmitted
+  flat region) and "1+R" (interference envelope peak) so users can read off the values
+  directly from the |ψ|² shape.
+- **Phase display mode**: add a "Phase" toggle to show arg(ψ(x)) as a background heatmap
+  or a wrapped polar indicator per region, revealing the evanescent region's pure-imaginary
+  character vs the oscillatory phase advance outside.
+- **T annotation on T(E) curve**: when hovering near the current E marker, show a small
+  T = value tooltip next to the dot on the T(E) curve (in addition to the HTML readout).
+- **Resonance number label**: for each resonance tick on the T(E) x-axis, show a tiny
+  "n=1", "n=2"… label so users can count and predict the resonance positions.
+- **Preset buttons**: "Thin barrier (L=0.5)", "Strong suppression (L=4)", "At resonance"
+  quick-set buttons to jump to illustrative parameter combinations.
+- **Energy color map**: already implemented (blue→purple→orange as E/V₀ goes 0→1→2);
+  consider also applying the color to the barrier top-edge indicator or the T-panel
+  current-E column background tint to reinforce the regime encoding.

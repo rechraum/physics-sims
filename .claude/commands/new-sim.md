@@ -23,6 +23,7 @@ Briefly state your understanding of:
 - (b) Canvas layout (which regions, what's in each)
 - (c) Controls and what they drive
 - (d) Edu panel content (how many modes, what each explains)
+- (e) Which edu modes have a canonical parameter set that best demonstrates the described phenomenon
 
 Then proceed to implementation.
 
@@ -33,6 +34,24 @@ Then proceed to implementation.
 - `$ARGUMENTS/style.css`
 - `$ARGUMENTS/sketch.js`
 - Update root `index.html`: add slug to `SIM_SLUGS` array and an entry to `SIM_COLORS`
+
+## Edu panel ↔ sim state convention
+
+Each edu mode button should **auto-set the sim parameters** to immediately demonstrate
+the phenomenon described in that panel. Implement a `setSliders(...)` helper and call it
+from `setEduMode()` for any mode that has a canonical parameter set.
+
+Requirements:
+- The BRIEF must specify canonical parameters for each edu mode that needs them.
+- `setEduMode(m)` calls `setSliders(eRatio, v0, l)` (or equivalent) before calling
+  `updateEduPanel(m)`, then resets dirty-detection flags so the new values take effect.
+- Each edu panel that auto-sets parameters includes a **`.param-hint`** block — a short
+  styled line (blue border for ψ/quantum, teal border for probability/resonance) that
+  tells the user what was set and what to interact with next. Use the `.param-hint` and
+  `.param-hint-teal` CSS classes defined in `quantum-tunneling/style.css` as the template
+  (copy those classes into each new sim's own `style.css`).
+- Edu modes that describe general phenomena without a unique canonical parameter set
+  (e.g., "Applications") do not need to auto-set parameters — leave the sim as-is.
 
 ## After building
 

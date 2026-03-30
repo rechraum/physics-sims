@@ -53,6 +53,7 @@ Sims are currently at the **root level** (not under a `/sims/` subfolder). A fut
 | `photoelectric-effect` | Photoelectric Effect | p5.js 1.9.4 | intermediate |
 | `uncertainty-principle` | Uncertainty Principle | p5.js 1.9.4 | intermediate |
 | `double-slit` | Double-Slit Experiment | p5.js 1.9.4 | intermediate |
+| `quantum-tunneling` | Quantum Tunneling | p5.js 1.9.4 | intermediate |
 
 **Archived (not in gallery):** `_archive/phase-space-wrapper` — original multi-sim wrapper, now fully split into individual sims above. `_archive/orbital-phase-space` — duplicate of `gravity-well`, retired.
 
@@ -154,9 +155,9 @@ Then open `http://localhost:8000`.
 - ✅ `photoelectric-effect` — animated apparatus, dual stacked plots (both models always visible)
 - ✅ `uncertainty-principle` — dual-panel (position + momentum), three shapes (Gaussian/Two-peak/Chirped), Measure mode with bouncing wave packet + interactive collapse + free spreading, dynamic edu strip cycles through 3 states (de Broglie chirp explanation → Born-rule collapse → σ(t) spreading), legend on canvas, contextual precision slider label
 - ✅ `double-slit` — layout-c; apparatus panel (wave map via p5.Graphics + animated arcs, barrier, source glow) + screen panel (dot scatter + histogram + theory curve); Fraunhofer I(y)=sinc²·cos² formula with 2000-bin CDF sampling; which-way mode (incoherent sum, orange curve, purple detector indicator); Wave/Particle display modes with particle flight animation; three edu modes (Wave-Particle, Complementarity, Math); `lambdaRGB()` maps λ slider → rainbow (violet→red) for source, arcs, wave map, particles, dots, histogram; preview: `node scripts/capture-previews.js double-slit`
+- ✅ `quantum-tunneling` — layout-c; analytic rectangular-barrier solution (F=1, solve BCs backward) for both E<V₀ (evanescent, real exponentials) and E>V₀ (above-barrier resonance, oscillatory); left panel: animated Re[ψ(x,t)] + |ψ|² probability density + barrier fill + forbidden-zone tint + turning-point dashes; right panel: precomputed 500-pt T(E) curve (teal) + classical step (orange dashed) + current-E marker + resonance tick marks; dirty-flag rebuilds for coefficient and T-curve arrays; three edu modes (Evanescent, Resonance, Applications); preview: `node scripts/capture-previews.js quantum-tunneling`
 
 ### Next up
-- **`quantum-tunneling`** — BRIEF.md written; ready to implement. See `quantum-tunneling/BRIEF.md`.
 
 ### Medium-term
 

@@ -1,0 +1,83 @@
+/* ── Quantum Tunneling — sim-specific styles ─────────────────────────────── */
+
+.sim-wrapper.layout-c .sim-panel .panel-heading {
+  font-size: 0.82rem;
+}
+.sim-wrapper.layout-c .sim-panel label,
+.sim-wrapper.layout-c .sim-panel .control-group label {
+  font-size: 0.88rem;
+  color: var(--text-primary);
+}
+.sim-wrapper.layout-c .sim-panel .btn {
+  font-size: 0.82rem;
+}
+
+/* ── Button groups ────────────────────────────────────────────────────────── */
+.btn-group {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.btn-group .btn {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 6px;
+}
+
+/* ── Wave display buttons active — teal ─────────────────────────────────── */
+.wave-btn.active {
+  background: rgba(45, 215, 135, 0.12) !important;
+  border-color: rgba(45, 215, 135, 0.7) !important;
+  color: rgb(45, 215, 135) !important;
+}
+
+/* ── Compare mode buttons active — orange ────────────────────────────────── */
+.cmp-btn.active {
+  background: rgba(255, 150, 50, 0.12) !important;
+  border-color: rgba(255, 150, 50, 0.7) !important;
+  color: rgb(255, 150, 50) !important;
+}
+
+/* ── Edu mode buttons active — blue ────────────────────────────────────── */
+.edu-btn.active {
+  background: var(--accent-dim) !important;
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+}
+
+/* ── Animate button ─────────────────────────────────────────────────────── */
+.anim-btn {
+  width: 100%;
+  margin-top: 6px;
+  padding: 6px;
+}
+
+/* ── Edu param hints (sim-state callouts in edu strip) ───────────────────── */
+.param-hint {
+  font-size: 0.78rem;
+  color: rgb(130, 165, 210);
+  background: rgba(88, 166, 255, 0.07);
+  border-left: 2px solid rgba(88, 166, 255, 0.35);
+  padding: 5px 8px;
+  margin: 8px 0 2px 0;
+  border-radius: 0 3px 3px 0;
+  line-height: 1.45;
+}
+.param-hint.param-hint-teal {
+  color: rgb(100, 200, 160);
+  background: rgba(45, 215, 135, 0.07);
+  border-left-color: rgba(45, 215, 135, 0.40);
+}
+
+/* ── T/R readout ────────────────────────────────────────────────────────── */
+.energy-info {
+  font-family: 'Courier New', monospace;
+  font-size: 0.84rem;
+  color: var(--accent);
+  background: var(--accent-dim);
+  border: 1px solid rgba(88, 166, 255, 0.35);
+  border-radius: 4px;
+  padding: 5px 10px;
+  margin-top: 5px;
+  letter-spacing: 0.01em;
+}
