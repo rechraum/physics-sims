@@ -1,0 +1,99 @@
+/* ── Maxwell-Boltzmann Distribution — sim-specific styles ───────────────── */
+
+/* ── Panel text sizing ───────────────────────────────────────────────────── */
+.sim-wrapper.layout-c .sim-panel .panel-heading {
+  font-size: 0.82rem;
+}
+.sim-wrapper.layout-c .sim-panel label,
+.sim-wrapper.layout-c .sim-panel .control-group label {
+  font-size: 0.88rem;
+  color: var(--text-primary);
+}
+.sim-wrapper.layout-c .sim-panel .btn {
+  font-size: 0.82rem;
+}
+
+/* ── Button groups ───────────────────────────────────────────────────────── */
+.btn-group {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.btn-group .btn {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 6px;
+}
+
+/* ── Edu mode buttons active — teal ──────────────────────────────────────── */
+.edu-btn.active {
+  background: rgba(45, 215, 135, 0.12) !important;
+  border-color: rgba(45, 215, 135, 0.7) !important;
+  color: rgb(45, 215, 135) !important;
+}
+
+/* ── Marker toggle buttons active — teal ─────────────────────────────────── */
+.marker-btn.active {
+  background: rgba(45, 215, 135, 0.12) !important;
+  border-color: rgba(45, 215, 135, 0.7) !important;
+  color: rgb(45, 215, 135) !important;
+}
+
+/* ── Reset speeds button ─────────────────────────────────────────────────── */
+.btn-reset {
+  width: 100%;
+  padding: 7px 6px;
+  background: rgba(45, 215, 135, 0.10);
+  border: 1px solid rgba(45, 215, 135, 0.55);
+  color: rgb(45, 215, 135);
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.btn-reset:hover {
+  background: rgba(45, 215, 135, 0.20);
+  border-color: rgba(45, 215, 135, 0.85);
+}
+
+/* ── Color map select ────────────────────────────────────────────────────── */
+.colormap-select {
+  width: 100%;
+  padding: 5px 8px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: 0.82rem;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238b949e'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 24px;
+}
+.colormap-select:hover {
+  border-color: var(--accent);
+}
+.colormap-select option {
+  background: var(--bg-secondary);
+}
+
+/* ── Edu param hints (sim-state callouts in edu strip) ───────────────────── */
+.param-hint {
+  font-size: 0.78rem;
+  color: rgb(130, 165, 210);
+  background: rgba(88, 166, 255, 0.07);
+  border-left: 2px solid rgba(88, 166, 255, 0.35);
+  padding: 5px 8px;
+  margin: 8px 0 2px 0;
+  border-radius: 0 3px 3px 0;
+  line-height: 1.45;
+}
+.param-hint.param-hint-teal {
+  color: rgb(100, 200, 160);
+  background: rgba(45, 215, 135, 0.07);
+  border-left-color: rgba(45, 215, 135, 0.40);
+}

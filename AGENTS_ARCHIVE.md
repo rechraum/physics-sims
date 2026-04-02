@@ -117,3 +117,34 @@ Three-act interactive measurement mode added as the default landing mode:
 - Theory curve color left as fixed blue/orange (physics indicator, not particle wavelength).
 - Wave buffer rebuilt on every λ change (already tracked by `waveDirty` in `readControls()`), so the interference map recolors instantly.
 - `drawBottomInfo(ratio, msg)` — unified product + status renderer at canvas bottom
+
+## Session: Maxwell-Boltzmann Distribution (thermodynamics series #1)
+
+### Core sim
+
+- **`maxwell-boltzmann`** — layout-c; first thermodynamics-series sim. Two-panel canvas: left ~48% = gas chamber (square box), right ~52% = speed distribution panel. Separated by vertical divider.
+- **Gas chamber**: N hard disks (radius 4px) in a square elastic-wall box. O(N²) pair collision detection each frame — feasible at N ≤ 200, 60 fps. Equal-mass elastic collision formula: `imp = (dv·dr)/|dr|²`; velocity components along line of centres exchanged; overlap separation applied. Wall reflection reverses the relevant velocity component.
+- **Particle initialization**: Box-Muller transform draws `vx, vy` from Gaussian with σ = √(T/m), giving the 2D Rayleigh speed distribution at equilibrium. `doResetSpeeds()` assigns all particles speed `v_p = √(2T/m)` in random directions — the "wow" demo of equilibration from monospeed.
+- **Temperature control**: T slider change → `rescaleToT(T_new)` scales all velocities by √(T_new/T_old) instantaneously. Mass or N change → full `initParticles()`. Heat/Cool buttons ±20% with clamp to [0.2, 5.0].
+- **Speed histogram**: 30 bins from 0 to 4·v_rms (slider T), updated every 15 frames. Normalised to probability density `bin_count/(N·dv)`. Theory overlay: analytic 3D M-B `f(v) = 4π(m/2πT)^(3/2) v² exp(−mv²/2T)` using measured T_sim. Both scaled so theory peak = 85% panel height.
+- **Characteristic speed markers**: `v_p` (purple dashed), `⟨v⟩` (blue dashed), `v_rms` (teal dashed); each toggleable via Display buttons.
+- **KE readout**: `⟨KE⟩` from simulation (= T in 2D, k=1) vs `³⁄₂kT` (3D theory); shows the 2D/3D distinction with a dim annotation.
+- **Click interaction**: left-click inside box kicks nearby particles (r=40px); Shift+click or right-click cools them.
+- **Three edu modes**: Distribution / Equipartition / Evaporation; each calls `setSliders()` to auto-set canonical params and shows a `.param-hint-teal` block. Evaporation sets T=3.5 to emphasise the high-speed tail.
+- **Thermodynamics filter chip** added to gallery `index.html`; gallery color `#3282dc → #dc3c32` (blue → red).
+
+### Color map pass (follow-up commit)
+
+- **Histogram bars** changed from flat teal to per-bar color matching the active particle color map (each bar samples its center speed through `particleColor()`). Creates a direct visual link between the particle chamber and the histogram.
+- **Three color maps** selectable via `<select>` dropdown:
+  - *Thermal* (default): blue `rgb(50,130,220)` → white `rgb(220,220,220)` → red `rgb(220,60,50)`, pivot at v_rms
+  - *Blackbody*: Tanner Helland Kelvin→RGB approximation; maps speed to 1000–10000 K (dark ember → sunlight white → blue-white star). Ties visually to the `blackbody-radiation` sim.
+  - *Rainbow*: HSL hue sweep 270°→0° (violet → blue → green → yellow → red), S=0.9, L=0.55. Each speed bin gets a distinct perceptually-uniform color.
+- `particleColor()` is now a dispatcher calling `particleColorThermal()`, `particleColorBlackbody()`, or `particleColorRainbow()`. `kelvinToRGB()` and `hueToRGB()` are standalone helpers.
+- CSS: `.colormap-select` styled to match dark theme (custom SVG chevron, var(--bg-panel) background, accent border on hover).
+
+### Key code decisions
+
+- Used slider T (not measured T) for histogram x-axis range and bin widths — prevents the axis from jittering while the gas equilibrates
+- `imp = dot/d2` (not `dot` alone) in collision — the scalar `dot = (v1−v2)·(r2−r1)` mixes velocity and position units; dividing by d² gives the correct normal-component velocity exchange
+- `T_prev` tracks the last-applied T so `rescaleToT` is idempotent when called repeatedly at the same value

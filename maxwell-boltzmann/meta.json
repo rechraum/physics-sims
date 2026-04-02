@@ -1,0 +1,15 @@
+{
+  "title": "Maxwell-Boltzmann Distribution",
+  "slug": "maxwell-boltzmann",
+  "description": "Watch a 2D ideal gas spontaneously develop the Maxwell-Boltzmann speed distribution through random elastic collisions. Adjust temperature and mass to see how the distribution shifts, and observe the three characteristic speeds — v_p, ⟨v⟩, and v_rms — that define the shape of any thermal gas.",
+  "physics_concepts": ["Maxwell-Boltzmann distribution", "kinetic theory", "equipartition theorem", "elastic collisions"],
+  "equations": [
+    "f(v) = 4&pi; (m/2&pi;kT)<sup>3/2</sup> v<sup>2</sup> e<sup>&minus;mv&sup2;/2kT</sup>",
+    "v<sub>p</sub> = &radic;(2kT/m) &nbsp; &lang;v&rang; = &radic;(8kT/&pi;m) &nbsp; v<sub>rms</sub> = &radic;(3kT/m)",
+    "&frac12;m&lang;v&sup2;&rang; = &frac32;kT"
+  ],
+  "difficulty": "beginner",
+  "tags": ["thermodynamics", "statistical mechanics"],
+  "library": "p5.js",
+  "interactive_controls": ["N particles slider", "Temperature slider", "Mass slider", "Heat/Cool buttons", "Reset speeds", "v_p/⟨v⟩/v_rms toggles", "Distribution/Equipartition/Evaporation modes"]
+}

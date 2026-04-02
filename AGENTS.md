@@ -54,6 +54,43 @@ Sims are currently at the **root level** (not under a `/sims/` subfolder). A fut
 | `uncertainty-principle` | Uncertainty Principle | p5.js 1.9.4 | intermediate |
 | `double-slit` | Double-Slit Experiment | p5.js 1.9.4 | intermediate |
 | `quantum-tunneling` | Quantum Tunneling | p5.js 1.9.4 | intermediate |
+| `maxwell-boltzmann` | Maxwell-Boltzmann Distribution | p5.js 1.9.4 | beginner |
+
+**Planned series (BRIEFs written, not yet implemented):**
+
+*Quantum series (continued):*
+
+| Slug | Title | Difficulty |
+|------|-------|------------|
+| `bell-inequality` | Bell's Inequality & CHSH Test | intermediate |
+| `quantum-eraser` | Quantum Eraser | intermediate |
+| `quantum-harmonic-oscillator` | Quantum Harmonic Oscillator | intermediate |
+| `stern-gerlach` | Stern-Gerlach Experiment | intermediate |
+| `mach-zehnder` | Mach-Zehnder Interferometer | intermediate |
+| `quantum-zeno` | Quantum Zeno Effect | intermediate |
+| `hydrogen-orbitals` | Hydrogen Atom Orbitals | advanced |
+
+*Quantum Information series (new gallery tag: "quantum information"):*
+
+| Slug | Title | Difficulty |
+|------|-------|------------|
+| `qubit-bloch` | Qubit & Bloch Sphere | beginner |
+| `bell-states` | Bell States & Entanglement | intermediate |
+| `quantum-teleportation` | Quantum Teleportation | intermediate |
+| `bb84-crypto` | BB84 Quantum Cryptography | intermediate |
+
+*Thermodynamics series (new gallery tag: "thermodynamics"):*
+
+| Slug | Title | Difficulty |
+|------|-------|------------|
+| `maxwell-boltzmann` | Maxwell-Boltzmann Distribution | beginner | ✅ |
+| `entropy-microstates` | Entropy & Microstates | intermediate |
+| `maxwells-demon` | Maxwell's Demon | advanced |
+| `carnot-engine` | Carnot Engine & Heat Cycles | beginner |
+| `laplace-demon` | Laplace's Demon | intermediate |
+| `feynman-ratchet` | Feynman Ratchet | intermediate |
+| `reaction-diffusion` | Reaction-Diffusion & Turing Patterns | intermediate |
+| `fluctuation-theorems` | Fluctuation Theorems (Jarzynski) | advanced |
 
 **Archived (not in gallery):** `_archive/phase-space-wrapper` — original multi-sim wrapper, now fully split into individual sims above. `_archive/orbital-phase-space` — duplicate of `gravity-well`, retired.
 
@@ -104,6 +141,10 @@ IIFE script included in every sim's `index.html` with `defer`. Self-injects:
 - Hardcoded `SIM_SLUGS` array — **must be updated when adding a new sim**
 - `SIM_COLORS` object maps slug → CSS gradient for card accent bar — **update when adding a sim**
 - Filter chips: Difficulty (All / Beginner / Intermediate / Advanced) and Topic (All / Chaos / Phase Space / Oscillator / Stochastic / Quantum)
+- **Planned new topic chips** (require code changes to `index.html`):
+  - `"Quantum Information"` — for qubit-bloch, bell-states, quantum-teleportation, bb84-crypto; tag value `"quantum information"`
+  - `"Thermodynamics"` — for maxwell-boltzmann, entropy-microstates, maxwells-demon, carnot-engine, feynman-ratchet, etc.; tag value `"thermodynamics"`
+  - Note: `laplace-demon` gets the existing `"chaos"` tag (not a thermo tag)
 - Live search across title, description, concepts, tags
 
 ---
@@ -155,12 +196,63 @@ Then open `http://localhost:8000`.
 - ✅ `photoelectric-effect` — animated apparatus, dual stacked plots (both models always visible)
 - ✅ `uncertainty-principle` — dual-panel (position + momentum), three shapes (Gaussian/Two-peak/Chirped), Measure mode with bouncing wave packet + interactive collapse + free spreading, dynamic edu strip cycles through 3 states (de Broglie chirp explanation → Born-rule collapse → σ(t) spreading), legend on canvas, contextual precision slider label
 - ✅ `double-slit` — layout-c; apparatus panel (wave map via p5.Graphics + animated arcs, barrier, source glow) + screen panel (dot scatter + histogram + theory curve); Fraunhofer I(y)=sinc²·cos² formula with 2000-bin CDF sampling; which-way mode (incoherent sum, orange curve, purple detector indicator); Wave/Particle display modes with particle flight animation; three edu modes (Wave-Particle, Complementarity, Math); `lambdaRGB()` maps λ slider → rainbow (violet→red) for source, arcs, wave map, particles, dots, histogram; preview: `node scripts/capture-previews.js double-slit`
+- ✅ `maxwell-boltzmann` — layout-c; 2D elastic particle gas (O(N²) collisions, wall reflection); speed histogram (30 bins, probability density) + 3D M-B theory curve (orange); v_p/⟨v⟩/v_rms dashed markers (purple/blue/teal) with toggles; histogram bars colored by speed using active color map; three color maps: Thermal (blue→white→red), Blackbody (Tanner Helland Kelvin→RGB, 1000–10000 K), Rainbow (HSL hue 270°→0°) selectable via dropdown; Heat/Cool ±20% buttons; Reset speeds demo (convergence from monospeed); three edu modes (Distribution/Equipartition/Evaporation) each auto-setting params via setSliders(); click-to-kick interaction; Thermodynamics filter chip added to gallery; preview: `node scripts/capture-previews.js maxwell-boltzmann`
 - ✅ `quantum-tunneling` — layout-c; analytic rectangular-barrier solution (F=1, solve BCs backward) for both E<V₀ (evanescent, real exponentials) and E>V₀ (above-barrier resonance, oscillatory); left panel: animated Re[ψ(x,t)] + |ψ|² probability density + barrier fill + forbidden-zone tint + turning-point dashes; right panel: precomputed 500-pt T(E) curve (teal) + classical step (orange dashed) + current-E marker + resonance tick marks; dirty-flag rebuilds for coefficient and T-curve arrays; three edu modes (Evanescent, Resonance, Applications); preview: `node scripts/capture-previews.js quantum-tunneling`
 
 ### Next up
 
+**Quantum series (continuing):**
+- `bell-inequality` — CHSH inequality; Alice & Bob angle correlations; quantum vs. LHV
+  correlation curves; running S estimate; edu: Local Realism / CHSH Test / History.
+  BRIEF: `bell-inequality/BRIEF.md`
+- `quantum-eraser` — three modes: No Labels / Which-Way / Eraser; coincidence subsets
+  R₊ and R₋ with complementary fringes; edu: Information / Complementarity / Delayed Choice.
+  BRIEF: `quantum-eraser/BRIEF.md`
+
+**Thermodynamics series (kickoff — build in this order):**
+- `entropy-microstates` — cell grid, W = N!/∏nᵢ!, S = k ln W; expand/compress operations;
+  S(t) and log W(t) traces; edu: Boltzmann / Arrow of Time / Equilibrium.
+  BRIEF: `entropy-microstates/BRIEF.md`
+- `maxwells-demon` — two modes: (A) Demon Mode (multi-molecule sorting, memory register,
+  erasure events) and (B) Szilard Engine (single-molecule cycle, step animation,
+  W = kT ln 2 work extraction); edu: Maxwell's Demon / Landauer / Shannon=Boltzmann.
+  BRIEF: `maxwells-demon/BRIEF.md`
+
 ### Medium-term
 
+**Quantum series (remaining):**
+- `quantum-harmonic-oscillator` — energy levels, zero-point energy, coherent states, ladder operators
+- `stern-gerlach` — spin measurement, magnetic deflection, discrete ±ħ/2 outcomes
+- `mach-zehnder` — beam splitters, path phase, coherence, which-path tie-in to quantum eraser
+- `quantum-zeno` — frequent measurement freezes decay; measurement as active intervention
+- `hydrogen-orbitals` — 2D cross-sections of ψ_nlm probability density (advanced, 3D challenge)
+
+**Quantum Information series** (new gallery chip "quantum information"):
+- `qubit-bloch` — Bloch sphere, superposition, measurement, basis rotation; QI entry point
+- `bell-states` — four Bell states, entanglement as resource; follows naturally from bell-inequality
+- `quantum-teleportation` — entanglement + classical channel; no FTL; 3-step protocol animation
+- `bb84-crypto` — BB84 protocol; eavesdropping disturbs the key; practical quantum information
+
+**Thermodynamics series (remaining):**
+- `carnot-engine` — PV diagram, efficiency η = 1−T_C/T_H, isothermal & adiabatic strokes
+- `laplace-demon` — determinism vs. chaos; demon tries to reverse time but sensitivity defeats it;
+  **tag: "chaos"** (connects to existing chaos sims); companion to double-pendulum, lorenz-attractor
+- `feynman-ratchet` — thermal noise + asymmetry; why you can't rectify equilibrium fluctuations;
+  connects to nonequilibrium and Maxwell's Demon
+- `reaction-diffusion` — Turing instability; activator-inhibitor dynamics; nonequilibrium self-organisation
+- `fluctuation-theorems` — Jarzynski equality; work distributions far from equilibrium;
+  W = e^{−ΔF/kT}; bridges thermo and information theory
+
+**Site features:**
+- **Knowledge Map** (concept graph) — navigable D3.js force-directed graph of all sims + concept
+  bridge nodes; era bands; click to navigate; filter by domain/difficulty.
+  Full spec: `knowledge-map/plan.md` (Phase 1A: MVP sim nodes; Phase 1B: concept nodes)
+- **Historical Timeline** — separate SVG page (`/knowledge-timeline/`) showing sims placed at
+  their discovery year on a horizontal timeline with domain rows. Simpler than the concept graph;
+  built in parallel as a complementary view. Spec: `knowledge-map/plan.md` (Phase 2)
+- **Gallery filter chips** — add "Quantum Information" and "Thermodynamics" chips to `index.html`
+
+**Maintenance:**
 - **Gallery filter tags** — additional topic chips if needed (e.g., "gravity", "engineering")
 - **Per-sim physics review** — audit correctness. Priority: `tunable-mass-damper` (damping ratio), `gravity-well` (orbit energy conservation)
 - **Educational content** — add `equations` to remaining sim meta.json files
@@ -179,6 +271,29 @@ Then open `http://localhost:8000`.
 - **CSS changes:** put design tokens and reusable classes in `shared/style.css`; sim-specific overrides stay in the sim's own `style.css`
 - **No frameworks, no build step** — keep it plain HTML/CSS/JS
 - **p5.js CDN:** use `https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js` — all sims standardized on 1.9.4
+
+### Thermodynamics series conventions (all layout-c sims)
+
+**Color language:**
+- Cold particles / low-energy: blue `rgb(50, 130, 220)`
+- Hot particles / high-energy: red `rgb(220, 60, 50)`
+- Medium-temperature / neutral: white `rgb(220, 220, 220)`
+- Temperature gradient: interpolate blue → white → red mapped to 0 → v_rms → 2·v_rms
+- Distribution / histogram: teal `rgba(45, 215, 135)` (consistent with quantum series)
+- Theory / classical prediction curve: orange `rgb(255, 150, 50)` (consistent)
+- Canvas background: `background(17, 24, 32)` (same as quantum series)
+
+**Code patterns:** same as quantum series (`computeGeometry`, `readControls`, `updatePhysics`,
+`EDU` object, `updateEduPanel`). Layout-c for all thermo sims.
+
+**Gallery tag:** `"thermodynamics"` (exact string for chip filter match). Exception:
+`laplace-demon` uses `"chaos"` — it is a complexity/chaos sim, not pure thermo.
+
+**Maxwell's Demon note:** `maxwells-demon` combines two modes — Demon Mode and Szilard
+Engine — in a single sim. Use a top-level mode toggle to switch between them. Each mode
+has its own canvas geometry; call `computeGeometry()` on mode switch.
+
+---
 
 ### Quantum series conventions (all layout-c sims)
 
