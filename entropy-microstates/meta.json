@@ -1,0 +1,11 @@
+{
+  "title": "Entropy & Microstates",
+  "slug": "entropy-microstates",
+  "description": "Visualise Boltzmann's S = k ln W. Watch W — the count of microscopic arrangements — explode as particles spread across a grid, and see why the second law is really just statistics.",
+  "physics_concepts": ["Boltzmann entropy", "microstates", "macrostates", "second law of thermodynamics", "statistical mechanics"],
+  "equations": ["S = k ln W", "W = N! / (n<sub>1</sub>! ··· n<sub>M</sub>!)", "S<sub>eq</sub> = kN ln M", "&Delta;S = Nk ln(V<sub>f</sub>/V<sub>i</sub>)"],
+  "difficulty": "intermediate",
+  "tags": ["thermodynamics", "statistical mechanics"],
+  "library": "p5.js",
+  "interactive_controls": ["N particles slider", "M cells select", "Reset corner / random", "Expand / Compress", "Speed slider", "Pause / Resume", "Explore modes"]
+}

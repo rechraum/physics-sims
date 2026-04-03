@@ -55,6 +55,7 @@ Sims are currently at the **root level** (not under a `/sims/` subfolder). A fut
 | `double-slit` | Double-Slit Experiment | p5.js 1.9.4 | intermediate |
 | `quantum-tunneling` | Quantum Tunneling | p5.js 1.9.4 | intermediate |
 | `maxwell-boltzmann` | Maxwell-Boltzmann Distribution | p5.js 1.9.4 | beginner |
+| `entropy-microstates` | Entropy & Microstates | p5.js 1.9.4 | intermediate |
 
 **Planned series (BRIEFs written, not yet implemented):**
 
@@ -198,6 +199,7 @@ Then open `http://localhost:8000`.
 - ✅ `double-slit` — layout-c; apparatus panel (wave map via p5.Graphics + animated arcs, barrier, source glow) + screen panel (dot scatter + histogram + theory curve); Fraunhofer I(y)=sinc²·cos² formula with 2000-bin CDF sampling; which-way mode (incoherent sum, orange curve, purple detector indicator); Wave/Particle display modes with particle flight animation; three edu modes (Wave-Particle, Complementarity, Math); `lambdaRGB()` maps λ slider → rainbow (violet→red) for source, arcs, wave map, particles, dots, histogram; preview: `node scripts/capture-previews.js double-slit`
 - ✅ `maxwell-boltzmann` — layout-c; 2D elastic particle gas (O(N²) collisions, wall reflection); speed histogram (30 bins, probability density) + 3D M-B theory curve (orange); v_p/⟨v⟩/v_rms dashed markers (purple/blue/teal) with toggles; histogram bars colored by speed using active color map; three color maps: Thermal (blue→white→red), Blackbody (Tanner Helland Kelvin→RGB, 1000–10000 K), Rainbow (HSL hue 270°→0°) selectable via dropdown; Heat/Cool ±20% buttons; Reset speeds demo (convergence from monospeed); three edu modes (Distribution/Equipartition/Evaporation) each auto-setting params via setSliders(); click-to-kick interaction; Thermodynamics filter chip added to gallery; preview: `node scripts/capture-previews.js maxwell-boltzmann`
 - ✅ `quantum-tunneling` — layout-c; analytic rectangular-barrier solution (F=1, solve BCs backward) for both E<V₀ (evanescent, real exponentials) and E>V₀ (above-barrier resonance, oscillatory); left panel: animated Re[ψ(x,t)] + |ψ|² probability density + barrier fill + forbidden-zone tint + turning-point dashes; right panel: precomputed 500-pt T(E) curve (teal) + classical step (orange dashed) + current-E marker + resonance tick marks; dirty-flag rebuilds for coefficient and T-curve arrays; three edu modes (Evanescent, Resonance, Applications); preview: `node scripts/capture-previews.js quantum-tunneling`
+- ✅ `entropy-microstates` — layout-c; N particles (5–60) in M cells (4/8/16/32 grid); W = N!/∏nᵢ! via log-factorial table (Stirling for n>70); left panel: microstate grid with teal occupancy tint + 8-hue particle dots + W/S readout; right panel: dual S(t) teal + log₁₀(W) blue traces with orange dashed S_eq/W_eq references and Expand/Compress event annotations; Expand doubles M (flashes new cells), Compress halves M (redistributes particles); three edu modes (Boltzmann/Arrow of Time/Equilibrium) all auto-set N=20, M=16, corner start; preview: `node scripts/capture-previews.js entropy-microstates`
 
 ### Next up
 
@@ -210,9 +212,7 @@ Then open `http://localhost:8000`.
   BRIEF: `quantum-eraser/BRIEF.md`
 
 **Thermodynamics series (kickoff — build in this order):**
-- `entropy-microstates` — cell grid, W = N!/∏nᵢ!, S = k ln W; expand/compress operations;
-  S(t) and log W(t) traces; edu: Boltzmann / Arrow of Time / Equilibrium.
-  BRIEF: `entropy-microstates/BRIEF.md`
+- ✅ `entropy-microstates` — complete. See Completed section above.
 - `maxwells-demon` — two modes: (A) Demon Mode (multi-molecule sorting, memory register,
   erasure events) and (B) Szilard Engine (single-molecule cycle, step animation,
   W = kT ln 2 work extraction); edu: Maxwell's Demon / Landauer / Shannon=Boltzmann.
@@ -267,6 +267,12 @@ Then open `http://localhost:8000`.
 
 ## Key Conventions
 
+- **Canvas text readability:** all text drawn on the p5 canvas must be bright and legible — **never** use dim grays for user-facing labels.
+  - Panel/plot titles: `fill(200, 215, 230)` — near-white
+  - Tick values, secondary labels: `fill(155, 170, 190)` — readable mid-tone
+  - Rotated axis labels: `fill(155, 170, 190)`
+  - Data annotations (reference labels, event markers): use the series color at full alpha
+  - **Do not use** `fill(65, 80, 100)`, `fill(80, 95, 115)`, or any darker gray for any text the user needs to read
 - **Adding a new sim:** create `<slug>/index.html`, `sketch.js`, `style.css`, `meta.json`; add slug to `SIM_SLUGS` and `SIM_COLORS` in root `index.html`; include `<script src="../shared/nav.js" defer></script>` in the sim's `<head>`
 - **CSS changes:** put design tokens and reusable classes in `shared/style.css`; sim-specific overrides stay in the sim's own `style.css`
 - **No frameworks, no build step** — keep it plain HTML/CSS/JS
