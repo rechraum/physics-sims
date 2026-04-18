@@ -1,0 +1,16 @@
+{
+  "title": "Carnot Engine",
+  "slug": "carnot-engine",
+  "description": "The Carnot engine is the most efficient heat engine possible — a proof that no machine can convert heat to work without waste. Watch the four-stroke thermodynamic cycle on a P-V diagram, see energy flow as a Sankey diagram, and compare ideal (reversible) efficiency against real engine losses tracked live via entropy production.",
+  "physics_concepts": ["Carnot cycle", "thermodynamic efficiency", "entropy production", "reversibility", "isothermal process", "adiabatic process", "P-V diagram", "Curzon-Ahlborn efficiency"],
+  "equations": [
+    "&eta;<sub>Carnot</sub> = 1 &minus; T<sub>C</sub>/T<sub>H</sub>",
+    "W<sub>net</sub> = Q<sub>H</sub> &minus; Q<sub>C</sub>",
+    "&Delta;S<sub>total</sub> = &minus;Q<sub>H</sub>/T<sub>H</sub> + Q<sub>C</sub>/T<sub>C</sub> &ge; 0",
+    "&eta;<sub>CA</sub> = 1 &minus; &radic;(T<sub>C</sub>/T<sub>H</sub>)  (max power)"
+  ],
+  "difficulty": "beginner",
+  "tags": ["thermodynamics", "statistical mechanics"],
+  "library": "p5.js",
+  "interactive_controls": ["Hot reservoir temperature T_H", "Cold reservoir temperature T_C", "Reversible / Real Engine mode", "Irreversibility slider", "Pause / Step stroke / Auto", "Speed multiplier", "Explore: Carnot / Entropy & Waste / Arrow of Time"]
+}

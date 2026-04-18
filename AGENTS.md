@@ -32,68 +32,12 @@ Sims are currently at the **root level** (not under a `/sims/` subfolder). A fut
 
 ---
 
-## Simulations Inventory
+## Simulations & Roadmap
 
-| Slug | Title | Library | Difficulty |
-|------|-------|---------|------------|
-| `diffusion-levy-flights` | Lévy Flights & Brownian Motion | p5.js 1.4.0 | intermediate |
-| `double-pendulum-array` | Double Pendulum Chaos | p5.js 1.6.0 | intermediate |
-| `dripping-faucet` | Dripping Faucet & the Logistic Map | Canvas API (no p5) | beginner |
-| `energy-landscape` | Energy Landscape Explorer | p5.js 1.6.0 | intermediate |
-| `gravity-well` | Gravity Well & Orbital Phase Space | p5.js 1.6.0 | intermediate |
-| `kicked-pendulum` | Kicked Pendulum | p5.js 1.6.0 | intermediate |
-| `lorenz-attractor` | Lorenz Attractor | p5.js 1.6.0 (WEBGL) | advanced |
-| `oscillator-phase-space` | Harmonic Oscillator Phase Space | p5.js 1.6.0 | beginner |
-| `relational-network` | Relational Network Dynamics | p5.js 1.6.0 | intermediate |
-| `three-body` | Three-Body Problem | p5.js 1.6.0 | advanced |
-| `tunable-mass-damper` | Tuned Mass Damper | p5.js 1.9.4 | intermediate |
-| `wave-interference` | Wave Interference | p5.js 1.9.4 | beginner |
-| `particle-in-a-box` | Particle in a Box | p5.js 1.9.4 | intermediate |
-| `blackbody-radiation` | Blackbody Radiation | p5.js 1.9.4 | intermediate |
-| `photoelectric-effect` | Photoelectric Effect | p5.js 1.9.4 | intermediate |
-| `uncertainty-principle` | Uncertainty Principle | p5.js 1.9.4 | intermediate |
-| `double-slit` | Double-Slit Experiment | p5.js 1.9.4 | intermediate |
-| `quantum-tunneling` | Quantum Tunneling | p5.js 1.9.4 | intermediate |
-| `maxwell-boltzmann` | Maxwell-Boltzmann Distribution | p5.js 1.9.4 | beginner |
-| `entropy-microstates` | Entropy & Microstates | p5.js 1.9.4 | intermediate |
+For the full inventory of completed and planned simulations, series plans (Quantum,
+Thermodynamics, Finance & Entropy), and prioritised next-up list, see **[ROADMAP.md](ROADMAP.md)**.
 
-**Planned series (BRIEFs written, not yet implemented):**
-
-*Quantum series (continued):*
-
-| Slug | Title | Difficulty |
-|------|-------|------------|
-| `bell-inequality` | Bell's Inequality & CHSH Test | intermediate |
-| `quantum-eraser` | Quantum Eraser | intermediate |
-| `quantum-harmonic-oscillator` | Quantum Harmonic Oscillator | intermediate |
-| `stern-gerlach` | Stern-Gerlach Experiment | intermediate |
-| `mach-zehnder` | Mach-Zehnder Interferometer | intermediate |
-| `quantum-zeno` | Quantum Zeno Effect | intermediate |
-| `hydrogen-orbitals` | Hydrogen Atom Orbitals | advanced |
-
-*Quantum Information series (new gallery tag: "quantum information"):*
-
-| Slug | Title | Difficulty |
-|------|-------|------------|
-| `qubit-bloch` | Qubit & Bloch Sphere | beginner |
-| `bell-states` | Bell States & Entanglement | intermediate |
-| `quantum-teleportation` | Quantum Teleportation | intermediate |
-| `bb84-crypto` | BB84 Quantum Cryptography | intermediate |
-
-*Thermodynamics series (new gallery tag: "thermodynamics"):*
-
-| Slug | Title | Difficulty |
-|------|-------|------------|
-| `maxwell-boltzmann` | Maxwell-Boltzmann Distribution | beginner | ✅ |
-| `entropy-microstates` | Entropy & Microstates | intermediate |
-| `maxwells-demon` | Maxwell's Demon | advanced |
-| `carnot-engine` | Carnot Engine & Heat Cycles | beginner |
-| `laplace-demon` | Laplace's Demon | intermediate |
-| `feynman-ratchet` | Feynman Ratchet | intermediate |
-| `reaction-diffusion` | Reaction-Diffusion & Turing Patterns | intermediate |
-| `fluctuation-theorems` | Fluctuation Theorems (Jarzynski) | advanced |
-
-**Archived (not in gallery):** `_archive/phase-space-wrapper` — original multi-sim wrapper, now fully split into individual sims above. `_archive/orbital-phase-space` — duplicate of `gravity-well`, retired.
+**Archived (not in gallery):** `_archive/phase-space-wrapper` (split into individual sims), `_archive/orbital-phase-space` (retired duplicate).
 
 ---
 
@@ -184,84 +128,9 @@ Then open `http://localhost:8000`.
 
 ---
 
-## Roadmap
+### Recently completed
 
-### Completed (full session notes in AGENTS_ARCHIVE.md)
-
-- ✅ Gallery portal, shared nav/About infrastructure, dark-theme layout system, filter chips
-- ✅ Per-sim UI overhaul: unified layout-a/b/c, HTML controls, nav bar offset fixes, dark theme
-- ✅ Preview thumbnails via Puppeteer (`scripts/capture-previews.js`); p5.js standardized to 1.9.4
-- ✅ `wave-interference` — layout-b, three modes, interference colormap; quantum series kickoff
-- ✅ `particle-in-a-box` — layout-c introduced, mode-sensitive edu panel pattern established
-- ✅ `blackbody-radiation` — two-region canvas, three spectrum modes, sqrt temperature mapping
-- ✅ `photoelectric-effect` — animated apparatus, dual stacked plots (both models always visible)
-- ✅ `uncertainty-principle` — dual-panel (position + momentum), three shapes (Gaussian/Two-peak/Chirped), Measure mode with bouncing wave packet + interactive collapse + free spreading, dynamic edu strip cycles through 3 states (de Broglie chirp explanation → Born-rule collapse → σ(t) spreading), legend on canvas, contextual precision slider label
-- ✅ `double-slit` — layout-c; apparatus panel (wave map via p5.Graphics + animated arcs, barrier, source glow) + screen panel (dot scatter + histogram + theory curve); Fraunhofer I(y)=sinc²·cos² formula with 2000-bin CDF sampling; which-way mode (incoherent sum, orange curve, purple detector indicator); Wave/Particle display modes with particle flight animation; three edu modes (Wave-Particle, Complementarity, Math); `lambdaRGB()` maps λ slider → rainbow (violet→red) for source, arcs, wave map, particles, dots, histogram; preview: `node scripts/capture-previews.js double-slit`
-- ✅ `maxwell-boltzmann` — layout-c; 2D elastic particle gas (O(N²) collisions, wall reflection); speed histogram (30 bins, probability density) + 3D M-B theory curve (orange); v_p/⟨v⟩/v_rms dashed markers (purple/blue/teal) with toggles; histogram bars colored by speed using active color map; three color maps: Thermal (blue→white→red), Blackbody (Tanner Helland Kelvin→RGB, 1000–10000 K), Rainbow (HSL hue 270°→0°) selectable via dropdown; Heat/Cool ±20% buttons; Reset speeds demo (convergence from monospeed); three edu modes (Distribution/Equipartition/Evaporation) each auto-setting params via setSliders(); click-to-kick interaction; Thermodynamics filter chip added to gallery; preview: `node scripts/capture-previews.js maxwell-boltzmann`
-- ✅ `quantum-tunneling` — layout-c; analytic rectangular-barrier solution (F=1, solve BCs backward) for both E<V₀ (evanescent, real exponentials) and E>V₀ (above-barrier resonance, oscillatory); left panel: animated Re[ψ(x,t)] + |ψ|² probability density + barrier fill + forbidden-zone tint + turning-point dashes; right panel: precomputed 500-pt T(E) curve (teal) + classical step (orange dashed) + current-E marker + resonance tick marks; dirty-flag rebuilds for coefficient and T-curve arrays; three edu modes (Evanescent, Resonance, Applications); preview: `node scripts/capture-previews.js quantum-tunneling`
-- ✅ `entropy-microstates` — layout-c; N particles (5–60) in M cells (4/8/16/32 grid); W = N!/∏nᵢ! via log-factorial table (Stirling for n>70); left panel: microstate grid with teal occupancy tint + 8-hue particle dots + W/S readout; right panel: dual S(t) teal + log₁₀(W) blue traces with orange dashed S_eq/W_eq references and Expand/Compress event annotations; Expand doubles M (flashes new cells), Compress halves M (redistributes particles); three edu modes (Boltzmann/Arrow of Time/Equilibrium) all auto-set N=20, M=16, corner start; preview: `node scripts/capture-previews.js entropy-microstates`
-
-### Next up
-
-**Quantum series (continuing):**
-- `bell-inequality` — CHSH inequality; Alice & Bob angle correlations; quantum vs. LHV
-  correlation curves; running S estimate; edu: Local Realism / CHSH Test / History.
-  BRIEF: `bell-inequality/BRIEF.md`
-- `quantum-eraser` — three modes: No Labels / Which-Way / Eraser; coincidence subsets
-  R₊ and R₋ with complementary fringes; edu: Information / Complementarity / Delayed Choice.
-  BRIEF: `quantum-eraser/BRIEF.md`
-
-**Thermodynamics series (kickoff — build in this order):**
-- ✅ `entropy-microstates` — complete. See Completed section above.
-- `maxwells-demon` — two modes: (A) Demon Mode (multi-molecule sorting, memory register,
-  erasure events) and (B) Szilard Engine (single-molecule cycle, step animation,
-  W = kT ln 2 work extraction); edu: Maxwell's Demon / Landauer / Shannon=Boltzmann.
-  BRIEF: `maxwells-demon/BRIEF.md`
-
-### Medium-term
-
-**Quantum series (remaining):**
-- `quantum-harmonic-oscillator` — energy levels, zero-point energy, coherent states, ladder operators
-- `stern-gerlach` — spin measurement, magnetic deflection, discrete ±ħ/2 outcomes
-- `mach-zehnder` — beam splitters, path phase, coherence, which-path tie-in to quantum eraser
-- `quantum-zeno` — frequent measurement freezes decay; measurement as active intervention
-- `hydrogen-orbitals` — 2D cross-sections of ψ_nlm probability density (advanced, 3D challenge)
-
-**Quantum Information series** (new gallery chip "quantum information"):
-- `qubit-bloch` — Bloch sphere, superposition, measurement, basis rotation; QI entry point
-- `bell-states` — four Bell states, entanglement as resource; follows naturally from bell-inequality
-- `quantum-teleportation` — entanglement + classical channel; no FTL; 3-step protocol animation
-- `bb84-crypto` — BB84 protocol; eavesdropping disturbs the key; practical quantum information
-
-**Thermodynamics series (remaining):**
-- `carnot-engine` — PV diagram, efficiency η = 1−T_C/T_H, isothermal & adiabatic strokes
-- `laplace-demon` — determinism vs. chaos; demon tries to reverse time but sensitivity defeats it;
-  **tag: "chaos"** (connects to existing chaos sims); companion to double-pendulum, lorenz-attractor
-- `feynman-ratchet` — thermal noise + asymmetry; why you can't rectify equilibrium fluctuations;
-  connects to nonequilibrium and Maxwell's Demon
-- `reaction-diffusion` — Turing instability; activator-inhibitor dynamics; nonequilibrium self-organisation
-- `fluctuation-theorems` — Jarzynski equality; work distributions far from equilibrium;
-  W = e^{−ΔF/kT}; bridges thermo and information theory
-
-**Site features:**
-- **Knowledge Map** (concept graph) — navigable D3.js force-directed graph of all sims + concept
-  bridge nodes; era bands; click to navigate; filter by domain/difficulty.
-  Full spec: `knowledge-map/plan.md` (Phase 1A: MVP sim nodes; Phase 1B: concept nodes)
-- **Historical Timeline** — separate SVG page (`/knowledge-timeline/`) showing sims placed at
-  their discovery year on a horizontal timeline with domain rows. Simpler than the concept graph;
-  built in parallel as a complementary view. Spec: `knowledge-map/plan.md` (Phase 2)
-- **Gallery filter chips** — add "Quantum Information" and "Thermodynamics" chips to `index.html`
-
-**Maintenance:**
-- **Gallery filter tags** — additional topic chips if needed (e.g., "gravity", "engineering")
-- **Per-sim physics review** — audit correctness. Priority: `tunable-mass-damper` (damping ratio), `gravity-well` (orbit energy conservation)
-- **Educational content** — add `equations` to remaining sim meta.json files
-
-### Longer-term
-
-- **Three.js upgrade for `lorenz-attractor`** — better camera controls and performance than p5.WEBGL
-- **Move sims to `/sims/` subfolder** — requires updating `SIM_SLUGS`, `galleryHref()`, all relative paths
-- **Link from personal site** — embed gallery or link card on owner's main GitHub Pages site
+- ✅ `carnot-engine` — layout-c; P-V diagram (4 animated strokes + cycle dot trail + filled area = W); Sankey energy flow (Q_H→W+Q_C, arrow widths ∝ energy, orange entropy-waste splinter); entropy scorecard (ΔS_hot, ΔS_cold, ΔS_total per cycle, W_lost = TC×ΔS); Reversible/Real Engine toggle; irreversibility slider δ (T_H_eff=T_H(1-δ), T_C_eff=TC(1+δ)); ghost Carnot cycle shown in grey dashes in real mode; Curzon-Ahlborn η_CA displayed; three edu modes (Carnot/Entropy & Waste/Arrow of Time); preview: `node scripts/capture-previews.js carnot-engine`
 
 ---
 

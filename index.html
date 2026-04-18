@@ -34,6 +34,25 @@
       line-height: 1.7;
     }
 
+    .btn-concept-map {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 8px 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-concept-map:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
     /* ── Main layout ─────────────────────────────────────── */
     main {
       max-width: 1200px;
@@ -316,6 +335,7 @@
   <header class="site-header">
     <h1>Physics <span>Simulations</span></h1>
     <p>Interactive visualizations of physical systems. Each simulation lets you explore a concept by adjusting parameters and observing the emergent behavior in real time.</p>
+    <a href="./knowledge-map/" class="btn-concept-map">Concept Map →</a>
   </header>
 
   <main>
@@ -392,6 +412,7 @@
       'quantum-tunneling',
       'maxwell-boltzmann',
       'entropy-microstates',
+      'carnot-engine',
     ];
 
     // Accent bar color per sim (can be customized)
@@ -416,6 +437,7 @@
       'quantum-tunneling':       'linear-gradient(90deg, #58a6ff, #a855f7)',
       'maxwell-boltzmann':       'linear-gradient(90deg, #3282dc, #dc3c32)',
       'entropy-microstates':     'linear-gradient(90deg, #2de2c0, #58a6ff)',
+      'carnot-engine':           'linear-gradient(90deg, #dc3c32, #2de2c0)',
     };
 
     // ── State ─────────────────────────────────────────────────
