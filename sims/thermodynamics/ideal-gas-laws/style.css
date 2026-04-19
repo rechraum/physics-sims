@@ -1,0 +1,76 @@
+/* ── Ideal Gas Laws — sim-specific styles ────────────────────────────────── */
+
+/* ── Panel text sizing ───────────────────────────────────────────────────── */
+.sim-wrapper.layout-c .sim-panel .panel-heading {
+  font-size: 0.82rem;
+}
+.sim-wrapper.layout-c .sim-panel label,
+.sim-wrapper.layout-c .sim-panel .control-group label {
+  font-size: 0.88rem;
+  color: var(--text-primary);
+}
+.sim-wrapper.layout-c .sim-panel .btn {
+  font-size: 0.82rem;
+}
+
+/* ── Button groups ───────────────────────────────────────────────────────── */
+.btn-group {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.btn-group .btn {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 6px;
+}
+
+/* ── Edu mode buttons active — teal ──────────────────────────────────────── */
+.edu-btn.active {
+  background: rgba(45, 215, 135, 0.12) !important;
+  border-color: rgba(45, 215, 135, 0.7) !important;
+  color: rgb(45, 215, 135) !important;
+}
+
+/* ── Derived pressure readout ────────────────────────────────────────────── */
+.p-readout-row {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  padding: 2px 0;
+}
+.p-readout-label {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+.p-readout-value {
+  font-size: 0.95rem;
+  font-family: var(--font-mono);
+  color: rgb(45, 215, 135);
+  font-weight: 600;
+  min-width: 46px;
+}
+.p-readout-unit {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+}
+
+/* ── Edu param hints ─────────────────────────────────────────────────────── */
+.param-hint {
+  font-size: 0.78rem;
+  color: rgb(130, 165, 210);
+  background: rgba(88, 166, 255, 0.07);
+  border-left: 2px solid rgba(88, 166, 255, 0.35);
+  padding: 5px 8px;
+  margin: 8px 0 2px 0;
+  border-radius: 0 3px 3px 0;
+  line-height: 1.45;
+}
+.param-hint.param-hint-teal {
+  color: rgb(100, 200, 160);
+  background: rgba(45, 215, 135, 0.07);
+  border-left-color: rgba(45, 215, 135, 0.40);
+}

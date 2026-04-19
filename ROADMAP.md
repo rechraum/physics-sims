@@ -38,6 +38,7 @@
 | `entropy-microstates` | Entropy & Microstates | Thermo | thermo series #2 |
 | `maxwells-demon` | Maxwell's Demon | Thermo | thermo series #3; Demon Mode + Szilard Engine; Landauer accounting |
 | `carnot-engine` | Carnot Engine | Thermo | thermo series #4; P-V diagram, Sankey, entropy scorecard, reversible/real modes |
+| `ideal-gas-laws` | Ideal Gas Laws | Thermo | beginner foundations; piston chamber; Boyle/Charles/Gay-Lussac with mode-switching diagram |
 
 **Archived:** `_archive/phase-space-wrapper` (split into individual sims), `_archive/orbital-phase-space` (retired duplicate).
 
@@ -68,7 +69,6 @@ tackling Carnot. Consider building 1–2 of these alongside or before `carnot-en
 
 | Slug | Title | Difficulty | Concept |
 |------|-------|------------|---------|
-| `ideal-gas-laws` | Ideal Gas Laws | beginner | PV=NkT; sliders for P, V, T, N; isochoric/isobaric/isothermal paths animated on P-V diagram; perfect entry point for total newcomers |
 | `thermodynamic-work` | Work, Heat & the First Law | beginner | First law ΔU = Q − W; piston-cylinder animation; different paths between same endpoints give different W — introduces path-dependence of work/heat |
 
 ### Thermodynamics series — non-equilibrium arc

@@ -1,0 +1,16 @@
+{
+  "title": "Ideal Gas Laws",
+  "slug": "ideal-gas-laws",
+  "description": "Explore PV = NkT interactively. Move the piston to compress or expand the gas and watch Boyle's, Charles's, and Gay-Lussac's laws emerge from a single equation.",
+  "physics_concepts": ["ideal gas law", "Boyle's law", "Charles's law", "Gay-Lussac's law"],
+  "equations": [
+    "PV = Nk<sub>B</sub>T",
+    "P<sub>1</sub>V<sub>1</sub> = P<sub>2</sub>V<sub>2</sub> (Boyle — isothermal)",
+    "V / T = const (Charles — isobaric)",
+    "P / T = const (Gay-Lussac — isochoric)"
+  ],
+  "difficulty": "beginner",
+  "tags": ["thermodynamics"],
+  "library": "p5.js",
+  "interactive_controls": ["N slider (molecules)", "T slider (temperature)", "V slider (volume)", "Edu mode buttons"]
+}
