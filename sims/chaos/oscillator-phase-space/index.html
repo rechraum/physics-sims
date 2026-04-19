@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phase Space Visualization</title>
+  <link rel="stylesheet" href="../../../shared/style.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
+  <script src="../../../shared/nav.js" defer></script>
+</head>
+<body>
+  <div class="sim-wrapper layout-a">
+    <div class="sim-canvas-area" id="canvas-container"></div>
+    <div class="sim-panel">
+      <div class="sim-controls-section">
+        <p class="panel-heading">Oscillators</p>
+        <div class="btn-group">
+          <button class="btn btn-primary" id="addOscillator">Add Oscillator</button>
+          <button class="btn btn-secondary" id="clearOscillators">Clear</button>
+        </div>
+        <div id="sliders" style="margin-top:10px;"></div>
+      </div>
+      <div class="sim-edu-section" id="sim-edu"></div>
+    </div>
+  </div>
+  <script src="sketch.js"></script>
+</body>
+</html>

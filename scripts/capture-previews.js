@@ -29,33 +29,46 @@ const SETTLE_MS = {
   'wave-interference':      2000,
 };
 
-const ALL_SLUGS = [
-  'diffusion-levy-flights',
-  'double-pendulum-array',
-  'dripping-faucet',
-  'energy-landscape',
-  'gravity-well',
-  'kicked-pendulum',
-  'lorenz-attractor',
-  'oscillator-phase-space',
-  'relational-network',
-  'three-body',
-  'tunable-mass-damper',
-  'wave-interference',
+// All sims: { slug, series } — series matches the folder under sims/.
+const ALL_SIMS = [
+  { slug: 'diffusion-levy-flights',  series: 'chaos' },
+  { slug: 'double-pendulum-array',   series: 'chaos' },
+  { slug: 'dripping-faucet',         series: 'chaos' },
+  { slug: 'energy-landscape',        series: 'chaos' },
+  { slug: 'gravity-well',            series: 'chaos' },
+  { slug: 'kicked-pendulum',         series: 'chaos' },
+  { slug: 'lorenz-attractor',        series: 'chaos' },
+  { slug: 'oscillator-phase-space',  series: 'chaos' },
+  { slug: 'relational-network',      series: 'chaos' },
+  { slug: 'three-body',              series: 'chaos' },
+  { slug: 'tunable-mass-damper',     series: 'chaos' },
+  { slug: 'wave-interference',       series: 'quantum' },
+  { slug: 'particle-in-a-box',       series: 'quantum' },
+  { slug: 'blackbody-radiation',     series: 'quantum' },
+  { slug: 'photoelectric-effect',    series: 'quantum' },
+  { slug: 'uncertainty-principle',   series: 'quantum' },
+  { slug: 'double-slit',             series: 'quantum' },
+  { slug: 'quantum-tunneling',       series: 'quantum' },
+  { slug: 'maxwell-boltzmann',       series: 'thermodynamics' },
+  { slug: 'entropy-microstates',     series: 'thermodynamics' },
+  { slug: 'carnot-engine',           series: 'thermodynamics' },
+  { slug: 'maxwells-demon',          series: 'thermodynamics' },
 ];
 
 // Optional: pass one or more slug names as CLI args to capture only those sims.
 //   node scripts/capture-previews.js wave-interference
 //   node scripts/capture-previews.js lorenz-attractor three-body
 const cliArgs = process.argv.slice(2);
-const SLUGS = cliArgs.length > 0 ? cliArgs : ALL_SLUGS;
+const SIMS = cliArgs.length > 0
+  ? cliArgs.map(s => ALL_SIMS.find(e => e.slug === s) || { slug: s, series: 'chaos' })
+  : ALL_SIMS;
 
 // Viewport for screenshots — 16:9ish, good for card thumbnails
 const VIEWPORT = { width: 1024, height: 640 };
 
-async function capture(browser, slug) {
-  const url = `${BASE_URL}/${slug}/`;
-  const outPath = path.join(REPO_ROOT, slug, 'preview.webp');
+async function capture(browser, { slug, series }) {
+  const url = `${BASE_URL}/sims/${series}/${slug}/`;
+  const outPath = path.join(REPO_ROOT, 'sims', series, slug, 'preview.webp');
   const settle = SETTLE_MS[slug] ?? SETTLE_MS.default;
 
   const page = await browser.newPage();
@@ -77,10 +90,10 @@ async function capture(browser, slug) {
   console.log('Launching browser…');
   const browser = await puppeteer.launch({ headless: true });
 
-  console.log(`Capturing ${SLUGS.length} sims…`);
+  console.log(`Capturing ${SIMS.length} sims…`);
   // Run sequentially to avoid hammering the local server
-  for (const slug of SLUGS) {
-    await capture(browser, slug);
+  for (const sim of SIMS) {
+    await capture(browser, sim);
   }
 
   await browser.close();

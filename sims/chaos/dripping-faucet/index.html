@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dripping Faucet Chaos Simulation</title>
+<link rel="stylesheet" href="../../../shared/style.css">
+<script src="../../../shared/nav.js" defer></script>
+<style>
+  body { margin: 0; padding-top: 44px; overflow: hidden; }
+
+  .faucet-sim-area {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 40px;
+    padding: 20px;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  #faucet-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  #faucet {
+    width: 100px;
+    height: 200px;
+    background: #30363d;
+    position: relative;
+    border-radius: 4px;
+  }
+
+  .droplet {
+    width: 10px;
+    height: 10px;
+    background: #58a6ff;
+    border-radius: 50%;
+    position: absolute;
+    left: 45px;
+    top: 190px;
+  }
+
+  #period-display {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  #bifurcation-canvas {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+  }
+</style>
+</head>
+<body>
+<div class="sim-wrapper layout-b">
+  <div class="sim-canvas-area">
+    <div class="faucet-sim-area">
+      <div id="faucet-container">
+        <div id="faucet"></div>
+        <div id="period-display">Period between drops: -- ms</div>
+      </div>
+      <canvas id="bifurcation-canvas" width="700" height="500"></canvas>
+    </div>
+  </div>
+
+  <div class="sim-panel">
+    <div class="sim-controls-section">
+      <p class="panel-heading">Controls</p>
+      <div class="control-group">
+        <label>Flow Rate (r) <span id="flow-rate-display">3.000</span></label>
+        <input type="range" id="flow-rate-slider" min="2.5" max="4.0" step="0.001" value="3.0">
+      </div>
+    </div>
+    <div class="sim-edu-section" id="sim-edu">
+      <p class="panel-heading">About</p>
+      <p class="edu-description">
+        This simulation demonstrates the transition to chaos in a dripping faucet system using the logistic map. As you adjust the flow rate, the dripping transitions from stable periodic behavior to chaotic patterns.
+      </p>
+      <p class="panel-heading" style="margin-top:10px;">Regions</p>
+      <p class="edu-description"><strong style="color:var(--text-primary);">Laminar (low r):</strong> Regular dripping with consistent periods — stable fixed points in the logistic map.</p>
+      <p class="edu-description"><strong style="color:var(--text-primary);">Period Doubling:</strong> As flow increases, the period alternates — bifurcations appear as branch splits on the diagram.</p>
+      <p class="edu-description"><strong style="color:var(--text-primary);">Chaos (high r):</strong> Irregular, unpredictable dripping — sensitive dependence on initial conditions.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const minFlowRate = 2.5;
+  const maxFlowRate = 4.0;
+  const minDelay = 500;
+  const maxDelay = 2000;
+
+  let flowRate = 3.0;
+  let x = 0.5;
+  let lastDropTime = Date.now();
+
+  const faucet = document.getElementById('faucet');
+  const flowRateSlider = document.getElementById('flow-rate-slider');
+  const flowRateDisplay = document.getElementById('flow-rate-display');
+  const periodDisplay = document.getElementById('period-display');
+  const bifurcationCanvas = document.getElementById('bifurcation-canvas');
+  const ctx = bifurcationCanvas.getContext('2d');
+
+  const bifurcationImageCanvas = document.createElement('canvas');
+  bifurcationImageCanvas.width = bifurcationCanvas.width;
+  bifurcationImageCanvas.height = bifurcationCanvas.height;
+  const bifurcationImageCtx = bifurcationImageCanvas.getContext('2d');
+  const margin = { top: 40, right: 20, bottom: 60, left: 80 };
+  const width = bifurcationCanvas.width - margin.left - margin.right;
+  const height = bifurcationCanvas.height - margin.top - margin.bottom;
+
+  function updateFlowRateDisplay() {
+    flowRateDisplay.textContent = flowRate.toFixed(3);
+  }
+
+  function dropWater() {
+    const currentTime = Date.now();
+    const period = currentTime - lastDropTime;
+    lastDropTime = currentTime;
+    periodDisplay.textContent = `Period between drops: ${period} ms`;
+
+    const droplet = document.createElement('div');
+    droplet.classList.add('droplet');
+    faucet.appendChild(droplet);
+
+    let position = 0;
+    const interval = setInterval(() => {
+      position += 5;
+      droplet.style.top = 190 + position + 'px';
+      if (position > 200) {
+        clearInterval(interval);
+        faucet.removeChild(droplet);
+      }
+    }, 20);
+
+    scheduleNextDrop();
+  }
+
+  function scheduleNextDrop() {
+    for (let i = 0; i < 1000; i++) { x = logisticMap(flowRate, x); }
+    x = logisticMap(flowRate, x);
+    const delay = minDelay + (maxDelay - minDelay) * x;
+    ctx.clearRect(0, 0, bifurcationCanvas.width, bifurcationCanvas.height);
+    ctx.drawImage(bifurcationImageCanvas, 0, 0);
+    drawFlowRateLine();
+    plotRedDot(flowRate, x);
+    setTimeout(dropWater, delay);
+  }
+
+  function logisticMap(r, x) { return r * x * (1 - x); }
+
+  function drawBifurcationDiagram() {
+    const ctx = bifurcationImageCtx;
+    ctx.fillStyle = '#0d1117';
+    ctx.fillRect(0, 0, bifurcationCanvas.width, bifurcationCanvas.height);
+    drawAxes(ctx);
+    for (let r = minFlowRate; r <= maxFlowRate; r += 0.001) {
+      let x = 0.5;
+      for (let i = 0; i < 1000; i++) {
+        x = logisticMap(r, x);
+        if (i >= 900) { plotPointOnCanvas(ctx, r, x); }
+      }
+    }
+  }
+
+  function drawAxes(ctx) {
+    ctx.beginPath();
+    ctx.moveTo(margin.left, margin.top);
+    ctx.lineTo(margin.left, margin.top + height);
+    ctx.moveTo(margin.left, margin.top + height);
+    ctx.lineTo(margin.left + width, margin.top + height);
+    ctx.strokeStyle = '#8b949e';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    ctx.font = '14px "Segoe UI", sans-serif';
+    ctx.fillStyle = '#e6edf3';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('Flow Rate (Q)', margin.left + width / 2, margin.top + height + 35);
+
+    ctx.save();
+    ctx.translate(margin.left - 55, margin.top + height / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('Time Between Drops (ms)', 0, 0);
+    ctx.restore();
+
+    ctx.fillStyle = '#8b949e';
+    for (let r = minFlowRate; r <= maxFlowRate; r += 0.5) {
+      const xPos = map(r, minFlowRate, maxFlowRate, margin.left, margin.left + width);
+      ctx.beginPath();
+      ctx.moveTo(xPos, margin.top + height);
+      ctx.lineTo(xPos, margin.top + height + 5);
+      ctx.stroke();
+      ctx.fillText(r.toFixed(1), xPos, margin.top + height + 20);
+    }
+
+    const delayStep = 250;
+    for (let delay = minDelay; delay <= maxDelay; delay += delayStep) {
+      const yPos = map(delay, minDelay, maxDelay, margin.top + height, margin.top);
+      ctx.beginPath();
+      ctx.moveTo(margin.left - 5, yPos);
+      ctx.lineTo(margin.left, yPos);
+      ctx.stroke();
+      ctx.textAlign = 'right';
+      ctx.fillText(`${delay}`, margin.left - 10, yPos);
+    }
+  }
+
+  function plotPointOnCanvas(canvasCtx, r, x) {
+    const delay = minDelay + (maxDelay - minDelay) * x;
+    const canvasX = map(r, minFlowRate, maxFlowRate, margin.left, margin.left + width);
+    const canvasY = map(delay, minDelay, maxDelay, margin.top + height, margin.top);
+    canvasCtx.fillStyle = '#58a6ff';
+    canvasCtx.fillRect(canvasX, canvasY, 1, 1);
+  }
+
+  function map(value, in_min, in_max, out_min, out_max) {
+    return (value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+  }
+
+  function drawFlowRateLine() {
+    const canvasX = map(flowRate, minFlowRate, maxFlowRate, margin.left, margin.left + width);
+    ctx.beginPath();
+    ctx.moveTo(canvasX, margin.top);
+    ctx.lineTo(canvasX, margin.top + height);
+    ctx.strokeStyle = '#f85149';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  function plotRedDot(r, xValue) {
+    const delay = minDelay + (maxDelay - minDelay) * xValue;
+    const canvasX = map(r, minFlowRate, maxFlowRate, margin.left, margin.left + width);
+    const canvasY = map(delay, minDelay, maxDelay, margin.top + height, margin.top);
+    ctx.fillStyle = '#ffa657';
+    ctx.beginPath();
+    ctx.arc(canvasX, canvasY, 4, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+
+  flowRateSlider.addEventListener('input', () => {
+    flowRate = parseFloat(flowRateSlider.value);
+    updateFlowRateDisplay();
+    x = 0.5;
+    ctx.clearRect(0, 0, bifurcationCanvas.width, bifurcationCanvas.height);
+    ctx.drawImage(bifurcationImageCanvas, 0, 0);
+    drawFlowRateLine();
+  });
+
+  updateFlowRateDisplay();
+  drawBifurcationDiagram();
+  ctx.drawImage(bifurcationImageCanvas, 0, 0);
+  drawFlowRateLine();
+  scheduleNextDrop();
+</script>
+</body>
+</html>

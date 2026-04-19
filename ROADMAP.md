@@ -36,6 +36,7 @@
 | `quantum-tunneling` | Quantum Tunneling | Quantum | analytic rectangular-barrier, T(E) curve |
 | `maxwell-boltzmann` | Maxwell-Boltzmann Distribution | Thermo | thermo series #1 |
 | `entropy-microstates` | Entropy & Microstates | Thermo | thermo series #2 |
+| `maxwells-demon` | Maxwell's Demon | Thermo | thermo series #3; Demon Mode + Szilard Engine; Landauer accounting |
 | `carnot-engine` | Carnot Engine | Thermo | thermo series #4; P-V diagram, Sankey, entropy scorecard, reversible/real modes |
 
 **Archived:** `_archive/phase-space-wrapper` (split into individual sims), `_archive/orbital-phase-space` (retired duplicate).
@@ -48,7 +49,6 @@
 
 | # | Slug | Title | Difficulty | Status |
 |---|------|-------|------------|--------|
-| 3 | `maxwells-demon` | Maxwell's Demon | advanced | BRIEF written |
 
 ### Quantum series (continuing)
 
@@ -134,8 +134,7 @@ criterion as Carnot efficiency.
 ## Longer-term
 
 - **Three.js upgrade** for `lorenz-attractor` — better camera/performance than p5.WEBGL
-- **Move sims to `/sims/` subfolder** — requires updating `SIM_SLUGS`, `galleryHref()`, all relative paths
-- **Knowledge Map** — navigable D3.js force-directed graph; spec in `knowledge-map/plan.md`
+- **Knowledge Map** — navigable D3.js force-directed graph; spec in `tools/knowledge-map/plan.md`
 - **Historical Timeline** — SVG page placing sims at discovery year; spec in `knowledge-map/plan.md`
 - **Gallery filter chips** — add "Quantum Information", "Thermodynamics", "Finance" chips to `index.html`
 - **Link from personal site**

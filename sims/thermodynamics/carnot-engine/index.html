@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carnot Engine</title>
+  <link rel="stylesheet" href="../../../shared/style.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+  <script src="../../../shared/nav.js" defer></script>
+</head>
+<body class="sim-body-base">
+
+  <div class="sim-wrapper layout-c">
+
+    <div class="sim-canvas-area" id="canvas-container"></div>
+
+    <div class="sim-panel">
+      <div class="sim-controls-section">
+
+        <!-- Reservoirs -->
+        <p class="panel-heading">Reservoirs</p>
+        <div class="control-group">
+          <label>T<sub>H</sub> = <span id="val-th">600</span> K</label>
+          <input type="range" id="ctrl-th" min="400" max="1200" step="10" value="600">
+        </div>
+        <div class="control-group">
+          <label>T<sub>C</sub> = <span id="val-tc">300</span> K</label>
+          <input type="range" id="ctrl-tc" min="100" max="500" step="10" value="300">
+        </div>
+        <div id="eta-carnot-display" class="eta-display">
+          &eta;<sub>Carnot</sub> = <span id="val-eta-carnot">50.0</span>%
+        </div>
+
+        <!-- Engine Mode -->
+        <p class="panel-heading">Engine Mode</p>
+        <div class="btn-group">
+          <button class="btn btn-secondary mode-btn active" id="mode-btn-reversible"
+                  onclick="setEngineMode('reversible')">Reversible</button>
+          <button class="btn btn-secondary mode-btn" id="mode-btn-real"
+                  onclick="setEngineMode('real')">Real Engine</button>
+        </div>
+
+        <!-- Irreversibility (real mode only) -->
+        <div id="irrev-section" style="display:none">
+          <p class="panel-heading">&nbsp;Irreversibility</p>
+          <div class="control-group">
+            <label>&delta;T/&Delta;T = <span id="val-delta">0.25</span></label>
+            <input type="range" id="ctrl-delta" min="0" max="0.40" step="0.01" value="0.25">
+          </div>
+          <div id="eta-real-display" class="eta-display eta-real"></div>
+        </div>
+
+        <!-- Playback -->
+        <p class="panel-heading">Playback</p>
+        <div class="btn-group">
+          <button class="btn btn-secondary" id="btn-playpause"
+                  onclick="togglePause()">&#9646;&#9646; Pause</button>
+          <button class="btn btn-secondary" id="btn-step"
+                  onclick="stepStroke()">&#9646;&#9654; Step</button>
+        </div>
+        <div class="control-group" style="margin-top:6px">
+          <label>Speed = <span id="val-speed">1.0</span>&times;</label>
+          <input type="range" id="ctrl-speed" min="1" max="8" step="1" value="4">
+        </div>
+
+        <!-- Explore -->
+        <p class="panel-heading">Explore</p>
+        <div class="btn-group">
+          <button class="btn btn-secondary edu-btn active" id="edu-btn-carnot"
+                  onclick="setEduMode('carnot')">Carnot</button>
+          <button class="btn btn-secondary edu-btn" id="edu-btn-entropy"
+                  onclick="setEduMode('entropy')">Entropy &amp; Waste</button>
+          <button class="btn btn-secondary edu-btn" id="edu-btn-arrowtime"
+                  onclick="setEduMode('arrowtime')">Arrow of Time</button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="sim-edu-strip" id="sim-edu"><span></span></div>
+
+  </div>
+
+  <script src="sketch.js"></script>
+</body>
+</html>

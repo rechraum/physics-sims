@@ -224,12 +224,17 @@
 
   /* ── Gallery path (works from any depth) ──────────────────── */
   function galleryHref() {
-    // Count how many path segments deep we are (ignoring trailing index.html)
+    // Derive gallery root from shared/nav.js's own absolute URL.
+    // The script is always at <root>/shared/nav.js, so stripping that suffix
+    // gives the gallery root regardless of how deeply nested the sim page is.
+    const navScript = document.querySelector('script[src*="shared/nav.js"]');
+    if (navScript && navScript.src) {
+      return navScript.src.replace(/shared\/nav\.js([?#].*)?$/, '');
+    }
+    // Fallback: count path depth (works for same-origin, single-level hosting)
     const parts = location.pathname.replace(/\/index\.html$/, '').split('/').filter(Boolean);
-    // On GitHub Pages the repo is usually one segment: /repo-name/sim-slug/
-    // We just need to go up one level from the sim folder.
-    if (parts.length === 0) return './'; // already at root
-    return '../';
+    if (parts.length === 0) return './';
+    return '../'.repeat(parts.length - 1) || './';
   }
 
   /* ── Escape HTML ─────────────────────────────────────────── */

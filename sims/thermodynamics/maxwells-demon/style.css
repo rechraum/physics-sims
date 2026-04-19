@@ -1,0 +1,56 @@
+/* ── Maxwell's Demon — sim-specific styles ────────────────────────────────── */
+
+.sim-wrapper.layout-c .sim-panel .panel-heading {
+  font-size: 0.82rem;
+}
+.sim-wrapper.layout-c .sim-panel label,
+.sim-wrapper.layout-c .sim-panel .control-group label {
+  font-size: 0.88rem;
+  color: var(--text-primary);
+}
+.sim-wrapper.layout-c .sim-panel .btn {
+  font-size: 0.82rem;
+}
+
+/* ── Button groups ────────────────────────────────────────────────────────── */
+.btn-group {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.btn-group .btn {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 6px;
+}
+
+/* ── Mode toggle buttons — teal active ───────────────────────────────────── */
+.mode-btn.active {
+  background: rgba(45, 215, 135, 0.12) !important;
+  border-color: rgba(45, 215, 135, 0.7) !important;
+  color: rgb(45, 215, 135) !important;
+}
+
+/* ── Edu mode buttons active — blue ─────────────────────────────────────── */
+.edu-btn.active {
+  background: var(--accent-dim) !important;
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+}
+
+/* ── Edu param hints ─────────────────────────────────────────────────────── */
+.param-hint {
+  font-size: 0.78rem;
+  color: rgb(130, 165, 210);
+  background: rgba(88, 166, 255, 0.07);
+  border-left: 2px solid rgba(88, 166, 255, 0.35);
+  padding: 5px 8px;
+  margin: 8px 0 2px 0;
+  border-radius: 0 3px 3px 0;
+  line-height: 1.45;
+}
+.param-hint.param-hint-teal {
+  color: rgb(100, 200, 160);
+  background: rgba(45, 215, 135, 0.07);
+  border-left-color: rgba(45, 215, 135, 0.40);
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Three-Body Problem</title>
+  <link rel="stylesheet" href="../../../shared/style.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
+  <script src="../../../shared/nav.js" defer></script>
+</head>
+<body>
+  <div class="sim-wrapper layout-a">
+    <div class="sim-canvas-area" id="canvas-container"></div>
+    <div class="sim-panel">
+      <div class="sim-controls-section">
+        <p class="panel-heading">Controls</p>
+        <div class="btn-group">
+          <button class="btn btn-primary" id="startSimulation">Start Simulation</button>
+        </div>
+        <p style="font-size:0.8rem;color:var(--text-secondary);margin-top:10px;">Each run adds a new trace in phase space.</p>
+      </div>
+      <div class="sim-edu-section" id="sim-edu"></div>
+    </div>
+  </div>
+  <script src="sketch.js"></script>
+  <script>window.onload = function () { new p5(threeBodySketch); };</script>
+</body>
+</html>

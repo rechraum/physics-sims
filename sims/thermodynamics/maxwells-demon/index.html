@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maxwell's Demon</title>
+  <link rel="stylesheet" href="../../../shared/style.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+  <script src="../../../shared/nav.js" defer></script>
+</head>
+<body class="sim-body-base">
+
+  <div class="sim-wrapper layout-c">
+
+    <div class="sim-canvas-area" id="canvas-container"></div>
+
+    <div class="sim-panel">
+      <div class="sim-controls-section">
+
+        <!-- Top-level mode toggle -->
+        <p class="panel-heading">Mode</p>
+        <div class="btn-group">
+          <button class="btn btn-secondary mode-btn active" id="mode-btn-demon"
+                  onclick="setSimMode('demon')">Demon Mode</button>
+          <button class="btn btn-secondary mode-btn" id="mode-btn-szilard"
+                  onclick="setSimMode('szilard')">Szilard Engine</button>
+        </div>
+
+        <!-- ── Demon Mode controls ── -->
+        <div id="demon-controls">
+          <p class="panel-heading">Simulation</p>
+          <div class="control-group">
+            <label>N = <span id="val-n">40</span> molecules</label>
+            <input type="range" id="ctrl-n" min="20" max="80" step="5" value="40">
+          </div>
+          <div class="control-group">
+            <label>T&#x2080; = <span id="val-t0">1.0</span></label>
+            <input type="range" id="ctrl-t0" min="0.5" max="2.0" step="0.1" value="1.0">
+          </div>
+          <div class="control-group">
+            <label>Speed = <span id="val-demon-speed">1.0</span>&times;</label>
+            <input type="range" id="ctrl-demon-speed" min="0.5" max="4.0" step="0.5" value="1.0">
+          </div>
+          <div class="btn-group" style="margin-top:6px">
+            <button class="btn btn-secondary" onclick="resetDemon()">&#8635; Reset</button>
+          </div>
+
+          <p class="panel-heading">Demon</p>
+          <div class="control-group">
+            <label>Memory = <span id="val-memsize">8</span> bits</label>
+            <input type="range" id="ctrl-memsize" min="1" max="16" step="1" value="8">
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-secondary" id="btn-freeze"
+                    onclick="toggleFreeze()">Freeze Demon</button>
+          </div>
+        </div>
+
+        <!-- ── Szilard Mode controls ── -->
+        <div id="szilard-controls" style="display:none">
+          <p class="panel-heading">Engine</p>
+          <div class="control-group">
+            <label>T = <span id="val-sz-t">1.0</span></label>
+            <input type="range" id="ctrl-sz-t" min="0.5" max="2.0" step="0.1" value="1.0">
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-secondary mode-btn active" id="btn-sz-auto"
+                    onclick="szilardAutoBtn()">&#9654; Auto</button>
+            <button class="btn btn-secondary mode-btn" id="btn-sz-step"
+                    onclick="szilardStepBtn()">&#9646;&#9654; Step</button>
+          </div>
+          <div class="control-group" style="margin-top:6px">
+            <label>Speed = <span id="val-sz-speed">1.0</span>&times;</label>
+            <input type="range" id="ctrl-sz-speed" min="0.5" max="3.0" step="0.5" value="1.0">
+          </div>
+        </div>
+
+        <!-- ── Explore (shared) ── -->
+        <p class="panel-heading">Explore</p>
+        <div class="btn-group">
+          <button class="btn btn-secondary edu-btn active" id="edu-btn-demon"
+                  onclick="setEduMode('demon')">Maxwell's Demon</button>
+          <button class="btn btn-secondary edu-btn" id="edu-btn-landauer"
+                  onclick="setEduMode('landauer')">Landauer</button>
+          <button class="btn btn-secondary edu-btn" id="edu-btn-shannon"
+                  onclick="setEduMode('shannon')">Shannon = Boltzmann</button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="sim-edu-strip" id="sim-edu"><span></span></div>
+
+  </div>
+
+  <script src="sketch.js"></script>
+</body>
+</html>

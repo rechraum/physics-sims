@@ -335,7 +335,7 @@
   <header class="site-header">
     <h1>Physics <span>Simulations</span></h1>
     <p>Interactive visualizations of physical systems. Each simulation lets you explore a concept by adjusting parameters and observing the emergent behavior in real time.</p>
-    <a href="./knowledge-map/" class="btn-concept-map">Concept Map →</a>
+    <a href="./tools/knowledge-map/" class="btn-concept-map">Concept Map →</a>
   </header>
 
   <main>
@@ -390,29 +390,30 @@
 
   <script>
     // ── Sim registry ──────────────────────────────────────────
-    // Slugs must match folder names at the root of this repo.
-    const SIM_SLUGS = [
-      'diffusion-levy-flights',
-      'double-pendulum-array',
-      'dripping-faucet',
-      'energy-landscape',
-      'gravity-well',
-      'kicked-pendulum',
-      'lorenz-attractor',
-      'oscillator-phase-space',
-      'relational-network',
-      'three-body',
-      'tunable-mass-damper',
-      'wave-interference',
-      'particle-in-a-box',
-      'blackbody-radiation',
-      'photoelectric-effect',
-      'uncertainty-principle',
-      'double-slit',
-      'quantum-tunneling',
-      'maxwell-boltzmann',
-      'entropy-microstates',
-      'carnot-engine',
+    // Each entry: { slug, series } — series matches the folder under sims/.
+    const SIM_REGISTRY = [
+      { slug: 'diffusion-levy-flights',  series: 'chaos' },
+      { slug: 'double-pendulum-array',   series: 'chaos' },
+      { slug: 'dripping-faucet',         series: 'chaos' },
+      { slug: 'energy-landscape',        series: 'chaos' },
+      { slug: 'gravity-well',            series: 'chaos' },
+      { slug: 'kicked-pendulum',         series: 'chaos' },
+      { slug: 'lorenz-attractor',        series: 'chaos' },
+      { slug: 'oscillator-phase-space',  series: 'chaos' },
+      { slug: 'relational-network',      series: 'chaos' },
+      { slug: 'three-body',              series: 'chaos' },
+      { slug: 'tunable-mass-damper',     series: 'chaos' },
+      { slug: 'wave-interference',       series: 'quantum' },
+      { slug: 'particle-in-a-box',       series: 'quantum' },
+      { slug: 'blackbody-radiation',     series: 'quantum' },
+      { slug: 'photoelectric-effect',    series: 'quantum' },
+      { slug: 'uncertainty-principle',   series: 'quantum' },
+      { slug: 'double-slit',             series: 'quantum' },
+      { slug: 'quantum-tunneling',       series: 'quantum' },
+      { slug: 'maxwell-boltzmann',       series: 'thermodynamics' },
+      { slug: 'entropy-microstates',     series: 'thermodynamics' },
+      { slug: 'carnot-engine',           series: 'thermodynamics' },
+      { slug: 'maxwells-demon',          series: 'thermodynamics' },
     ];
 
     // Accent bar color per sim (can be customized)
@@ -438,6 +439,7 @@
       'maxwell-boltzmann':       'linear-gradient(90deg, #3282dc, #dc3c32)',
       'entropy-microstates':     'linear-gradient(90deg, #2de2c0, #58a6ff)',
       'carnot-engine':           'linear-gradient(90deg, #dc3c32, #2de2c0)',
+      'maxwells-demon':          'linear-gradient(90deg, #3282dc, #a855f7)',
     };
 
     // ── State ─────────────────────────────────────────────────
@@ -448,18 +450,19 @@
     // ── Load meta.json for each sim ───────────────────────────
     async function loadSimData() {
       const results = await Promise.allSettled(
-        SIM_SLUGS.map(slug =>
-          fetch(`./${slug}/meta.json`)
+        SIM_REGISTRY.map(({ slug, series }) =>
+          fetch(`./sims/${series}/${slug}/meta.json`)
             .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+            .then(meta => ({ ...meta, _series: series }))
         )
       );
 
       allSims = results
         .map((result, i) => {
           if (result.status === 'fulfilled') return result.value;
-          console.warn(`Failed to load meta.json for ${SIM_SLUGS[i]}:`, result.reason);
-          // Minimal fallback so the sim still appears
-          return { title: SIM_SLUGS[i], slug: SIM_SLUGS[i], description: '', physics_concepts: [], tags: [], difficulty: 'intermediate', library: 'p5.js' };
+          const { slug, series } = SIM_REGISTRY[i];
+          console.warn(`Failed to load meta.json for ${slug}:`, result.reason);
+          return { title: slug, slug, _series: series, description: '', physics_concepts: [], tags: [], difficulty: 'intermediate', library: 'p5.js' };
         });
 
       renderGrid();
@@ -502,6 +505,8 @@
 
     function buildCard(sim) {
       const slug   = sim.slug || '';
+      const series = sim._series || '';
+      const path   = `./sims/${series}/${slug}`;
       const color  = SIM_COLORS[slug] || 'linear-gradient(90deg, var(--accent), var(--accent-hover))';
       const tags   = (sim.physics_concepts || []).slice(0, 4);
       const diff   = sim.difficulty || 'intermediate';
@@ -512,10 +517,10 @@
         .join('');
 
       return `
-        <a class="sim-card" href="./${escHtml(slug)}/index.html">
+        <a class="sim-card" href="${escHtml(path)}/index.html">
           <div class="sim-card-bar" style="background:${color}"></div>
           <div class="sim-card-preview">
-            <img src="./${escHtml(slug)}/preview.webp" alt="${escHtml(sim.title)} preview"
+            <img src="${escHtml(path)}/preview.webp" alt="${escHtml(sim.title)} preview"
                  onerror="this.parentElement.style.display='none'">
           </div>
           <div class="sim-card-body">

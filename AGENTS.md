@@ -14,21 +14,31 @@ A unified GitHub Pages site hosting interactive physics simulations, designed to
 ## Repo Structure
 
 ```
-/index.html                  ← Gallery portal (data-driven card grid)
-/404.html                    ← GitHub Pages custom 404
-/.nojekyll                   ← Prevents Jekyll processing
+/index.html                        ← Gallery portal (data-driven card grid)
+/404.html                          ← GitHub Pages custom 404
+/.nojekyll                         ← Prevents Jekyll processing
 /shared/
-  style.css                  ← Design tokens + layout primitives (dark theme)
-  nav.js                     ← Self-injecting nav bar + About panel (included in every sim)
-/<sim-slug>/
-  index.html                 ← Standalone simulation page
-  sketch.js                  ← Simulation logic (usually p5.js)
-  style.css                  ← Sim-specific styles
-  meta.json                  ← Structured metadata (see schema below)
-  BRIEF.md                   ← (new sims only) Forward-looking design brief
-```
+  style.css                        ← Design tokens + layout primitives (dark theme)
+  nav.js                           ← Self-injecting nav bar + About panel (included in every sim)
+/sims/
+  chaos/<slug>/                    ← Chaos & Dynamics series sims
+  quantum/<slug>/                  ← Quantum Mechanics series sims
+  thermodynamics/<slug>/           ← Thermodynamics series sims
+  finance/<slug>/                  ← Finance & Entropy series sims (planned)
+/tools/
+  knowledge-map/                   ← Interactive D3 concept map
+/scripts/
+  capture-previews.js              ← Puppeteer preview screenshot capture
+/_archive/                         ← Retired/prototype sims (not in gallery)
 
-Sims are currently at the **root level** (not under a `/sims/` subfolder). A future reorganization into `/sims/<slug>/` was discussed but not yet done — do not move them without updating all relative paths in `nav.js`, `index.html` fetch calls, and the gallery's `SIM_SLUGS` array.
+Each sim folder contains:
+  index.html                       ← Standalone simulation page
+  sketch.js                        ← Simulation logic (usually p5.js)
+  style.css                        ← Sim-specific styles
+  meta.json                        ← Structured metadata (see schema below)
+  BRIEF.md                         ← (new sims only) Forward-looking design brief
+  preview.webp                     ← Gallery card thumbnail (captured by capture-previews.js)
+```
 
 ---
 
@@ -80,10 +90,10 @@ IIFE script included in every sim's `index.html` with `defer`. Self-injects:
 - **Fixed nav bar** (44px, `z-index: 9999`, glass blur): `← Gallery` link + sim title + `About ↗` button
 - **About panel** (320px, slides in from right): description, physics concept tags, **key equations** (from `meta.json` `equations` array — rendered as `.equation` blocks, HTML allowed), controls list, difficulty/library badges
 - Reads `./meta.json` relative to the sim page; gracefully degrades if fetch fails
-- `← Gallery` uses `galleryHref()`: returns `'../'` when `parts.length >= 1`, `'./'` only at true root. This handles both GitHub Pages (`/physics-sims/sim-slug/`) and Live Server (`/sim-slug/`) correctly.
+- `← Gallery` uses `galleryHref()`: derives the gallery root URL from the script's own absolute URL (`shared/nav.js` is always one level below root). Works at any nesting depth and on both GitHub Pages and Live Server.
 
 ### `index.html` (gallery)
-- Hardcoded `SIM_SLUGS` array — **must be updated when adding a new sim**
+- `SIM_REGISTRY` array of `{ slug, series }` objects — **must be updated when adding a new sim**
 - `SIM_COLORS` object maps slug → CSS gradient for card accent bar — **update when adding a sim**
 - Filter chips: Difficulty (All / Beginner / Intermediate / Advanced) and Topic (All / Chaos / Phase Space / Oscillator / Stochastic / Quantum)
 - **Planned new topic chips** (require code changes to `index.html`):
@@ -126,10 +136,13 @@ python -m http.server 8000
 
 Then open `http://localhost:8000`.
 
+**Preview capture:** `scripts/capture-previews.js` hardcodes `http://localhost:8000` — the server **must** be running on port 8000 before running `node scripts/capture-previews.js <slug>`.
+
 ---
 
 ### Recently completed
 
+- ✅ `maxwells-demon` — layout-c; top-level mode toggle (Demon Mode / Szilard Engine); Demon Mode: dual chamber with intelligent partition door, N=20–80 molecules, blue→red speed coloring, thermometer bars (T_C left / T_H right), N_mem-bit register fills on each demon pass, orange erasure flash + teal entropy bursts, running Σ S_erased counter, Freeze Demon toggle; Szilard Mode: 4-step state machine (Observe→Insert→Expand→Erase), animated piston, molecule trail, work progress meter, step diagram with progress bar, Landauer accounting (net = 0); three edu modes (Maxwell's Demon / Landauer / Shannon = Boltzmann); preview: `node scripts/capture-previews.js maxwells-demon`
 - ✅ `carnot-engine` — layout-c; P-V diagram (4 animated strokes + cycle dot trail + filled area = W); Sankey energy flow (Q_H→W+Q_C, arrow widths ∝ energy, orange entropy-waste splinter); entropy scorecard (ΔS_hot, ΔS_cold, ΔS_total per cycle, W_lost = TC×ΔS); Reversible/Real Engine toggle; irreversibility slider δ (T_H_eff=T_H(1-δ), T_C_eff=TC(1+δ)); ghost Carnot cycle shown in grey dashes in real mode; Curzon-Ahlborn η_CA displayed; three edu modes (Carnot/Entropy & Waste/Arrow of Time); preview: `node scripts/capture-previews.js carnot-engine`
 
 ---
@@ -142,7 +155,7 @@ Then open `http://localhost:8000`.
   - Rotated axis labels: `fill(155, 170, 190)`
   - Data annotations (reference labels, event markers): use the series color at full alpha
   - **Do not use** `fill(65, 80, 100)`, `fill(80, 95, 115)`, or any darker gray for any text the user needs to read
-- **Adding a new sim:** create `<slug>/index.html`, `sketch.js`, `style.css`, `meta.json`; add slug to `SIM_SLUGS` and `SIM_COLORS` in root `index.html`; include `<script src="../shared/nav.js" defer></script>` in the sim's `<head>`
+- **Adding a new sim:** create `sims/<series>/<slug>/index.html`, `sketch.js`, `style.css`, `meta.json`; add `{ slug, series }` to `SIM_REGISTRY` and the slug to `SIM_COLORS` in root `index.html`; include `<script src="../../../shared/nav.js" defer></script>` and `<link rel="stylesheet" href="../../../shared/style.css">` in the sim's `<head>`
 - **CSS changes:** put design tokens and reusable classes in `shared/style.css`; sim-specific overrides stay in the sim's own `style.css`
 - **No frameworks, no build step** — keep it plain HTML/CSS/JS
 - **p5.js CDN:** use `https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js` — all sims standardized on 1.9.4

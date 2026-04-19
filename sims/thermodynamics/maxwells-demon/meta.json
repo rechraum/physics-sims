@@ -1,0 +1,11 @@
+{
+  "title": "Maxwell's Demon",
+  "slug": "maxwells-demon",
+  "description": "A tiny 'demon' watches individual gas molecules and sorts them by speed, seemingly violating the second law of thermodynamics. Explore Maxwell's Demon and the Szilard Engine to discover how information and thermodynamic entropy are the same quantity — and how Landauer's erasure principle saves the second law.",
+  "physics_concepts": ["Maxwell's Demon", "Landauer's principle", "information entropy", "second law of thermodynamics", "Szilard engine", "Shannon entropy"],
+  "equations": ["W = kT ln 2", "W<sub>erase</sub> &ge; kT ln 2", "S = k ln 2 &middot; H"],
+  "difficulty": "advanced",
+  "tags": ["thermodynamics", "information theory", "statistical mechanics"],
+  "library": "p5.js",
+  "interactive_controls": ["Demon Mode / Szilard Engine toggle", "N molecules slider", "T₀ initial temperature slider", "Memory size slider", "Freeze Demon toggle", "Temperature slider (Szilard)", "Auto / Step playback", "Speed slider"]
+}

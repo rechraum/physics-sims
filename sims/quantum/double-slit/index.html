@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Double-Slit Experiment</title>
+  <link rel="stylesheet" href="../../../shared/style.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+  <script src="../../../shared/nav.js" defer></script>
+</head>
+<body class="sim-body-base">
+
+  <div class="sim-wrapper layout-c">
+
+    <div class="sim-canvas-area" id="canvas-container"></div>
+
+    <div class="sim-panel">
+      <div class="sim-controls-section">
+
+        <!-- ── Particle ──────────────────────────────────────────────── -->
+        <p class="panel-heading">Particle</p>
+        <div class="control-group">
+          <label>&lambda; = <span id="lambda-val">0.50</span></label>
+          <input type="range" id="lambda-slider" min="0.2" max="1.0" step="0.02" value="0.5">
+        </div>
+
+        <!-- ── Slits ─────────────────────────────────────────────────── -->
+        <p class="panel-heading">Slits</p>
+        <div class="control-group">
+          <label>d = <span id="d-val">2.0</span> &ensp;<span class="ctrl-hint">separation</span></label>
+          <input type="range" id="d-slider" min="0.5" max="4.0" step="0.1" value="2.0">
+        </div>
+        <div class="control-group">
+          <label>a = <span id="a-val">0.50</span> &ensp;<span class="ctrl-hint">width</span></label>
+          <input type="range" id="a-slider" min="0.1" max="1.0" step="0.05" value="0.5">
+        </div>
+
+        <!-- ── Simulation ─────────────────────────────────────────────── -->
+        <p class="panel-heading" style="margin-top:14px">Simulation</p>
+        <div class="btn-group">
+          <button class="btn btn-secondary dispmode-btn active" id="dispmode-btn-wave"
+                  onclick="setDisplayMode('wave')">Wave</button>
+          <button class="btn btn-secondary dispmode-btn" id="dispmode-btn-particle"
+                  onclick="setDisplayMode('particle')">Particle</button>
+        </div>
+
+        <div id="speed-row" style="display:none">
+          <div class="control-group" style="margin-top:8px">
+            <label>Speed = <span id="speed-val">50</span>/s</label>
+            <input type="range" id="speed-slider" min="1" max="200" step="1" value="50">
+          </div>
+        </div>
+
+        <button class="btn btn-secondary" id="clear-btn" onclick="clearScreen()"
+                style="width:100%; margin-top:8px">Clear</button>
+
+        <!-- ── Which-Way ─────────────────────────────────────────────── -->
+        <p class="panel-heading" style="margin-top:14px">Which-Way</p>
+        <div class="btn-group">
+          <button class="btn btn-secondary ww-btn active" id="ww-btn-off"
+                  onclick="setWhichWay(false)">Off</button>
+          <button class="btn btn-secondary ww-btn ww-on-btn" id="ww-btn-on"
+                  onclick="setWhichWay(true)">On</button>
+        </div>
+        <p class="prec-hint">Measuring which slit destroys interference</p>
+
+        <!-- ── Explore ───────────────────────────────────────────────── -->
+        <p class="panel-heading" style="margin-top:14px">Explore</p>
+        <div class="btn-group">
+          <button class="btn btn-secondary edu-btn active" id="edu-btn-waveparticle"
+                  onclick="setEduMode('waveparticle')">Wave-Particle</button>
+          <button class="btn btn-secondary edu-btn" id="edu-btn-complementarity"
+                  onclick="setEduMode('complementarity')">Complement.</button>
+          <button class="btn btn-secondary edu-btn" id="edu-btn-math"
+                  onclick="setEduMode('math')">Math</button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="sim-edu-strip" id="sim-edu"><span></span></div>
+
+  </div>
+
+  <script src="sketch.js"></script>
+</body>
+</html>
