@@ -188,11 +188,11 @@ function computeGeometry() {
   const boxTop = floor((H - boxH) / 2);
 
   // Piston x-range: minPX at V_MIN, maxPX at V_MAX
-  const pistonMinX = 56;
+  const pistonMinX = 102;
   const pistonMaxX = g.divX - 18;
   const pistonX    = pistonXforV(V, pistonMinX, pistonMaxX);
 
-  g.box = { L: 18, T: boxTop, B: boxTop + boxH, pX: pistonX, minPX: pistonMinX, maxPX: pistonMaxX };
+  g.box = { L: 64, T: boxTop, B: boxTop + boxH, pX: pistonX, minPX: pistonMinX, maxPX: pistonMaxX };
 
   // Diagram panel (right side)
   const dp = { L: 50, R: 14, T: 28, B: 50 };
@@ -213,6 +213,38 @@ function pistonXforV(v_val, minPX, maxPX) {
 // ─────────────────────────────────────────────────────────────────────────────
 function thermalSpeed() {
   return Math.sqrt(Tgas);
+}
+
+// Black → red → orange → yellow → white (blackbody ramp)
+function blackbodyColor(t) {
+  const stops = [
+    [0.00, [10,   0,   0]],
+    [0.30, [160,  20,  0]],
+    [0.55, [220, 110,  0]],
+    [0.80, [255, 210, 50]],
+    [1.00, [255, 255, 180]],
+  ];
+  t = constrain(t, 0, 1);
+  for (let i = 1; i < stops.length; i++) {
+    if (t <= stops[i][0]) {
+      const f = (t - stops[i-1][0]) / (stops[i][0] - stops[i-1][0]);
+      const [r0, g0, b0] = stops[i-1][1];
+      const [r1, g1, b1] = stops[i][1];
+      return [lerp(r0, r1, f), lerp(g0, g1, f), lerp(b0, b1, f)];
+    }
+  }
+  return stops[stops.length - 1][1];
+}
+
+// Log-scale pressure fraction over the full absolute parameter range
+function currentPressureFrac() {
+  const P_val = N * Tgas / V;
+  const P_min = N_MIN * T_MIN / V_MAX;   // 10 * 0.5 / 3.0 ≈ 1.67
+  const P_max = N_MAX * T_MAX / V_MIN;   // 80 * 4.0 / 0.5  = 640
+  return constrain(
+    (Math.log(P_val) - Math.log(P_min)) / (Math.log(P_max) - Math.log(P_min)),
+    0, 1
+  );
 }
 
 // Blue (cold) → white (mid) → red (hot)
@@ -358,18 +390,22 @@ function drawChamber() {
   text('Gas Chamber', midX, bT - 12);
   textAlign(LEFT);
 
-  // Fixed walls
-  stroke(50, 65, 85); strokeWeight(1.5); noFill();
+  // Fixed walls + piston — color tracks pressure via blackbody spectrum
+  const wFrac = currentPressureFrac();
+  const [wr, wg, wb] = blackbodyColor(wFrac);
+  const wallR = max(wr, 45), wallG = max(wg, 20), wallB = max(wb, 15);
+
+  stroke(wallR, wallG, wallB); strokeWeight(1.5); noFill();
   line(L, bT, L, B);
   line(L, bT, pX + 2, bT);
   line(L, B,  pX + 2, B);
 
-  // Piston — blue highlight
-  stroke(88, 140, 210); strokeWeight(3.5);
+  // Piston
+  stroke(wallR, wallG, wallB); strokeWeight(3.5);
   line(pX, bT, pX, B);
   // Piston grip marks
   const midPY = (bT + B) / 2;
-  stroke(88, 140, 210, 140); strokeWeight(1.5);
+  stroke(wallR, wallG, wallB, 140); strokeWeight(1.5);
   for (let dy = -18; dy <= 18; dy += 9) {
     line(pX - 4, midPY + dy, pX + 1, midPY + dy);
   }
@@ -384,23 +420,19 @@ function drawChamber() {
 
   // Readouts inside box
   textSize(10); textAlign(LEFT); noStroke();
-  fill(45, 215, 135, 180);
-  const P_val = N * Tgas / V;
-  text(`P = ${P_val.toFixed(1)}`, L + 6, bT + 16);
   fill(155, 170, 190, 160); textAlign(RIGHT);
   text(`N = ${N}`, pX - 6, bT + 16);
   textAlign(LEFT);
 
   // State readouts below box
-  const readY = B + 22;
-  textSize(11); noStroke();
-  fill(45, 215, 135);  text(`P = ${P_val.toFixed(2)}`,  L,       readY);
-  fill(155, 170, 190); text(`V = ${V.toFixed(2)}`,       L + 72,  readY);
-  fill(220, 120, 50);  text(`T = ${Tgas.toFixed(2)}`,    L + 144, readY);
-  fill(155, 170, 190); text(`N = ${N}`,                  L + 216, readY);
+  const readY = B + 24;
+  textSize(13); noStroke();
+  fill(155, 170, 190); text(`V = ${V.toFixed(2)}`,      L + 24,  readY);
+  fill(220, 120, 50);  text(`T = ${Tgas.toFixed(2)}`,   L + 96,  readY);
+  fill(155, 170, 190); text(`N = ${N}`,                 L + 168, readY);
 
   // Temperature annotation (particle color legend)
-  const legendY = readY + 18;
+  const legendY = readY + 20;
   fill(50, 130, 220); textSize(9);
   text('cold', L, legendY);
   fill(220, 220, 220);
@@ -409,6 +441,44 @@ function drawChamber() {
   text('hot', L + 68, legendY);
   fill(60, 75, 95);
   text('(particle colour tracks T)', L + 92, legendY);
+}
+
+// ─── Pressure gauge bar (left of stationary wall) ────────────────────────────
+function drawPressureGauge() {
+  const { L, T: bT, B } = g.box;
+  const barW = 20;
+  const barX = floor((L - barW) / 2);
+  const barH = B - bT;
+
+  const P_val = N * Tgas / V;
+  const frac  = currentPressureFrac();
+  const fillH = floor(barH * frac);
+  const fillY = B - fillH;
+
+  // Dark background for unfilled portion
+  noStroke(); fill(10, 5, 5);
+  rect(barX, bT, barW, barH);
+
+  // Blackbody gradient fill
+  if (fillH > 0) {
+    const grad = drawingContext.createLinearGradient(0, B, 0, fillY);
+    const nStops = 8;
+    for (let i = 0; i <= nStops; i++) {
+      const pos = i / nStops;
+      const [r, g, b] = blackbodyColor(pos * frac);
+      grad.addColorStop(pos, `rgb(${floor(r)},${floor(g)},${floor(b)})`);
+    }
+    drawingContext.fillStyle = grad;
+    drawingContext.fillRect(barX, fillY, barW, fillH);
+  }
+
+  // Outline
+  stroke(42, 50, 62); strokeWeight(1); noFill();
+  rect(barX, bT, barW, barH);
+
+  // P label below bar
+  noStroke(); fill(45, 215, 135); textSize(13); textAlign(CENTER);
+  text(`P=${P_val.toFixed(1)}`, barX + floor(barW / 2), B + 24);
 }
 
 // ─── Boyle diagram: P/N vs V ─────────────────────────────────────────────────
@@ -555,14 +625,14 @@ function drawCharlesDiagram() {
     beginShape();
     for (let px = 0; px <= panW; px += 4) {
       const t = map(px, 0, panW, T_lo, T_hi);
-      const v = iso.pn * t;
+      const v = t / iso.pn;
       if (v < V_lo || v > V_hi) continue;
       vertex(x0 + px, mapVy(v));
     }
     endShape();
     // Label at right edge
     const lt = T_hi * 0.85;
-    const lv = iso.pn * lt;
+    const lv = lt / iso.pn;
     if (lv >= V_lo && lv <= V_hi) {
       noStroke(); fill(iso.r, iso.gr, iso.b, 120); textSize(9); textAlign(LEFT);
       text(`P/N=${iso.pn.toFixed(2)}`, mapTx(lt) + 3, mapVy(lv) - 3);
@@ -576,7 +646,7 @@ function drawCharlesDiagram() {
   beginShape();
   for (let px = 0; px <= panW; px += 4) {
     const t = map(px, 0, panW, T_lo, T_hi);
-    const v = cur_pn * t;
+    const v = t / cur_pn;
     if (v < V_lo || v > V_hi) continue;
     vertex(x0 + px, mapVy(v));
   }
@@ -784,6 +854,7 @@ function draw() {
 
   drawDivider();
   drawChamber();
+  drawPressureGauge();
 
   if (eduMode === 'boyle')      drawBoyleDiagram();
   else if (eduMode === 'charles')    drawCharlesDiagram();
