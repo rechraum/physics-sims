@@ -53,6 +53,7 @@ const ALL_SIMS = [
   { slug: 'entropy-microstates',     series: 'thermodynamics' },
   { slug: 'carnot-engine',           series: 'thermodynamics' },
   { slug: 'maxwells-demon',          series: 'thermodynamics' },
+  { slug: 'ideal-gas-laws',          series: 'thermodynamics' },
 ];
 
 // Optional: pass one or more slug names as CLI args to capture only those sims.
@@ -60,7 +61,7 @@ const ALL_SIMS = [
 //   node scripts/capture-previews.js lorenz-attractor three-body
 const cliArgs = process.argv.slice(2);
 const SIMS = cliArgs.length > 0
-  ? cliArgs.map(s => ALL_SIMS.find(e => e.slug === s) || { slug: s, series: 'chaos' })
+  ? cliArgs.map(s => { const found = ALL_SIMS.find(e => e.slug === s); if (!found) { console.error(`Unknown slug: ${s}. Add it to ALL_SIMS.`); process.exit(1); } return found; })
   : ALL_SIMS;
 
 // Viewport for screenshots — 16:9ish, good for card thumbnails

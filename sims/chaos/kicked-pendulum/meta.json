@@ -1,16 +1,19 @@
 {
   "title": "Kicked Pendulum",
   "slug": "kicked-pendulum",
-  "description": "Explore the phase space of a periodically kicked pendulum, revealing the transition between regular and chaotic motion as kick strength increases.",
-  "physics_concepts": ["Phase Space", "Chaos", "Non-linear Dynamics", "Hamiltonian Mechanics"],
+  "description": "Explore a periodically kicked pendulum and its stroboscopic phase space, revealing the transition between regular islands and chaotic seas as the kick strength rises.",
+  "physics_concepts": ["Phase Space", "Chaos", "Non-linear Dynamics", "Poincare Section"],
   "tags": ["phase space", "chaos", "oscillator"],
   "difficulty": "intermediate",
   "library": "p5.js",
   "interactive_controls": [
-    "Start: launch a new pendulum trajectory",
+    "New Trajectory: start a fresh path",
     "Pause / Resume the simulation",
     "Clear: reset all phase space paths",
-    "Kick Strength slider: controls impulse applied each cycle",
-    "Damping slider: controls energy loss per step"
+    "Mode selector: driven strobe vs reference no-drive",
+    "Kick Strength slider: controls kick impulse per cycle",
+    "Kick Period slider: time between kicks",
+    "Enable Damping toggle: turns dissipation on or off",
+    "Damping slider: controls energy loss rate"
   ]
 }

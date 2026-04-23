@@ -57,5 +57,5 @@ Requirements:
 
 - Update `AGENTS.md` Roadmap with a compact "Completed" entry (3–5 bullet points)
 - Add sim to the inventory table in `AGENTS.md`
-- Note that `preview.webp` needs capturing: `node scripts/capture-previews.js $ARGUMENTS`
+- Add the sim to `ALL_SIMS` in `scripts/capture-previews.js` (slug + series), then capture: `node scripts/capture-previews.js $ARGUMENTS`
 - Commit with a descriptive message following the pattern in `git log --oneline -5`

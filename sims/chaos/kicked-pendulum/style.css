@@ -1,1 +1,23 @@
-body { margin: 0; padding-top: 44px; overflow: hidden; }
+#canvas-container {
+	width: 100%;
+	height: 100%;
+}
+
+.control-inline {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 0.82rem;
+	color: var(--text-secondary);
+}
+
+.control-inline input {
+	transform: translateY(1px);
+}
+
+.sim-controls-section .btn-group {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 8px;
+}

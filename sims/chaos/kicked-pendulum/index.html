@@ -6,31 +6,65 @@
   <title>Kicked Pendulum</title>
   <link rel="stylesheet" href="../../../shared/style.css">
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
   <script src="../../../shared/nav.js" defer></script>
 </head>
-<body>
-  <div class="sim-wrapper layout-b">
+<body class="sim-body-base">
+  <div class="sim-wrapper layout-c">
     <div class="sim-canvas-area" id="canvas-container"></div>
     <div class="sim-panel">
       <div class="sim-controls-section">
         <p class="panel-heading">Controls</p>
         <div class="btn-group">
-          <button class="btn btn-primary" id="pendulum-start-button">Start</button>
+          <button class="btn btn-primary" id="pendulum-start-button">New Trajectory</button>
           <button class="btn btn-secondary" id="pendulum-pause-button">Pause</button>
           <button class="btn btn-secondary" id="pendulum-clear-button">Clear</button>
         </div>
         <div class="control-group" style="margin-top:12px;">
-          <label>Kick Strength <span id="kick-value">10</span></label>
-          <input type="range" id="kick-slider" min="0" max="50" value="10" step="1">
+          <label for="mode-select">Mode</label>
+          <select id="mode-select">
+            <option value="driven">Driven (Strobe)</option>
+            <option value="reference">Reference (No Drive)</option>
+            <option value="chaos">Chaos + Damping</option>
+          </select>
         </div>
         <div class="control-group">
-          <label>Damping <span id="damping-value">0.995</span></label>
-          <input type="range" id="damping-slider" min="0.90" max="1.00" value="0.995" step="0.001">
+          <label for="preset-select">Preset</label>
+          <select id="preset-select">
+            <option value="custom">Custom</option>
+            <option value="regular">Mostly regular</option>
+            <option value="mixed">Mixed islands</option>
+            <option value="chaotic">Chaotic sea</option>
+            <option value="dissipative">Dissipative attractor</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="kick-slider">Kick Strength <span id="kick-value">1.0</span></label>
+          <input type="range" id="kick-slider" min="0" max="3.0" value="1.0" step="0.05">
+        </div>
+        <div class="control-group">
+          <label for="period-slider">Kick Period <span id="period-value">1.20</span></label>
+          <input type="range" id="period-slider" min="0.60" max="2.50" value="1.20" step="0.02">
+        </div>
+        <div class="control-group">
+          <label class="control-inline" for="damping-toggle">
+            <input type="checkbox" id="damping-toggle">
+            Enable damping
+          </label>
+        </div>
+        <div class="control-group">
+          <label class="control-inline" for="kick-marker-toggle">
+            <input type="checkbox" id="kick-marker-toggle" checked>
+            Show kick marker
+          </label>
+        </div>
+        <div class="control-group">
+          <label for="damping-slider">Damping gamma <span id="damping-value">0.000</span></label>
+          <input type="range" id="damping-slider" min="0.000" max="0.080" value="0.000" step="0.002">
         </div>
       </div>
-      <div class="sim-edu-section" id="sim-edu"></div>
     </div>
+    <div class="sim-edu-strip" id="sim-edu"><span></span></div>
   </div>
   <script src="sketch.js"></script>
   <script>window.onload = function () { new p5(kickedPendulumSketch); };</script>
