@@ -54,6 +54,7 @@ const ALL_SIMS = [
   { slug: 'carnot-engine',           series: 'thermodynamics' },
   { slug: 'maxwells-demon',          series: 'thermodynamics' },
   { slug: 'ideal-gas-laws',          series: 'thermodynamics' },
+  { slug: 'volatility-drag',         series: 'finance' },
 ];
 
 // Optional: pass one or more slug names as CLI args to capture only those sims.
