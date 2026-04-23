@@ -1,0 +1,25 @@
+{
+  "title": "Volatility Drag & Entropy",
+  "slug": "volatility-drag",
+  "description": "Even with the same average return, higher volatility reduces long-run compounded growth. This simulation shows the geometric growth penalty σ²/2 and interprets it as an entropy-like irreversibility cost.",
+  "physics_concepts": [
+    "Jensen's inequality",
+    "geometric vs arithmetic mean",
+    "log-normal process",
+    "irreversibility analogy"
+  ],
+  "equations": [
+    "g &asymp; &mu; - &sigma;<sup>2</sup>/2",
+    "d ln(S) = (&mu; - &sigma;<sup>2</sup>/2)dt + &sigma; dW"
+  ],
+  "difficulty": "beginner",
+  "tags": ["finance", "stochastic"],
+  "library": "p5.js",
+  "interactive_controls": [
+    "Arithmetic return μ slider",
+    "Volatility σ slider",
+    "Years slider",
+    "Edu mode buttons",
+    "Resample path button"
+  ]
+}

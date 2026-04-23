@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volatility Drag &amp; Entropy</title>
+  <link rel="stylesheet" href="../../../shared/style.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"
+          integrity="sha384-OLBgp1GsljhM2TJ+sbHjaiH9txEUvgdDTAzHv2P24donTt6/529l+9Ua0vFImLlb"
+          crossorigin="anonymous"></script>
+  <script src="../../../shared/nav.js" defer></script>
+</head>
+<body class="sim-body-base">
+
+  <div class="sim-wrapper layout-c">
+
+    <div class="sim-canvas-area" id="canvas-container"></div>
+
+    <div class="sim-panel">
+      <div class="sim-controls-section">
+
+        <p class="panel-heading">Returns</p>
+        <div class="control-group">
+          <label>Arithmetic μ = <span id="val-mu">8.0%</span></label>
+          <input type="range" id="ctrl-mu" min="0.00" max="0.20" step="0.005" value="0.08">
+        </div>
+        <div class="control-group">
+          <label>Volatility σ = <span id="val-sigma">15.0%</span></label>
+          <input type="range" id="ctrl-sigma" min="0.00" max="0.60" step="0.01" value="0.15">
+        </div>
+        <div class="control-group">
+          <label>Years = <span id="val-years">30</span></label>
+          <input type="range" id="ctrl-years" min="5" max="50" step="1" value="30">
+        </div>
+
+        <p class="panel-heading">Derived</p>
+        <div class="readout-row">
+          <span class="readout-label">Drag:</span>
+          <span class="readout-value" id="val-drag">1.1%</span>
+          <span class="readout-unit">= σ²/2</span>
+        </div>
+        <div class="readout-row">
+          <span class="readout-label">Geometric g:</span>
+          <span class="readout-value" id="val-g">6.9%</span>
+          <span class="readout-unit">≈ μ − σ²/2</span>
+        </div>
+
+        <p class="panel-heading">Explore</p>
+        <div class="btn-group">
+          <button class="btn btn-secondary edu-btn active" id="edu-btn-drag"
+                  onclick="setEduMode('drag')">Drag Intuition</button>
+          <button class="btn btn-secondary edu-btn" id="edu-btn-entropy"
+                  onclick="setEduMode('entropy')">Entropy Analogy</button>
+          <button class="btn btn-secondary edu-btn" id="edu-btn-applications"
+                  onclick="setEduMode('applications')">Applications</button>
+        </div>
+        <button class="btn btn-primary reset-btn" onclick="resetPath()">Resample Path</button>
+
+      </div>
+    </div>
+
+    <div class="sim-edu-strip" id="sim-edu"><span></span></div>
+
+  </div>
+
+  <script src="sketch.js"></script>
+</body>
+</html>
