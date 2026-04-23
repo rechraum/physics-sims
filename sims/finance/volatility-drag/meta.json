@@ -1,0 +1,11 @@
+{
+  "title": "Volatility Drag",
+  "slug": "volatility-drag",
+  "description": "Why a 10% average return can still lose money when volatility is high. Compare arithmetic vs geometric growth, see the drag gap, and link it to Jensen's inequality and entropy.",
+  "physics_concepts": ["volatility drag", "log-normal growth", "Jensen's inequality", "entropy production"],
+  "equations": ["g = &mu; &minus; &sigma;<sup>2</sup>/2", "E[V_T] = V_0 e^{&mu;T}", "Median(V_T) = V_0 e^{(&mu; &minus; &sigma;<sup>2</sup>/2)T}"],
+  "difficulty": "beginner",
+  "tags": ["finance", "thermodynamics", "statistical mechanics"],
+  "library": "p5.js",
+  "interactive_controls": ["mu (avg return)", "sigma (volatility)", "time horizon", "ensemble toggle", "path count"]
+}

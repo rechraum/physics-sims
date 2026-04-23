@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Concept Map — Physics Simulations</title>
+  <link rel="stylesheet" href="./style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js" defer></script>
+  <script src="../../shared/nav.js" defer></script>
+  <script src="./sketch.js" defer></script>
+</head>
+<body>
+
+  <div id="map-root">
+
+    <!-- Intro banner -->
+    <div id="intro-banner">
+      <p>
+        <strong>Circles</strong> are simulations — sized by difficulty, colored by domain.
+        <strong>Diamonds</strong> are bridging concepts that connect multiple sims.
+        Hover any node to highlight its connections · click for details in the panel →
+        · scroll to zoom · drag to pan · <strong>double-click</strong> to reset the view.
+      </p>
+      <button id="intro-collapse">Dismiss</button>
+    </div>
+
+    <!-- Filter bar -->
+    <div id="filter-bar">
+      <span class="filter-label">Domain</span>
+      <button class="chip active" data-filter="domain" data-value="all">All</button>
+      <button class="chip" data-filter="domain" data-domain="quantum" data-value="quantum">Quantum</button>
+      <button class="chip" data-filter="domain" data-domain="thermo"  data-value="thermo">Thermodynamics</button>
+      <button class="chip" data-filter="domain" data-domain="chaos"   data-value="chaos">Chaos</button>
+      <button class="chip" data-filter="domain" data-domain="info"    data-value="info">Information</button>
+
+      <div class="filter-divider"></div>
+
+      <span class="filter-label">Difficulty</span>
+      <button class="chip active" data-filter="difficulty" data-value="all">All</button>
+      <button class="chip" data-filter="difficulty" data-value="beginner">Beginner</button>
+      <button class="chip" data-filter="difficulty" data-value="intermediate">Intermediate</button>
+      <button class="chip" data-filter="difficulty" data-value="advanced">Advanced</button>
+    </div>
+
+    <!-- Content row: SVG canvas + info panel side by side -->
+    <div id="content-row">
+
+      <!-- Main SVG -->
+      <svg id="map-svg" aria-label="Physics concept map"></svg>
+
+      <!-- Mobile fallback — populated by sketch.js -->
+      <div id="mobile-fallback">
+        <h2>Simulations by Domain</h2>
+        <div id="mobile-list-container"></div>
+      </div>
+
+      <!-- Info panel (visible by default) -->
+      <aside id="info-panel" aria-label="Node information">
+
+        <!-- Welcome / default state -->
+        <div id="ip-welcome">
+          <div class="ip-welcome-header">
+            <h2>Physics Concept Map</h2>
+            <p>Click any node to explore it. This panel shows educational content for each simulation and concept.</p>
+          </div>
+
+          <div class="ip-section">
+            <p class="ip-section-label">Node Types</p>
+            <div class="legend-row">
+              <svg width="14" height="14" style="flex-shrink:0">
+                <circle cx="7" cy="7" r="6" fill="rgba(140,150,165,0.2)" stroke="#8b949e" stroke-width="1.5"/>
+              </svg>
+              <span>Simulation — click to see details &amp; launch</span>
+            </div>
+            <div class="legend-note">Size = difficulty: small → beginner, large → advanced</div>
+            <div class="legend-row" style="margin-top:10px">
+              <svg width="14" height="14" style="flex-shrink:0">
+                <polygon points="7,1 13,7 7,13 1,7" fill="rgba(140,150,165,0.15)" stroke="rgba(140,150,165,0.7)" stroke-width="1.5"/>
+              </svg>
+              <span>Concept bridge — click for educational overview</span>
+            </div>
+            <div class="legend-note">Connects multiple simulations thematically</div>
+            <div class="legend-row" style="margin-top:10px;opacity:0.55">
+              <svg width="14" height="14" style="flex-shrink:0">
+                <circle cx="7" cy="7" r="6" fill="rgba(140,150,165,0.07)" stroke="#8b949e" stroke-width="1.5" stroke-dasharray="3,2"/>
+              </svg>
+              <span style="color:#6e7681">Coming soon</span>
+            </div>
+          </div>
+
+          <div class="ip-section">
+            <p class="ip-section-label">Domain Colors</p>
+            <div class="legend-row">
+              <div class="legend-domain-dot" style="background:rgb(88,166,255)"></div>
+              <span>Quantum Mechanics</span>
+            </div>
+            <div class="legend-row">
+              <div class="legend-domain-dot" style="background:rgb(45,215,135)"></div>
+              <span>Thermodynamics</span>
+            </div>
+            <div class="legend-row">
+              <div class="legend-domain-dot" style="background:rgb(255,150,50)"></div>
+              <span>Chaos &amp; Classical Mechanics</span>
+            </div>
+            <div class="legend-row">
+              <div class="legend-domain-dot" style="background:rgb(170,65,255)"></div>
+              <span>Information Theory</span>
+            </div>
+          </div>
+
+          <div class="ip-section">
+            <p class="ip-section-label">Edge Types</p>
+            <div class="legend-row">
+              <div class="legend-swatch" style="background:#2de2c0"></div>
+              <span>enables</span>
+            </div>
+            <div class="legend-row">
+              <div class="legend-swatch" style="background:#58a6ff"></div>
+              <span>extends / explains</span>
+            </div>
+            <div class="legend-row">
+              <div class="legend-swatch" style="background:rgba(45,215,135,0.5)"></div>
+              <span>demonstrates</span>
+            </div>
+            <div class="legend-row">
+              <div class="legend-swatch" style="background:#d29922"></div>
+              <span>historically led to</span>
+            </div>
+            <div class="legend-row">
+              <div class="legend-swatch" style="background:rgba(140,150,165,0.6)"></div>
+              <span>cross-domain</span>
+            </div>
+          </div>
+
+          <div class="ip-section">
+            <p class="ip-section-label">Controls</p>
+            <ul class="ip-instr-list">
+              <li><strong>Hover</strong> — highlight a node's connections</li>
+              <li><strong>Click</strong> — open details here</li>
+              <li><strong>Drag node</strong> — reposition it</li>
+              <li><strong>Scroll / pinch</strong> — zoom in or out</li>
+              <li><strong>Drag background</strong> — pan the graph</li>
+              <li><strong>Double-click</strong> — reset zoom &amp; position</li>
+              <li>Filter chips narrow by domain or difficulty</li>
+            </ul>
+          </div>
+        </div><!-- #ip-welcome -->
+
+        <!-- Node detail state (hidden initially) -->
+        <div id="ip-detail" style="display:none">
+
+          <div class="ip-detail-topbar">
+            <button class="ip-back-btn" id="ip-back">← Overview</button>
+            <span id="ip-domain-badge" class="ip-domain-badge"></span>
+          </div>
+
+          <div class="ip-detail-header">
+            <p class="ip-type-label" id="ip-type-label"></p>
+            <h2 class="ip-detail-title" id="ip-detail-title"></h2>
+            <p class="ip-era-text" id="ip-era-text"></p>
+          </div>
+
+          <div class="ip-detail-section">
+            <p class="ip-desc" id="ip-desc">Loading…</p>
+          </div>
+
+          <div class="ip-detail-section" id="ip-concepts-section" style="display:none">
+            <p class="ip-section-label">Physics Concepts</p>
+            <div class="ip-concept-tags" id="ip-concept-tags"></div>
+          </div>
+
+          <div class="ip-detail-section" id="ip-equations-section" style="display:none">
+            <p class="ip-section-label">Key Equations</p>
+            <div class="ip-equations" id="ip-equations"></div>
+          </div>
+
+          <div class="ip-detail-section" id="ip-connections-section">
+            <p class="ip-section-label">Connections</p>
+            <ul class="ip-conn-list" id="ip-conn-list"></ul>
+          </div>
+
+          <div class="ip-launch-section" id="ip-launch-section" style="display:none">
+            <a class="ip-launch-btn" id="ip-launch-btn" href="#">Launch Simulation →</a>
+          </div>
+
+        </div><!-- #ip-detail -->
+
+      </aside><!-- #info-panel -->
+
+    </div><!-- #content-row -->
+
+  </div><!-- #map-root -->
+
+  <!-- Floating tooltip -->
+  <div id="map-tooltip" role="tooltip">
+    <div class="tt-title"   id="tt-title"></div>
+    <div class="tt-domain"  id="tt-domain"></div>
+    <div class="tt-planned" id="tt-planned" style="display:none">Coming soon</div>
+  </div>
+
+</body>
+</html>

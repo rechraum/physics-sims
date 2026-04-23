@@ -1,0 +1,130 @@
+/* ── Volatility Drag — sim-specific styles ─────────────────────────────── */
+
+.sim-wrapper.layout-c .sim-panel .panel-heading {
+  font-size: 0.82rem;
+  margin: 6px 0 4px;
+}
+
+.sim-wrapper.layout-c .sim-panel label,
+.sim-wrapper.layout-c .sim-panel .control-group label {
+  font-size: 0.88rem;
+  color: var(--text-primary);
+}
+
+.sim-wrapper.layout-c .sim-panel .btn {
+  font-size: 0.82rem;
+}
+
+.sim-wrapper.layout-c .sim-panel .control-group {
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.btn-group .btn {
+  flex: 1;
+  min-width: 0;
+  padding: 4px 6px;
+}
+
+.edu-btn.active {
+  background: rgba(45, 215, 135, 0.12) !important;
+  border-color: rgba(45, 215, 135, 0.7) !important;
+  color: rgb(45, 215, 135) !important;
+}
+
+.toggle-btn.active {
+  background: rgba(88, 166, 255, 0.12) !important;
+  border-color: rgba(88, 166, 255, 0.7) !important;
+  color: rgb(88, 166, 255) !important;
+}
+
+.model-select {
+  width: 100%;
+  padding: 5px 8px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: 0.82rem;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238b949e'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 24px;
+}
+
+.model-select:hover {
+  border-color: var(--accent);
+}
+
+.model-select option {
+  background: var(--bg-secondary);
+}
+
+.model-hint {
+  margin-top: 6px;
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  line-height: 1.35;
+}
+
+.control-group.disabled label,
+.control-group.disabled span {
+  color: var(--text-secondary);
+}
+
+.control-group.disabled input,
+.control-group.disabled select {
+  opacity: 0.45;
+}
+
+.g-readout {
+  margin-top: 6px;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: rgba(45, 215, 135, 0.08);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: rgb(45, 215, 135);
+}
+
+.g-readout.g-negative {
+  background: rgba(255, 150, 50, 0.12);
+  color: rgb(255, 150, 50);
+  border-color: rgba(255, 150, 50, 0.5);
+}
+
+.g-warning {
+  margin-top: 6px;
+  font-size: 0.75rem;
+  color: rgb(255, 150, 50);
+  display: none;
+}
+
+.param-hint {
+  font-size: 0.78rem;
+  color: rgb(130, 165, 210);
+  background: rgba(88, 166, 255, 0.07);
+  border-left: 2px solid rgba(88, 166, 255, 0.35);
+  padding: 5px 8px;
+  margin: 8px 0 2px 0;
+  border-radius: 0 3px 3px 0;
+  line-height: 1.45;
+}
+
+.param-hint.param-hint-teal {
+  color: rgb(100, 200, 160);
+  background: rgba(45, 215, 135, 0.07);
+  border-left-color: rgba(45, 215, 135, 0.40);
+}

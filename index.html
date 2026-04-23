@@ -63,10 +63,17 @@
     /* ── Filter bar ──────────────────────────────────────── */
     .filter-bar {
       display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    .filter-row {
+      display: flex;
       align-items: center;
       gap: 12px;
       flex-wrap: wrap;
-      margin-bottom: 28px;
+      width: 100%;
     }
 
     .filter-bar .filter-label {
@@ -106,13 +113,6 @@
       background: var(--accent-dim);
       border-color: var(--accent);
       color: var(--accent);
-    }
-
-    .filter-bar .filter-divider {
-      width: 1px;
-      height: 20px;
-      background: var(--border);
-      flex-shrink: 0;
     }
 
     .search-input {
@@ -340,34 +340,37 @@
 
   <main>
     <div class="filter-bar">
-      <span class="filter-label">Difficulty</span>
-      <div class="filter-chips" id="difficulty-chips">
-        <button class="chip active" data-filter="difficulty" data-value="all">All</button>
-        <button class="chip" data-filter="difficulty" data-value="beginner">Beginner</button>
-        <button class="chip" data-filter="difficulty" data-value="intermediate">Intermediate</button>
-        <button class="chip" data-filter="difficulty" data-value="advanced">Advanced</button>
+      <div class="filter-row">
+        <span class="filter-label">Difficulty</span>
+        <div class="filter-chips" id="difficulty-chips">
+          <button class="chip active" data-filter="difficulty" data-value="all">All</button>
+          <button class="chip" data-filter="difficulty" data-value="beginner">Beginner</button>
+          <button class="chip" data-filter="difficulty" data-value="intermediate">Intermediate</button>
+          <button class="chip" data-filter="difficulty" data-value="advanced">Advanced</button>
+        </div>
+
+        <input
+          class="search-input"
+          type="search"
+          id="search-input"
+          placeholder="Search simulations…"
+          autocomplete="off"
+        />
       </div>
 
-      <div class="filter-divider"></div>
-
-      <span class="filter-label">Topic</span>
-      <div class="filter-chips" id="tag-chips">
-        <button class="chip active" data-filter="tag" data-value="all">All</button>
-        <button class="chip" data-filter="tag" data-value="chaos">Chaos</button>
-        <button class="chip" data-filter="tag" data-value="phase space">Phase Space</button>
-        <button class="chip" data-filter="tag" data-value="oscillator">Oscillator</button>
-        <button class="chip" data-filter="tag" data-value="stochastic">Stochastic</button>
-        <button class="chip" data-filter="tag" data-value="quantum mechanics">Quantum</button>
-        <button class="chip" data-filter="tag" data-value="thermodynamics">Thermodynamics</button>
+      <div class="filter-row">
+        <span class="filter-label">Topic</span>
+        <div class="filter-chips" id="tag-chips">
+          <button class="chip active" data-filter="tag" data-value="all">All</button>
+          <button class="chip" data-filter="tag" data-value="chaos">Chaos</button>
+          <button class="chip" data-filter="tag" data-value="phase space">Phase Space</button>
+          <button class="chip" data-filter="tag" data-value="oscillator">Oscillator</button>
+          <button class="chip" data-filter="tag" data-value="stochastic">Stochastic</button>
+          <button class="chip" data-filter="tag" data-value="quantum mechanics">Quantum</button>
+          <button class="chip" data-filter="tag" data-value="thermodynamics">Thermodynamics</button>
+          <button class="chip" data-filter="tag" data-value="finance">Finance</button>
+        </div>
       </div>
-
-      <input
-        class="search-input"
-        type="search"
-        id="search-input"
-        placeholder="Search simulations…"
-        autocomplete="off"
-      />
     </div>
 
     <p class="results-meta" id="results-meta"></p>
@@ -415,6 +418,7 @@
       { slug: 'entropy-microstates',     series: 'thermodynamics' },
       { slug: 'carnot-engine',           series: 'thermodynamics' },
       { slug: 'maxwells-demon',          series: 'thermodynamics' },
+      { slug: 'volatility-drag',         series: 'finance' },
     ];
 
     // Accent bar color per sim (can be customized)
@@ -442,6 +446,7 @@
       'entropy-microstates':     'linear-gradient(90deg, #2de2c0, #58a6ff)',
       'carnot-engine':           'linear-gradient(90deg, #dc3c32, #2de2c0)',
       'maxwells-demon':          'linear-gradient(90deg, #3282dc, #a855f7)',
+      'volatility-drag':         'linear-gradient(90deg, #ffc332, #58a6ff)',
     };
 
     // ── State ─────────────────────────────────────────────────

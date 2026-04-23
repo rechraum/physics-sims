@@ -111,9 +111,9 @@ IIFE script included in every sim's `index.html` with `defer`. Self-injects:
 All sims use `height: calc(100vh - 44px)` and `overflow: hidden`.
 
 - **`layout-a`** — canvas left (`1fr`), 280px controls panel right. Used by: lorenz-attractor, energy-landscape, gravity-well, three-body, double-pendulum-array, tunable-mass-damper, oscillator-phase-space.
-- **`layout-b`** — canvas top (`1fr`), 240px strip bottom. Used by: kicked-pendulum, diffusion-levy-flights, relational-network, dripping-faucet, wave-interference.
+- **`layout-b`** — canvas top (`1fr`), 240px strip bottom. Used by: diffusion-levy-flights, relational-network, dripping-faucet, wave-interference.
   - `wave-interference` overrides the strip with a full-width horizontal flex row (`.wave-controls-bar`, `.ctrl-section`) — use when layout-b needs >4 controls.
-- **`layout-c`** — canvas top-left (`1fr`), 280px controls top-right, **full-width 240px edu strip** spanning the bottom. Used by all quantum series sims. Best for sims with rich educational content.
+- **`layout-c`** — canvas top-left (`1fr`), 280px controls top-right, **full-width 240px edu strip** spanning the bottom. Used by all quantum series sims and kicked-pendulum. Best for sims with rich educational content.
   - HTML: `.sim-canvas-area` + `.sim-panel` + `.sim-edu-strip#sim-edu` all inside `.sim-wrapper.layout-c`
   - Pre-populate `#sim-edu` with `<span></span>` so nav.js skips auto-population; sketch.js owns the content.
 

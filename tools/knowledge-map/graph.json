@@ -1,0 +1,775 @@
+{
+  "nodes": [
+    {
+      "id": "wave-interference",
+      "type": "sim",
+      "title": "Wave Interference",
+      "domain": "quantum",
+      "difficulty": "beginner",
+      "era": 1801,
+      "url": "../../sims/quantum/wave-interference/",
+      "description": "Superpose two wave sources and watch constructive and destructive interference build a standing pattern."
+    },
+    {
+      "id": "blackbody-radiation",
+      "type": "sim",
+      "title": "Blackbody Radiation",
+      "domain": "quantum",
+      "difficulty": "intermediate",
+      "era": 1900,
+      "url": "../../sims/quantum/blackbody-radiation/",
+      "description": "Planck's quantized oscillators vs. the classical Rayleigh-Jeans catastrophe — the birth of quantum theory."
+    },
+    {
+      "id": "photoelectric-effect",
+      "type": "sim",
+      "title": "Photoelectric Effect",
+      "domain": "quantum",
+      "difficulty": "intermediate",
+      "era": 1905,
+      "url": "../../sims/quantum/photoelectric-effect/",
+      "description": "Einstein's photon: light ejects electrons only above a threshold frequency, regardless of intensity."
+    },
+    {
+      "id": "double-slit",
+      "type": "sim",
+      "title": "Double-Slit Experiment",
+      "domain": "quantum",
+      "difficulty": "intermediate",
+      "era": 1909,
+      "url": "../../sims/quantum/double-slit/",
+      "description": "Single particles build a wave interference pattern — the canonical demonstration of wave-particle duality."
+    },
+    {
+      "id": "particle-in-a-box",
+      "type": "sim",
+      "title": "Particle in a Box",
+      "domain": "quantum",
+      "difficulty": "intermediate",
+      "era": 1926,
+      "url": "../../sims/quantum/particle-in-a-box/",
+      "description": "Quantized energy levels emerge when a particle is confined — the simplest exactly-solvable quantum system."
+    },
+    {
+      "id": "uncertainty-principle",
+      "type": "sim",
+      "title": "Uncertainty Principle",
+      "domain": "quantum",
+      "difficulty": "intermediate",
+      "era": 1927,
+      "url": "../../sims/quantum/uncertainty-principle/",
+      "description": "Heisenberg's Δx·Δp ≥ ħ/2 — position and momentum cannot be simultaneously sharp."
+    },
+    {
+      "id": "quantum-tunneling",
+      "type": "sim",
+      "title": "Quantum Tunneling",
+      "domain": "quantum",
+      "difficulty": "intermediate",
+      "era": 1928,
+      "url": "../../sims/quantum/quantum-tunneling/",
+      "description": "A quantum wavefunction penetrates a classically forbidden barrier — the basis of nuclear fusion and tunnel diodes."
+    },
+    {
+      "id": "bell-inequality",
+      "type": "sim",
+      "title": "Bell's Inequality",
+      "domain": "quantum",
+      "difficulty": "advanced",
+      "era": 1964,
+      "url": "../../sims/quantum/bell-inequality/",
+      "description": "Correlation experiments that rule out local hidden-variable theories — entanglement is real.",
+      "status": "planned"
+    },
+    {
+      "id": "quantum-eraser",
+      "type": "sim",
+      "title": "Quantum Eraser",
+      "domain": "quantum",
+      "difficulty": "advanced",
+      "era": 1982,
+      "url": "../../sims/quantum/quantum-eraser/",
+      "description": "Erasing which-path information restores interference — measurement, not disturbance, collapses the wavefunction.",
+      "status": "planned"
+    },
+    {
+      "id": "maxwell-boltzmann",
+      "type": "sim",
+      "title": "Maxwell-Boltzmann Distribution",
+      "domain": "thermo",
+      "difficulty": "beginner",
+      "era": 1860,
+      "url": "../../sims/thermodynamics/maxwell-boltzmann/",
+      "description": "The equilibrium speed distribution of an ideal gas — the foundation of statistical mechanics."
+    },
+    {
+      "id": "entropy-microstates",
+      "type": "sim",
+      "title": "Entropy & Microstates",
+      "domain": "thermo",
+      "difficulty": "intermediate",
+      "era": 1877,
+      "url": "../../sims/thermodynamics/entropy-microstates/",
+      "description": "Boltzmann's S = k ln W — entropy as a count of microscopic arrangements."
+    },
+    {
+      "id": "diffusion-levy-flights",
+      "type": "sim",
+      "title": "Lévy Flights & Brownian Motion",
+      "domain": "thermo",
+      "difficulty": "intermediate",
+      "era": 1905,
+      "url": "../../sims/chaos/diffusion-levy-flights/",
+      "description": "From Gaussian random walks to heavy-tailed Lévy flights — stochastic transport across scales."
+    },
+    {
+      "id": "maxwells-demon",
+      "type": "sim",
+      "title": "Maxwell's Demon",
+      "domain": "thermo",
+      "difficulty": "intermediate",
+      "era": 1867,
+      "url": "../../sims/thermodynamics/maxwells-demon/",
+      "description": "A thought-experiment demon that sorts fast and slow molecules — connecting thermodynamics and information.",
+      "status": "planned"
+    },
+    {
+      "id": "gravity-well",
+      "type": "sim",
+      "title": "Gravity Well",
+      "domain": "chaos",
+      "difficulty": "intermediate",
+      "era": 1800,
+      "url": "../../sims/chaos/gravity-well/",
+      "description": "Newtonian gravity as a curved potential well — orbits, escape velocity, and tidal forces."
+    },
+    {
+      "id": "three-body",
+      "type": "sim",
+      "title": "Three-Body Problem",
+      "domain": "chaos",
+      "difficulty": "advanced",
+      "era": 1889,
+      "url": "../../sims/chaos/three-body/",
+      "description": "Three mutually attracting masses — Poincaré proved no closed-form solution exists, a landmark in chaos theory."
+    },
+    {
+      "id": "oscillator-phase-space",
+      "type": "sim",
+      "title": "Harmonic Oscillator Phase Space",
+      "domain": "chaos",
+      "difficulty": "beginner",
+      "era": 1834,
+      "url": "../../sims/chaos/oscillator-phase-space/",
+      "description": "The simple harmonic oscillator traced in phase space — elliptical orbits, energy surfaces, and damping spirals."
+    },
+    {
+      "id": "double-pendulum-array",
+      "type": "sim",
+      "title": "Double Pendulum Chaos",
+      "domain": "chaos",
+      "difficulty": "intermediate",
+      "era": 1850,
+      "url": "../../sims/chaos/double-pendulum-array/",
+      "description": "An array of double pendula launched from nearly identical conditions — sensitive dependence made visible."
+    },
+    {
+      "id": "lorenz-attractor",
+      "type": "sim",
+      "title": "Lorenz Attractor",
+      "domain": "chaos",
+      "difficulty": "advanced",
+      "era": 1963,
+      "url": "../../sims/chaos/lorenz-attractor/",
+      "description": "Lorenz's strange attractor — deterministic chaos in a three-variable weather model."
+    },
+    {
+      "id": "kicked-pendulum",
+      "type": "sim",
+      "title": "Kicked Pendulum",
+      "domain": "chaos",
+      "difficulty": "intermediate",
+      "era": 1969,
+      "url": "../../sims/chaos/kicked-pendulum/",
+      "description": "The Chirikov standard map — periodic kicks drive a pendulum from regular orbits to global chaos."
+    },
+    {
+      "id": "dripping-faucet",
+      "type": "sim",
+      "title": "Dripping Faucet",
+      "domain": "chaos",
+      "difficulty": "beginner",
+      "era": 1978,
+      "url": "../../sims/chaos/dripping-faucet/",
+      "description": "The logistic map governs drip timing — period-doubling route to chaos in a kitchen sink."
+    },
+    {
+      "id": "energy-landscape",
+      "type": "sim",
+      "title": "Energy Landscape",
+      "domain": "chaos",
+      "difficulty": "intermediate",
+      "era": 1975,
+      "url": "../../sims/chaos/energy-landscape/",
+      "description": "Minima, saddle points, and basins of attraction — the geometry of stability and transitions."
+    },
+    {
+      "id": "quantization",
+      "type": "concept",
+      "title": "Quantization",
+      "domain": "quantum",
+      "era": 1900,
+      "description": "Energy, charge, and angular momentum come in discrete indivisible packets. Planck's 1900 fix for the ultraviolet catastrophe revealed that nature is fundamentally granular."
+    },
+    {
+      "id": "wave-particle-duality",
+      "type": "concept",
+      "title": "Wave-Particle Duality",
+      "domain": "quantum",
+      "era": 1924,
+      "description": "Quantum objects exhibit wave or particle character depending on what is measured — never both simultaneously. de Broglie (1924) showed every particle carries a wavelength λ = h/p."
+    },
+    {
+      "id": "de-broglie-relation",
+      "type": "concept",
+      "title": "de Broglie Relation",
+      "domain": "quantum",
+      "era": 1924,
+      "description": "Every particle has an associated wavelength λ = h/p. This wave-like property governs interference, diffraction, and quantized energy levels in confined systems."
+    },
+    {
+      "id": "superposition",
+      "type": "concept",
+      "title": "Superposition",
+      "domain": "quantum",
+      "era": 1926,
+      "description": "A quantum system exists in a linear combination of eigenstates until measured. Schrödinger's equation is linear, so any sum of solutions is also a valid solution."
+    },
+    {
+      "id": "complementarity",
+      "type": "concept",
+      "title": "Complementarity",
+      "domain": "quantum",
+      "era": 1927,
+      "description": "Bohr's principle: wave and particle descriptions are mutually exclusive — gaining which-path information destroys the interference pattern."
+    },
+    {
+      "id": "measurement-collapse",
+      "type": "concept",
+      "title": "Measurement & Collapse",
+      "domain": "quantum",
+      "era": 1927,
+      "description": "The act of measurement selects a definite outcome from a superposition, collapsing the wavefunction. It is the measurement interaction itself — not physical disturbance — that destroys coherence."
+    },
+    {
+      "id": "tunneling-barriers",
+      "type": "concept",
+      "title": "Tunneling & Barriers",
+      "domain": "quantum",
+      "era": 1928,
+      "description": "Quantum wavefunctions have non-zero amplitude inside classically forbidden regions. Gamow (1928) used this to explain alpha decay; it underlies tunnel diodes, STM, and nuclear fusion in stars."
+    },
+    {
+      "id": "entanglement",
+      "type": "concept",
+      "title": "Entanglement",
+      "domain": "quantum",
+      "era": 1935,
+      "description": "Einstein's 'spooky action at a distance': pairs of particles share a joint quantum state that cannot be factored into independent parts, regardless of the distance between them."
+    },
+    {
+      "id": "phase-space",
+      "type": "concept",
+      "title": "Phase Space",
+      "domain": "chaos",
+      "era": 1834,
+      "description": "The state of a mechanical system is a single point in a space spanned by positions and momenta. Liouville's theorem says phase-space volume is conserved; chaos stretches and folds it."
+    },
+    {
+      "id": "chaos-sensitivity",
+      "type": "concept",
+      "title": "Chaos & Sensitivity",
+      "domain": "chaos",
+      "era": 1963,
+      "description": "Deterministic systems can be unpredictable: infinitesimally close initial conditions diverge exponentially (positive Lyapunov exponent). Long-term forecasting becomes impossible without infinite precision."
+    },
+    {
+      "id": "entropy",
+      "type": "concept",
+      "title": "Entropy (S = k ln W)",
+      "domain": "thermo",
+      "era": 1877,
+      "description": "Boltzmann's statistical definition: entropy counts the number of microscopic arrangements W compatible with a macroscopic state. The most probable state has the most microstates."
+    },
+    {
+      "id": "arrow-of-time",
+      "type": "concept",
+      "title": "Arrow of Time",
+      "domain": "thermo",
+      "era": 1865,
+      "description": "The second law gives time a direction: entropy of an isolated system almost always increases. Microscopic laws are time-reversible; the arrow is statistical, not fundamental."
+    },
+    {
+      "id": "kinetic-theory",
+      "type": "concept",
+      "title": "Kinetic Theory",
+      "domain": "thermo",
+      "era": 1860,
+      "description": "Macroscopic properties — pressure, temperature, viscosity — emerge from the statistical mechanics of molecular collisions. Maxwell and Boltzmann derived the equilibrium speed distribution from first principles."
+    },
+    {
+      "id": "ergodicity",
+      "type": "concept",
+      "title": "Ergodicity",
+      "domain": "thermo",
+      "era": 1871,
+      "description": "Over infinite time an ergodic system visits all accessible microstates with equal frequency, so time averages equal ensemble averages. Most real systems are only ergodic under restricted conditions."
+    },
+    {
+      "id": "landauer-erasure",
+      "type": "concept",
+      "title": "Landauer Erasure",
+      "domain": "info",
+      "era": 1961,
+      "description": "Rolf Landauer proved that erasing one bit of information must dissipate at least kT ln 2 of heat. Information is not abstract — it is physical, and its destruction has a thermodynamic cost."
+    },
+    {
+      "id": "shannon-information",
+      "type": "concept",
+      "title": "Shannon Information",
+      "domain": "info",
+      "era": 1948,
+      "description": "Shannon's entropy H = −Σ p log p quantifies the minimum bits needed to encode a message. The mathematical structure mirrors Boltzmann's thermodynamic entropy — a deep, still-debated connection."
+    },
+    {
+      "id": "information-physical",
+      "type": "concept",
+      "title": "Information is Physical",
+      "domain": "info",
+      "era": 1961,
+      "description": "Rolf Landauer's maxim: 'Information is physical.' Acquiring, storing, and erasing information all have thermodynamic consequences. This unification underlies quantum computing and quantum cryptography."
+    }
+  ],
+  "edges": [
+    {
+      "source": "wave-interference",
+      "target": "double-slit",
+      "relation": "enables",
+      "label": "wave model"
+    },
+    {
+      "source": "double-slit",
+      "target": "quantum-eraser",
+      "relation": "enables",
+      "label": "which-way → eraser"
+    },
+    {
+      "source": "double-slit",
+      "target": "bell-inequality",
+      "relation": "historically-led-to",
+      "label": "nonlocality"
+    },
+    {
+      "source": "particle-in-a-box",
+      "target": "quantum-tunneling",
+      "relation": "extends",
+      "label": "finite barriers"
+    },
+    {
+      "source": "uncertainty-principle",
+      "target": "double-slit",
+      "relation": "explains",
+      "label": "Δy·Δp ≥ ħ/2"
+    },
+    {
+      "source": "uncertainty-principle",
+      "target": "bell-inequality",
+      "relation": "historically-led-to",
+      "label": "limits of knowledge"
+    },
+    {
+      "source": "blackbody-radiation",
+      "target": "photoelectric-effect",
+      "relation": "historically-led-to",
+      "label": "photon hypothesis"
+    },
+    {
+      "source": "photoelectric-effect",
+      "target": "particle-in-a-box",
+      "relation": "historically-led-to",
+      "label": "quantized energy"
+    },
+    {
+      "source": "gravity-well",
+      "target": "three-body",
+      "relation": "extends",
+      "label": "N-body"
+    },
+    {
+      "source": "oscillator-phase-space",
+      "target": "energy-landscape",
+      "relation": "extends",
+      "label": "potential surfaces"
+    },
+    {
+      "source": "oscillator-phase-space",
+      "target": "kicked-pendulum",
+      "relation": "extends",
+      "label": "perturbation"
+    },
+    {
+      "source": "oscillator-phase-space",
+      "target": "double-pendulum-array",
+      "relation": "extends",
+      "label": "nonlinear coupling"
+    },
+    {
+      "source": "double-pendulum-array",
+      "target": "lorenz-attractor",
+      "relation": "historically-led-to",
+      "label": "sensitive dependence"
+    },
+    {
+      "source": "dripping-faucet",
+      "target": "lorenz-attractor",
+      "relation": "historically-led-to",
+      "label": "period-doubling"
+    },
+    {
+      "source": "diffusion-levy-flights",
+      "target": "maxwell-boltzmann",
+      "relation": "cross-domain",
+      "label": "random walks"
+    },
+    {
+      "source": "diffusion-levy-flights",
+      "target": "entropy-microstates",
+      "relation": "cross-domain",
+      "label": "stochastic entropy"
+    },
+    {
+      "source": "maxwell-boltzmann",
+      "target": "entropy-microstates",
+      "relation": "enables",
+      "label": "S = k ln W"
+    },
+    {
+      "source": "entropy-microstates",
+      "target": "maxwells-demon",
+      "relation": "enables",
+      "label": "info ↔ entropy"
+    },
+    {
+      "source": "uncertainty-principle",
+      "target": "maxwells-demon",
+      "relation": "cross-domain",
+      "label": "measurement is physical"
+    },
+    {
+      "source": "entropy-microstates",
+      "target": "bell-inequality",
+      "relation": "cross-domain",
+      "label": "info has entropy"
+    },
+    {
+      "source": "quantization",
+      "target": "blackbody-radiation",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "quantization",
+      "target": "photoelectric-effect",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "quantization",
+      "target": "particle-in-a-box",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "wave-particle-duality",
+      "target": "double-slit",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "wave-particle-duality",
+      "target": "wave-interference",
+      "relation": "extends",
+      "label": ""
+    },
+    {
+      "source": "wave-particle-duality",
+      "target": "quantum-eraser",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "de-broglie-relation",
+      "target": "uncertainty-principle",
+      "relation": "explains",
+      "label": ""
+    },
+    {
+      "source": "de-broglie-relation",
+      "target": "double-slit",
+      "relation": "explains",
+      "label": ""
+    },
+    {
+      "source": "de-broglie-relation",
+      "target": "particle-in-a-box",
+      "relation": "explains",
+      "label": ""
+    },
+    {
+      "source": "de-broglie-relation",
+      "target": "wave-interference",
+      "relation": "explains",
+      "label": ""
+    },
+    {
+      "source": "superposition",
+      "target": "particle-in-a-box",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "superposition",
+      "target": "uncertainty-principle",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "complementarity",
+      "target": "double-slit",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "complementarity",
+      "target": "quantum-eraser",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "complementarity",
+      "target": "uncertainty-principle",
+      "relation": "explains",
+      "label": ""
+    },
+    {
+      "source": "measurement-collapse",
+      "target": "uncertainty-principle",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "measurement-collapse",
+      "target": "double-slit",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "measurement-collapse",
+      "target": "quantum-eraser",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "tunneling-barriers",
+      "target": "quantum-tunneling",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "tunneling-barriers",
+      "target": "particle-in-a-box",
+      "relation": "extends",
+      "label": ""
+    },
+    {
+      "source": "entanglement",
+      "target": "bell-inequality",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "phase-space",
+      "target": "oscillator-phase-space",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "phase-space",
+      "target": "energy-landscape",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "phase-space",
+      "target": "kicked-pendulum",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "phase-space",
+      "target": "lorenz-attractor",
+      "relation": "extends",
+      "label": ""
+    },
+    {
+      "source": "chaos-sensitivity",
+      "target": "lorenz-attractor",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "chaos-sensitivity",
+      "target": "double-pendulum-array",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "chaos-sensitivity",
+      "target": "dripping-faucet",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "chaos-sensitivity",
+      "target": "kicked-pendulum",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "chaos-sensitivity",
+      "target": "three-body",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "entropy",
+      "target": "entropy-microstates",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "entropy",
+      "target": "maxwell-boltzmann",
+      "relation": "explains",
+      "label": ""
+    },
+    {
+      "source": "entropy",
+      "target": "maxwells-demon",
+      "relation": "explains",
+      "label": ""
+    },
+    {
+      "source": "arrow-of-time",
+      "target": "entropy-microstates",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "arrow-of-time",
+      "target": "lorenz-attractor",
+      "relation": "cross-domain",
+      "label": ""
+    },
+    {
+      "source": "kinetic-theory",
+      "target": "maxwell-boltzmann",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "kinetic-theory",
+      "target": "diffusion-levy-flights",
+      "relation": "extends",
+      "label": ""
+    },
+    {
+      "source": "ergodicity",
+      "target": "entropy-microstates",
+      "relation": "explains",
+      "label": ""
+    },
+    {
+      "source": "ergodicity",
+      "target": "maxwell-boltzmann",
+      "relation": "explains",
+      "label": ""
+    },
+    {
+      "source": "landauer-erasure",
+      "target": "maxwells-demon",
+      "relation": "explains",
+      "label": ""
+    },
+    {
+      "source": "landauer-erasure",
+      "target": "entropy-microstates",
+      "relation": "extends",
+      "label": ""
+    },
+    {
+      "source": "shannon-information",
+      "target": "maxwells-demon",
+      "relation": "explains",
+      "label": ""
+    },
+    {
+      "source": "shannon-information",
+      "target": "bell-inequality",
+      "relation": "cross-domain",
+      "label": ""
+    },
+    {
+      "source": "information-physical",
+      "target": "maxwells-demon",
+      "relation": "demonstrates",
+      "label": ""
+    },
+    {
+      "source": "information-physical",
+      "target": "bell-inequality",
+      "relation": "cross-domain",
+      "label": ""
+    }
+  ],
+  "eras": [
+    {
+      "id": "classical",
+      "label": "Classical",
+      "color": "rgba(30, 38, 50, 0.5)",
+      "x_min": 1800,
+      "x_max": 1899
+    },
+    {
+      "id": "earlyqm",
+      "label": "Birth of QM",
+      "color": "rgba(20, 35, 50, 0.5)",
+      "x_min": 1900,
+      "x_max": 1935
+    },
+    {
+      "id": "matureqm",
+      "label": "QM Maturity",
+      "color": "rgba(15, 30, 45, 0.5)",
+      "x_min": 1935,
+      "x_max": 1970
+    },
+    {
+      "id": "infoage",
+      "label": "Information Age",
+      "color": "rgba(20, 28, 40, 0.5)",
+      "x_min": 1970,
+      "x_max": 2030
+    }
+  ]
+}

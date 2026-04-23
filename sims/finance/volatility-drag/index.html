@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Volatility Drag</title>
+  <link rel="stylesheet" href="../../../shared/style.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+  <script src="../../../shared/nav.js" defer></script>
+</head>
+<body class="sim-body-base">
+
+  <div class="sim-wrapper layout-c">
+
+    <div class="sim-canvas-area" id="canvas-container"></div>
+
+    <div class="sim-panel">
+      <div class="sim-controls-section">
+
+        <p class="panel-heading">Returns</p>
+        <div class="control-group">
+          <label>&mu; (avg return) = <span id="val-mu">10.0</span>%</label>
+          <input type="range" id="ctrl-mu" min="0" max="30" step="0.5" value="10">
+        </div>
+        <div class="control-group">
+          <label>&sigma; (volatility) = <span id="val-sigma">20</span>%</label>
+          <input type="range" id="ctrl-sigma" min="5" max="80" step="1" value="20">
+        </div>
+        <div class="control-group">
+          <label>Model</label>
+          <select id="ctrl-model" class="model-select">
+            <option value="lognormal">Log-normal (baseline)</option>
+            <option value="skew">Skew-normal (asymmetric)</option>
+            <option value="fattail">Student-t (fat tails)</option>
+          </select>
+          <div class="model-hint" id="model-hint"></div>
+        </div>
+        <div class="control-group">
+          <label>Skew strength = <span id="val-skew">4.0</span></label>
+          <input type="range" id="ctrl-skew" min="-8" max="8" step="0.5" value="4">
+        </div>
+        <div class="control-group">
+          <label>Tail thickness (df) = <span id="val-df">4</span></label>
+          <input type="range" id="ctrl-df" min="3" max="30" step="1" value="4">
+        </div>
+        <div class="g-readout">
+          g = <span id="val-g">8.0</span>%
+        </div>
+        <div class="g-warning" id="g-warning">Geometric mean is negative.</div>
+
+        <p class="panel-heading">Horizon</p>
+        <div class="control-group">
+          <label>T (years) = <span id="val-t">25</span></label>
+          <input type="range" id="ctrl-t" min="1" max="50" step="1" value="25">
+        </div>
+
+        <p class="panel-heading">Paths</p>
+        <div class="btn-group">
+          <button class="btn btn-secondary toggle-btn active" id="btn-ensemble" onclick="toggleEnsemble()">Hide Ensemble</button>
+          <button class="btn btn-secondary" onclick="resimulatePaths()">Resimulate</button>
+        </div>
+        <div class="control-group">
+          <label>N = <span id="val-n">50</span></label>
+          <input type="range" id="ctrl-n" min="10" max="200" step="10" value="50">
+        </div>
+
+        <p class="panel-heading">Explore</p>
+        <div class="btn-group">
+          <button class="btn btn-secondary edu-btn active" id="edu-btn-jensen" onclick="setEduMode('jensen')">Jensen</button>
+          <button class="btn btn-secondary edu-btn" id="edu-btn-entropy" onclick="setEduMode('entropy')">Entropy Cost</button>
+          <button class="btn btn-secondary edu-btn" id="edu-btn-lognormal" onclick="setEduMode('lognormal')">Log-Normal</button>
+          <button class="btn btn-secondary edu-btn" id="edu-btn-models" onclick="setEduMode('models')">Models</button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="sim-edu-strip" id="sim-edu"><span></span></div>
+
+  </div>
+
+  <script src="sketch.js"></script>
+</body>
+</html>

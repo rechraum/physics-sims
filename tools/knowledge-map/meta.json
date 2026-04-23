@@ -1,0 +1,8 @@
+{
+  "title": "Concept Map",
+  "description": "A navigable force-directed graph showing how all physics simulations connect across history and scientific domains.",
+  "physics_concepts": [],
+  "equations": [],
+  "difficulty": "intermediate",
+  "library": "D3.js v7"
+}
