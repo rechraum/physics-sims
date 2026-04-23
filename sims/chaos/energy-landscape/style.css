@@ -1,1 +1,48 @@
-body { margin: 0; padding-top: 44px; overflow: hidden; }
+/* Energy Landscape — sim-specific styles */
+
+.sim-wrapper.layout-c .sim-panel .panel-heading {
+  font-size: 0.82rem;
+}
+.sim-wrapper.layout-c .sim-panel label,
+.sim-wrapper.layout-c .sim-panel .control-group label {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  gap: 6px;
+}
+.sim-wrapper.layout-c .sim-panel .btn {
+  font-size: 0.82rem;
+}
+
+.sim-wrapper.layout-c .sim-panel select {
+  font-size: 0.82rem;
+  padding: 4px 8px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.btn-group .btn {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 6px;
+}
+
+.mode-btn.active {
+  background: rgba(88, 166, 255, 0.15) !important;
+  border-color: rgba(88, 166, 255, 0.8) !important;
+  color: var(--accent) !important;
+}
+
+.stat-value {
+  color: rgb(45, 215, 135);
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+#brush-controls {
+  flex-direction: column;
+  gap: 8px;
+}

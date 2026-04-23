@@ -1,13 +1,25 @@
 {
   "title": "Energy Landscape",
   "slug": "energy-landscape",
-  "description": "Generate a random potential energy surface and drop particles that roll downhill to local minima, tracing radial distance vs. velocity in phase space.",
-  "physics_concepts": ["Potential Energy", "Phase Space", "Gradient Descent", "Energy Minima", "Dynamical Systems"],
-  "tags": ["phase space"],
+  "description": "Explore a smooth, random potential energy surface. Drop particles and watch them roll toward local minima, reveal basins of attraction, and paint new peaks and valleys.",
+  "physics_concepts": ["Potential Energy", "Gradient Descent", "Local vs Global Minima", "Basins of Attraction", "Damping", "Dynamical Systems"],
+  "equations": [
+    "F = −∇V(x,y)",
+    "v&#772; ← v&#772; − ∇V · Δt",
+    "v&#772; ← v&#772; · (1 − γ)  (friction damping)"
+  ],
   "difficulty": "intermediate",
+  "tags": ["chaos", "dynamics"],
   "library": "p5.js",
   "interactive_controls": [
-    "Create Landscape: generate a new random terrain",
-    "Click on the terrain (left panel) to drop a particle"
+    "New Landscape: generate a fresh spectral-synthesis terrain",
+    "Roughness / Amplitude sliders: control terrain complexity",
+    "Roll mode: click to drop a particle",
+    "Paint Peak / Paint Valley: click-drag to sculpt the landscape",
+    "Friction slider: control energy dissipation rate",
+    "Speed slider: fast-forward the simulation",
+    "Scatter: drop 30 balls across the terrain at once",
+    "Basin Map toggle: shade regions by which minimum they flow into",
+    "Contour Lines / Gradient Arrows toggles"
   ]
 }
