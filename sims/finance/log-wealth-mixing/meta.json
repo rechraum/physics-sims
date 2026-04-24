@@ -1,0 +1,15 @@
+{
+  "title": "Log-Wealth Mixing",
+  "slug": "log-wealth-mixing",
+  "description": "Watch log-wealth paths diffuse while a two-color gas mixes. A shared distribution panel links financial dispersion to thermodynamic mixing entropy.",
+  "physics_concepts": ["log-wealth diffusion", "mixing entropy", "volatility", "irreversibility"],
+  "equations": [
+    "d(ln W) = (mu - sigma<sup>2</sup>/2) dt + sigma dW",
+    "S = -sum p<sub>i</sub> ln p<sub>i</sub>",
+    "S<sub>mix</sub> = (S<sub>blue</sub> + S<sub>red</sub>) / 2"
+  ],
+  "difficulty": "intermediate",
+  "tags": ["finance"],
+  "library": "p5.js",
+  "interactive_controls": ["mu slider", "sigma slider", "paths slider", "steps slider", "particles slider", "speed slider", "pause/reset buttons", "edu mode buttons"]
+}
